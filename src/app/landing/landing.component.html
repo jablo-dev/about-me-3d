@@ -1,0 +1,94 @@
+<div class="landing-wrapper">
+  <canvas #canvas></canvas>
+
+  <!-- Scanline overlay -->
+  <div class="scanlines" aria-hidden="true"></div>
+
+  <!-- Status bar -->
+  <header class="status-bar">
+    <div class="status-left">
+      <span class="status-dot"></span>
+      <span class="mono">{{ 'STATUS.ONLINE' | translate }}</span>
+      <span class="status-sep">|</span>
+      <span class="mono dim">{{ 'STATUS.STARDATE' | translate }}&nbsp;2026.04.16</span>
+    </div>
+    <div class="status-right">
+      <span class="mono dim">{{ 'STATUS.LAT' | translate }}:&nbsp;51°N</span>
+      <span class="status-sep">|</span>
+      <span class="mono dim">{{ 'STATUS.SECTOR' | translate }}:&nbsp;ALPHA-7</span>
+      <span class="status-sep">|</span>
+      <span class="mono signal">▊▊▊▊▊</span>
+      <span class="status-sep">|</span>
+      <!-- Language toggle -->
+      <button class="lang-toggle" (click)="toggleLang()" [attr.aria-label]="currentLang === 'en' ? 'Switch to German' : 'Switch to English'">
+        <span [class.active]="currentLang === 'en'">EN</span>
+        <span class="lang-sep">/</span>
+        <span [class.active]="currentLang === 'de'">DE</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- HUD corners -->
+  <div class="hud-corner hud-tl" aria-hidden="true"></div>
+  <div class="hud-corner hud-tr" aria-hidden="true"></div>
+  <div class="hud-corner hud-bl" aria-hidden="true"></div>
+  <div class="hud-corner hud-br" aria-hidden="true"></div>
+
+  <!-- Hero content -->
+  <div class="hero-overlay">
+    <div class="hero-content">
+
+      <p class="terminal-prompt">
+        <span class="prompt-char">&gt;&nbsp;</span>
+        <span class="prompt-text">{{ 'HERO.PROMPT' | translate }}<span class="cursor">_</span></span>
+      </p>
+
+      <h1 class="name">PATRYK<br>JABLONSKI</h1>
+
+      <div class="title-line">
+        <span class="title-slash">// </span>
+        <span class="title-text">{{ 'HERO.TITLE' | translate }}</span>
+      </div>
+
+      <p class="tagline">
+        {{ 'HERO.TAGLINE_1' | translate }}<br>
+        <span class="highlight">{{ 'HERO.TAGLINE_HIGHLIGHT_1' | translate }}</span>
+        {{ 'HERO.TAGLINE_AND' | translate }}
+        <span class="highlight">{{ 'HERO.TAGLINE_HIGHLIGHT_2' | translate }}</span>.
+      </p>
+
+      <!-- Tech stack as terminal tags -->
+      <div class="tech-stack">
+        <span class="stack-label mono">{{ 'HERO.STACK_LABEL' | translate }}</span>
+        <div class="tech-pills">
+          <span class="pill">Angular</span>
+          <span class="pill">Three.js</span>
+          <span class="pill">TypeScript</span>
+          <span class="pill">Node.js</span>
+          <span class="pill">WebGL</span>
+          <span class="pill">RxJS</span>
+        </div>
+      </div>
+
+      <!-- CTA -->
+      <div class="cta-group">
+        <button class="btn-primary">
+          <span class="btn-icon">⬡</span>
+          <span>{{ 'HERO.BTN_PROJECTS' | translate }}</span>
+        </button>
+        <button class="btn-outline">
+          <span class="btn-icon">◈</span>
+          <span>{{ 'HERO.BTN_CONTACT' | translate }}</span>
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Bottom scroll indicator -->
+  <div class="scroll-hint">
+    <span class="mono">{{ 'SCROLL' | translate }}</span>
+    <div class="scroll-line"></div>
+  </div>
+
+</div>

@@ -1,0 +1,21 @@
+{
+  "STATUS": {
+    "ONLINE": "SYS_ONLINE",
+    "STARDATE": "STARDATE",
+    "LAT": "LAT",
+    "SECTOR": "SECTOR"
+  },
+  "HERO": {
+    "PROMPT": "IDENTIFY_SUBJECT",
+    "TITLE": "Passionate Software Developer and Science Fiction Nerd",
+    "TAGLINE_1": "Navigating the infinite void between",
+    "TAGLINE_HIGHLIGHT_1": "elegant code",
+    "TAGLINE_AND": "and",
+    "TAGLINE_HIGHLIGHT_2": "extraordinary ideas",
+    "STACK_LABEL": "$ stack --list",
+    "BTN_PROJECTS": "Explore Projects",
+    "BTN_CONTACT": "Open Comms"
+  },
+  "SCROLL": "SCROLL TO CONTINUE"
+}
+

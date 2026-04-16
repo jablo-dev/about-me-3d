@@ -1,0 +1,21 @@
+{
+  "STATUS": {
+    "ONLINE": "SYS_ONLINE",
+    "STARDATE": "STERNDATUM",
+    "LAT": "BREITE",
+    "SECTOR": "SEKTOR"
+  },
+  "HERO": {
+    "PROMPT": "SUBJEKT_IDENTIFIZIEREN",
+    "TITLE": "Leidenschaftlicher Software-Entwickler und Science-Fiction-Fan",
+    "TAGLINE_1": "Auf der Reise durch die unendliche Weite zwischen",
+    "TAGLINE_HIGHLIGHT_1": "elegantem Code",
+    "TAGLINE_AND": "und",
+    "TAGLINE_HIGHLIGHT_2": "außergewöhnlichen Ideen",
+    "STACK_LABEL": "$ stack --auflisten",
+    "BTN_PROJECTS": "Projekte erkunden",
+    "BTN_CONTACT": "Kontakt aufnehmen"
+  },
+  "SCROLL": "SCROLLEN ZUM FORTFAHREN"
+}
+
