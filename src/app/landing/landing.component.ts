@@ -53,7 +53,6 @@ export class LandingComponent implements AfterViewInit, OnDestroy {
     return this.canvasRef.nativeElement;
   }
 
-  /** Soft circular sprite so stars render as round dots, not squares. */
   private makeStarSprite(): THREE.Texture {
     const size = 32;
     const c = document.createElement('canvas');
@@ -90,7 +89,6 @@ export class LandingComponent implements AfterViewInit, OnDestroy {
   }
 
   private buildStarField(): void {
-    // ~700 stars – sparse like the reference image
     const count = 700;
     const positions = new Float32Array(count * 3);
     const sizes     = new Float32Array(count);
@@ -103,7 +101,6 @@ export class LandingComponent implements AfterViewInit, OnDestroy {
       positions[i * 3 + 1] = r * Math.sin(phi) * Math.sin(theta);
       positions[i * 3 + 2] = r * Math.cos(phi);
 
-      // ~10 % brighter/bigger stars, rest tiny
       sizes[i] = Math.random() < 0.1 ? 0.55 + Math.random() * 0.25
                                       : 0.12 + Math.random() * 0.18;
     }
@@ -116,7 +113,7 @@ export class LandingComponent implements AfterViewInit, OnDestroy {
       map: this.makeStarSprite(),
       size: 0.35,
       sizeAttenuation: true,
-      color: 0xd0e8ff,          // faint blue-white tint
+      color: 0xd0e8ff,
       transparent: true,
       alphaTest: 0.01,
       depthWrite: false,
@@ -130,11 +127,9 @@ export class LandingComponent implements AfterViewInit, OnDestroy {
     this.animationId = requestAnimationFrame(this.animate);
     const t = this.clock.getElapsedTime();
 
-    // Very slow drift so the sky feels alive but not distracting
     this.starField.rotation.y = t * 0.004;
     this.starField.rotation.x = t * 0.001;
 
-    // Smooth mouse lerp
     this.mouseX += (this.targetMouseX - this.mouseX) * 0.04;
     this.mouseY += (this.targetMouseY - this.mouseY) * 0.04;
 

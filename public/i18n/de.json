@@ -1,21 +1,20 @@
 {
-  "STATUS": {
-    "ONLINE": "SYS_ONLINE",
-    "STARDATE": "STERNDATUM",
-    "LAT": "BREITE",
-    "SECTOR": "SEKTOR"
+  "status": {
+    "online": "SYS_ONLINE",
+    "stardate": "STERNDATUM",
+    "lat": "BREITE",
+    "sector": "SEKTOR"
   },
-  "HERO": {
-    "PROMPT": "SUBJEKT_IDENTIFIZIEREN",
-    "TITLE": "Leidenschaftlicher Software-Entwickler und Science-Fiction-Fan",
-    "TAGLINE_1": "Auf der Reise durch die unendliche Weite zwischen",
-    "TAGLINE_HIGHLIGHT_1": "elegantem Code",
-    "TAGLINE_AND": "und",
-    "TAGLINE_HIGHLIGHT_2": "außergewöhnlichen Ideen",
-    "STACK_LABEL": "$ stack --auflisten",
-    "BTN_PROJECTS": "Projekte erkunden",
-    "BTN_CONTACT": "Kontakt aufnehmen"
+  "hero": {
+    "prompt": "SUBJEKT_IDENTIFIZIEREN",
+    "title": "Leidenschaftlicher Software-Entwickler und Science-Fiction-Fan",
+    "tagline_1": "Auf der Reise durch die unendliche Weite zwischen",
+    "tagline_highlight_1": "elegantem Code",
+    "tagline_and": "und",
+    "tagline_highlight_2": "außergewöhnlichen Ideen",
+    "stack_label": "$ stack --auflisten",
+    "btn_projects": "Projekte erkunden",
+    "btn_contact": "Kontakt aufnehmen"
   },
-  "SCROLL": "SCROLLEN ZUM FORTFAHREN"
+  "scroll": "SCROLLEN ZUM FORTFAHREN"
 }
-
