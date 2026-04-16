@@ -60,9 +60,11 @@ export class LandingComponent implements AfterViewInit, OnDestroy {
     const ctx = c.getContext('2d')!;
     const h = size / 2;
     const grad = ctx.createRadialGradient(h, h, 0, h, h, h);
-    grad.addColorStop(0,   'rgba(255,255,255,1)');
-    grad.addColorStop(0.4, 'rgba(255,255,255,0.6)');
-    grad.addColorStop(1,   'rgba(255,255,255,0)');
+    grad.addColorStop(0, 'rgba(255,255,255,1)');
+    grad.addColorStop(0.18, 'rgba(255,255,255,1)');
+    grad.addColorStop(0.45, 'rgba(210,235,255,0.9)');
+    grad.addColorStop(0.75, 'rgba(120,190,255,0.35)');
+    grad.addColorStop(1, 'rgba(120,190,255,0)');
     ctx.fillStyle = grad;
     ctx.fillRect(0, 0, size, size);
     return new THREE.CanvasTexture(c);
@@ -89,7 +91,7 @@ export class LandingComponent implements AfterViewInit, OnDestroy {
   }
 
   private buildStarField(): void {
-    const count = 700;
+    const count = 6000;
     const positions = new Float32Array(count * 3);
     const sizes     = new Float32Array(count);
 
@@ -111,13 +113,14 @@ export class LandingComponent implements AfterViewInit, OnDestroy {
 
     this.starField = new THREE.Points(geo, new THREE.PointsMaterial({
       map: this.makeStarSprite(),
-      size: 0.35,
+      size: 0.55,
       sizeAttenuation: true,
-      color: 0xd0e8ff,
+      color: 0xf2f8ff,
       transparent: true,
-      alphaTest: 0.01,
+      alphaTest: 0.001,
+      blending: THREE.AdditiveBlending,
       depthWrite: false,
-      opacity: 0.85,
+      opacity: 1,
     }));
 
     this.scene.add(this.starField);
