@@ -18,6 +18,7 @@ import { TranslateService, TranslatePipe } from '@ngx-translate/core';
 })
 export class LandingComponent implements AfterViewInit, OnDestroy {
   @ViewChild('canvas') private canvasRef!: ElementRef<HTMLCanvasElement>;
+  @ViewChild('sceneCanvas') private sceneCanvasRef!: ElementRef<HTMLCanvasElement>;
 
   private renderer!: THREE.WebGLRenderer;
   private scene!: THREE.Scene;
@@ -30,6 +31,19 @@ export class LandingComponent implements AfterViewInit, OnDestroy {
   private targetMouseX = 0;
   private targetMouseY = 0;
 
+  // Space scene
+  private sceneRenderer!: THREE.WebGLRenderer;
+  private spaceScene!: THREE.Scene;
+  private spaceCamera!: THREE.PerspectiveCamera;
+  private spaceGroup!: THREE.Group;   // parent for planet + rings + hud
+  private planet!: THREE.Mesh;
+  private planetAtmo!: THREE.Mesh;
+  private rings!: THREE.Mesh;
+  private spaceship!: THREE.Group;
+  private shipOrbitAngle = 0;
+  private hudRing!: THREE.LineLoop;
+  private readonly ORBIT_CENTER = new THREE.Vector3(3, 0, 0);
+
   currentLang = 'en';
 
   constructor(private ngZone: NgZone, private translate: TranslateService) {
@@ -39,12 +53,16 @@ export class LandingComponent implements AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit(): void {
-    this.ngZone.runOutsideAngular(() => this.initScene());
+    this.ngZone.runOutsideAngular(() => {
+      this.initScene();
+      this.initSpaceScene();
+    });
   }
 
   ngOnDestroy(): void {
     cancelAnimationFrame(this.animationId);
     this.renderer?.dispose();
+    this.sceneRenderer?.dispose();
     window.removeEventListener('mousemove', this.onMouseMove);
     window.removeEventListener('resize', this.onResize);
   }
@@ -126,6 +144,247 @@ export class LandingComponent implements AfterViewInit, OnDestroy {
     this.scene.add(this.starField);
   }
 
+  private initSpaceScene(): void {
+    const canvas = this.sceneCanvasRef.nativeElement;
+    const w = canvas.clientWidth || window.innerWidth * 0.55;
+    const h = canvas.clientHeight || window.innerHeight;
+
+    this.sceneRenderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+    this.sceneRenderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    this.sceneRenderer.setSize(w, h);
+    this.sceneRenderer.toneMapping = THREE.NoToneMapping;
+    this.sceneRenderer.outputColorSpace = THREE.SRGBColorSpace;
+
+    this.spaceScene = new THREE.Scene();
+
+    this.spaceCamera = new THREE.PerspectiveCamera(50, w / h, 0.1, 500);
+    this.spaceCamera.position.set(0, 3, 22);
+    this.spaceCamera.lookAt(this.ORBIT_CENTER);
+
+    // ── Lighting ──────────────────────────────────────────────
+    const sunLight = new THREE.PointLight(0xffeedd, 2.5, 200);
+    sunLight.position.set(-18, 12, 20);
+    this.spaceScene.add(sunLight);
+    this.spaceScene.add(new THREE.AmbientLight(0x0a1628, 1.2));
+
+    // ── Planet group (offset right) ─────────────────────���─────
+    this.spaceGroup = new THREE.Group();
+    this.spaceGroup.position.copy(this.ORBIT_CENTER);
+    this.spaceScene.add(this.spaceGroup);
+
+    // ── Planet ────────────────────────────────────────────────
+    const planetGeo = new THREE.SphereGeometry(4.5, 64, 64);
+    const planetMat = new THREE.MeshPhongMaterial({
+      color: 0x0a2a5e,
+      emissive: 0x001133,
+      specular: 0x00d4ff,
+      shininess: 60,
+    });
+    this.planet = new THREE.Mesh(planetGeo, planetMat);
+    this.spaceGroup.add(this.planet);
+
+    // Surface detail bands (latitude stripes via torus inside planet)
+    for (let i = 0; i < 4; i++) {
+      const bandGeo = new THREE.TorusGeometry(4.5, 0.04 + i * 0.015, 8, 120);
+      const bandMat = new THREE.MeshBasicMaterial({
+        color: i % 2 === 0 ? 0x00d4ff : 0x003366,
+        transparent: true,
+        opacity: 0.18 + i * 0.04,
+      });
+      const band = new THREE.Mesh(bandGeo, bandMat);
+      band.rotation.x = Math.PI / 2;
+      band.position.y = -1.5 + i * 1.1;
+      this.planet.add(band);
+    }
+
+    // ── Atmosphere glow ───────────────────────────────────────
+    const atmoGeo = new THREE.SphereGeometry(4.85, 64, 64);
+    const atmoMat = new THREE.MeshPhongMaterial({
+      color: 0x00d4ff,
+      emissive: 0x003a6e,
+      transparent: true,
+      opacity: 0.13,
+      side: THREE.FrontSide,
+      depthWrite: false,
+      blending: THREE.AdditiveBlending,
+    });
+    this.planetAtmo = new THREE.Mesh(atmoGeo, atmoMat);
+    this.spaceGroup.add(this.planetAtmo);
+
+    // Outer halo
+    const haloGeo = new THREE.SphereGeometry(5.4, 32, 32);
+    const haloMat = new THREE.MeshBasicMaterial({
+      color: 0x00d4ff,
+      transparent: true,
+      opacity: 0.045,
+      side: THREE.BackSide,
+      depthWrite: false,
+      blending: THREE.AdditiveBlending,
+    });
+    this.spaceGroup.add(new THREE.Mesh(haloGeo, haloMat));
+
+    // ── Rings ─────────────────────────────────────────────────
+    const ringGeo = new THREE.RingGeometry(6.0, 9.2, 128);
+    // Remap UVs so texture coords are ring-radial
+    const pos = ringGeo.attributes['position'] as THREE.BufferAttribute;
+    const uv = ringGeo.attributes['uv'] as THREE.BufferAttribute;
+    const tmp = new THREE.Vector3();
+    for (let i = 0; i < pos.count; i++) {
+      tmp.fromBufferAttribute(pos, i);
+      uv.setXY(i, (tmp.length() - 6.0) / 3.2, 0);
+    }
+    const ringMat = new THREE.MeshBasicMaterial({
+      color: 0x00aadd,
+      transparent: true,
+      opacity: 0.28,
+      side: THREE.DoubleSide,
+      depthWrite: false,
+      blending: THREE.AdditiveBlending,
+    });
+    this.rings = new THREE.Mesh(ringGeo, ringMat);
+    this.rings.rotation.x = Math.PI / 2.4;
+    this.spaceGroup.add(this.rings);
+
+    // Inner darker ring band
+    const ring2Geo = new THREE.RingGeometry(6.2, 7.4, 128);
+    const ring2Mat = new THREE.MeshBasicMaterial({
+      color: 0x004466,
+      transparent: true,
+      opacity: 0.35,
+      side: THREE.DoubleSide,
+      depthWrite: false,
+    });
+    const rings2 = new THREE.Mesh(ring2Geo, ring2Mat);
+    rings2.rotation.x = Math.PI / 2.4;
+    this.spaceGroup.add(rings2);
+
+    // ── HUD targeting ring ─────────────────────────────────────
+    const hudPoints: THREE.Vector3[] = [];
+    for (let i = 0; i <= 128; i++) {
+      const a = (i / 128) * Math.PI * 2;
+      hudPoints.push(new THREE.Vector3(Math.cos(a) * 7.2, Math.sin(a) * 7.2, 0));
+    }
+    const hudGeo = new THREE.BufferGeometry().setFromPoints(hudPoints);
+    const hudMat = new THREE.LineBasicMaterial({
+      color: 0x00d4ff,
+      transparent: true,
+      opacity: 0.18,
+    });
+    this.hudRing = new THREE.LineLoop(hudGeo, hudMat);
+    this.hudRing.rotation.x = Math.PI / 2.4;
+    this.spaceGroup.add(this.hudRing);
+
+    // ── Spaceship ─────────────────────────────────────────────
+    this.spaceship = new THREE.Group();
+
+    // Fuselage
+    const bodyGeo = new THREE.CylinderGeometry(0.08, 0.22, 1.2, 8);
+    const shipMat = new THREE.MeshPhongMaterial({
+      color: 0x8ad4f0,
+      emissive: 0x003355,
+      specular: 0xffffff,
+      shininess: 120,
+    });
+    const body = new THREE.Mesh(bodyGeo, shipMat);
+    body.rotation.z = Math.PI / 2;
+    this.spaceship.add(body);
+
+    // Nose cone
+    const noseGeo = new THREE.ConeGeometry(0.08, 0.5, 8);
+    const nose = new THREE.Mesh(noseGeo, shipMat);
+    nose.rotation.z = -Math.PI / 2;
+    nose.position.x = 0.85;
+    this.spaceship.add(nose);
+
+    // Wings
+    const wingShape = new THREE.Shape();
+    wingShape.moveTo(0, 0);
+    wingShape.lineTo(-0.7, 0.55);
+    wingShape.lineTo(-0.7, 0.65);
+    wingShape.lineTo(0.1, 0.1);
+    wingShape.closePath();
+    const wingGeo = new THREE.ShapeGeometry(wingShape);
+    const wingMat = new THREE.MeshPhongMaterial({
+      color: 0x00aacc,
+      emissive: 0x001122,
+      specular: 0x88ddff,
+      shininess: 80,
+      side: THREE.DoubleSide,
+    });
+    const wingL = new THREE.Mesh(wingGeo, wingMat);
+    wingL.rotation.x = Math.PI / 2;
+    wingL.position.set(-0.1, 0, 0);
+    this.spaceship.add(wingL);
+    const wingR = wingL.clone();
+    wingR.scale.y = -1;
+    this.spaceship.add(wingR);
+
+    // Engine glow
+    const glowGeo = new THREE.SphereGeometry(0.12, 8, 8);
+    const glowMat = new THREE.MeshBasicMaterial({
+      color: 0x00ffdd,
+      transparent: true,
+      opacity: 0.85,
+      blending: THREE.AdditiveBlending,
+    });
+    const engineGlow = new THREE.Mesh(glowGeo, glowMat);
+    engineGlow.position.x = -0.75;
+    this.spaceship.add(engineGlow);
+
+    // Engine exhaust trail (elongated sphere)
+    const trailGeo = new THREE.SphereGeometry(0.06, 8, 8);
+    const trailMat = new THREE.MeshBasicMaterial({
+      color: 0x00d4ff,
+      transparent: true,
+      opacity: 0.4,
+      blending: THREE.AdditiveBlending,
+    });
+    const trail = new THREE.Mesh(trailGeo, trailMat);
+    trail.scale.x = 4;
+    trail.position.x = -1.4;
+    this.spaceship.add(trail);
+
+    this.spaceship.scale.setScalar(0.55);
+    this.spaceScene.add(this.spaceship);
+  }
+
+  private animateSpaceScene(t: number): void {
+    // Planet slow rotation
+    this.planet.rotation.y = t * 0.06;
+    this.planetAtmo.rotation.y = t * 0.065;
+
+    // Rings subtle wobble
+    this.rings.rotation.y = t * 0.012;
+    this.hudRing.rotation.z = t * 0.05;
+
+    // Spaceship orbit around ORBIT_CENTER
+    this.shipOrbitAngle = t * 0.38;
+    const orbitR = 8.5;
+    const orbitTilt = 0.38;
+    const ox = this.ORBIT_CENTER.x;
+    this.spaceship.position.x = ox + Math.cos(this.shipOrbitAngle) * orbitR;
+    this.spaceship.position.y = Math.sin(this.shipOrbitAngle) * orbitR * Math.sin(orbitTilt);
+    this.spaceship.position.z = Math.sin(this.shipOrbitAngle) * orbitR * Math.cos(orbitTilt);
+
+    // Point ship nose in direction of travel (tangent)
+    const tangentX = -Math.sin(this.shipOrbitAngle);
+    const tangentY =  Math.cos(this.shipOrbitAngle) * Math.sin(orbitTilt);
+    const tangentZ =  Math.cos(this.shipOrbitAngle) * Math.cos(orbitTilt);
+    this.spaceship.lookAt(
+      this.spaceship.position.x + tangentX,
+      this.spaceship.position.y + tangentY,
+      this.spaceship.position.z + tangentZ,
+    );
+
+    // Camera subtle drift — always looking at the planet group
+    this.spaceCamera.position.x = Math.sin(t * 0.07) * 0.8;
+    this.spaceCamera.position.y = 3 + Math.cos(t * 0.05) * 0.6;
+    this.spaceCamera.position.z = 22;
+    this.spaceCamera.lookAt(this.ORBIT_CENTER);
+
+    this.sceneRenderer.render(this.spaceScene, this.spaceCamera);
+  }
+
   private animate = (): void => {
     this.animationId = requestAnimationFrame(this.animate);
     const t = this.clock.getElapsedTime();
@@ -141,6 +400,7 @@ export class LandingComponent implements AfterViewInit, OnDestroy {
     this.camera.lookAt(new THREE.Vector3(0, 0, 0));
 
     this.renderer.render(this.scene, this.camera);
+    if (this.sceneRenderer) this.animateSpaceScene(t);
   };
 
   private onMouseMove = (e: MouseEvent): void => {
@@ -152,7 +412,15 @@ export class LandingComponent implements AfterViewInit, OnDestroy {
     this.camera.aspect = window.innerWidth / window.innerHeight;
     this.camera.updateProjectionMatrix();
     this.renderer.setSize(window.innerWidth, window.innerHeight);
-  };
+
+    if (this.sceneRenderer) {
+      const canvas = this.sceneCanvasRef.nativeElement;
+      const w = canvas.clientWidth;
+      const h = canvas.clientHeight;
+      this.spaceCamera.aspect = w / h;
+      this.spaceCamera.updateProjectionMatrix();
+      this.sceneRenderer.setSize(w, h);
+    }  };
 
   toggleLang(): void {
     this.currentLang = this.currentLang === 'en' ? 'de' : 'en';
