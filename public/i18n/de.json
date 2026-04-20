@@ -7,14 +7,51 @@
   },
   "hero": {
     "prompt": "SUBJEKT_IDENTIFIZIEREN",
-    "title": "Leidenschaftlicher Software-Entwickler und Science-Fiction-Fan",
+    "title": "Leidenschaftlicher Software-Entwickler und Science-Fiction Nerd",
     "tagline_1": "Auf der Reise durch die unendliche Weite zwischen",
     "tagline_highlight_1": "elegantem Code",
     "tagline_and": "und",
     "tagline_highlight_2": "außergewöhnlichen Ideen",
     "stack_label": "$ stack --auflisten",
-    "btn_projects": "Projekte erkunden",
+    "btn_projects": "Missionsberichte",
     "btn_contact": "Kontakt aufnehmen"
   },
-  "scroll": "SCROLLEN ZUM FORTFAHREN"
+  "scroll": "SCROLLEN ZUM FORTFAHREN",
+  "projects": {
+    "section_label": "MISSION_LOGS",
+    "title": "Meine Expertise",
+    "subtitle": "// TECHNOLOGIE-STACK & PROJEKTE",
+    "tech_stack": "TECH_STACK:",
+    "status_active": "AKTIV",
+    "learnings": "ERKENNTNISSE:",
+    "exp_year": "{{ years }} JAHR ERFAHRUNG",
+    "exp_years": "{{ years }} JAHRE ERFAHRUNG",
+    "angular": {
+      "title": "Angular",
+      "experience": "2 JAHRE ERFAHRUNG",
+      "description": "Umfassende Erfahrung in der modernen Webentwicklung mit Angular. Spezialisierung auf Enterprise-Level Frontend-Anwendungen mit Fokus auf Performance und Skalierbarkeit. Entwicklung einer Software-as-a-Service Angular Frontend-Anwendung im dreiköpfigen Team. Die Anwendung kommuniziert über eine REST-API mit dem Backend und nutzt wiederverwendbare Libraries für anwendungsübergreifende Funktionen. Sicherstellung der Code-Qualität durch JEST Unit Tests und reaktive Programmierung mit NgRx State Management sowie Angular Signals. Erfolgreich Angular-Versionen von 19 auf 20 sowie von 20 auf 21 migriert und dabei alle Migrationsfehler behoben.",
+      "tech": [
+        "PrimeNG",
+        "NgRx",
+        "Signals",
+        "RxJS",
+        "TypeScript"
+      ],
+      "details": "Durch diese Arbeit habe ich fundierte Kenntnisse in der Kommunikation zwischen Frontend und Backend über REST-APIs erworben. Ich habe Best Practices für die Entwicklung skalierbarer Frontend-Anwendungen verinnerlicht und beherrsche den Umgang mit striktem Typing in TypeScript. Besonders wertvoll war die Erfahrung beim Entwickeln wiederverwendbarer, anwendungsübergreifender Komponenten und Libraries, die die Wartbarkeit und Konsistenz des gesamten Projekts deutlich verbessern."
+    },
+    "dotnet": {
+      "title": ".NET",
+      "experience": "4 JAHRE ERFAHRUNG",
+      "description": "Modernisierung einer Legacy-On-Premise-Anwendung durch C#-Erweiterungen, um moderne Anforderungen zu erfüllen. Entwicklung von C#-Konsolenanwendungen für Mehrfachdateiauswahl, QR-Code-Generierung mit Zahlungsinformationen und automatisierte Word-Dokumentenerstellung. Diese Erweiterungen halten die Legacy-Software produktiv und erfüllen aktuelle Geschäftsanforderungen. Zusätzlich habe ich eine WinForms-Datenbanksoftware entwickelt, um meine Gaming-Bibliothek zu verwalten und zu bewerten. Die Daten werden effizient in einer SQLite-Datenbank gespeichert.",
+      "tech": [
+        "C#",
+        ".NET Framework",
+        "Console Applications",
+        "File I/O",
+        "QR Code Generation",
+        "Word Automation"
+      ],
+      "details": "Diese Arbeit hat mir tiefgreifende Kenntnisse in der Integration moderner .NET-Lösungen vermittelt. Ich habe gelernt, pragmatische Lösungen zu entwickeln, die bestehende Systemgrenzen elegant umgehen, ohne die Kernanwendung zu beeinträchtigen. Diese Projekte haben meine Fähigkeit gestärkt, mit minimalen Eingriffen maximale Funktionalitätserweiterungen zu erzielen."
+    }
+  }
 }

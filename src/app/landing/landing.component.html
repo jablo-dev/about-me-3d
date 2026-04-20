@@ -1,9 +1,10 @@
+<!-- Global background canvases -->
+<canvas #canvas class="global-bg-canvas"></canvas>
+<div class="scanlines" aria-hidden="true"></div>
+
 <div class="landing-wrapper">
-  <canvas #canvas></canvas>
   <canvas #sceneCanvas class="scene-canvas"></canvas>
 
-  <!-- Scanline overlay -->
-  <div class="scanlines" aria-hidden="true"></div>
 
   <!-- Status bar -->
   <header class="status-bar">
@@ -130,7 +131,7 @@
 
       <!-- CTA -->
       <div class="cta-group">
-        <button class="btn-primary">
+        <button class="btn-primary" (click)="scrollToProjects()">
           <span class="btn-icon">⬡</span>
           <span>{{ 'hero.btn_projects' | translate }}</span>
         </button>
@@ -144,9 +145,13 @@
   </div>
 
   <!-- Bottom scroll indicator -->
-  <div class="scroll-hint">
+  <div class="scroll-hint" (click)="scrollToProjects()">
     <span class="mono">{{ 'scroll' | translate }}</span>
     <div class="scroll-line"></div>
   </div>
 
 </div>
+
+<!-- Projects section -->
+<app-projects />
+

@@ -1,15 +1,33 @@
 
-/* ── Variables ─────────────────────────────────────────────────── */
+/* ── Host styles ────────────────────────────────────────────────── */
 :host {
-  --cyan:    #00d4ff;
-  --green:   #00ff9d;
-  --violet:  #7700ff;
-  --pink:    #ff0077;
-  --dim:     rgba(0, 212, 255, 0.35);
-  --bg:      #010814;
-  --mono:    'Share Tech Mono', monospace;
-  --display: 'Orbitron', sans-serif;
   display: block;
+}
+
+/* ── Global Background Canvas ───────────────────────────────────── */
+.global-bg-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: -1;
+  pointer-events: none;
+}
+
+/* ── Scanlines ──────────────────────────────────────────────────── */
+.scanlines {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent 0px,
+    transparent 3px,
+    rgba(0, 0, 0, 0.06) 3px,
+    rgba(0, 0, 0, 0.06) 4px
+  );
+  z-index: 0;
 }
 
 /* ── Layout ─────────────────────────────────────────────────────── */
@@ -18,7 +36,9 @@
   width: 100vw;
   height: 100dvh;
   overflow: hidden;
-  background: var(--bg);
+  background: transparent;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
 }
 
 canvas {
@@ -42,20 +62,6 @@ canvas {
   animation: fadeIn 1.2s ease forwards 0.8s;
 }
 
-/* ── Scanlines ──────────────────────────────────────────────────── */
-.scanlines {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background: repeating-linear-gradient(
-    to bottom,
-    transparent 0px,
-    transparent 3px,
-    rgba(0, 0, 0, 0.06) 3px,
-    rgba(0, 0, 0, 0.06) 4px
-  );
-  z-index: 1;
-}
 
 /* ── Status bar ─────────────────────────────────────────────────── */
 .status-bar {
@@ -397,6 +403,12 @@ canvas {
   z-index: 10;
   opacity: 0;
   animation: fadeIn 0.5s ease forwards 2s;
+  cursor: pointer;
+  transition: transform 0.3s;
+}
+
+.scroll-hint:hover {
+  transform: translateX(-50%) translateY(4px);
 }
 
 .scroll-hint .mono {

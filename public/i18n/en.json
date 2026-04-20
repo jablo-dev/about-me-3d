@@ -13,8 +13,45 @@
     "tagline_and": "and",
     "tagline_highlight_2": "extraordinary ideas",
     "stack_label": "$ stack --list",
-    "btn_projects": "Explore Projects",
+    "btn_projects": "Mission Logs",
     "btn_contact": "Open Comms"
   },
-  "scroll": "SCROLL TO CONTINUE"
+  "scroll": "SCROLL TO CONTINUE",
+  "projects": {
+    "section_label": "MISSION_LOGS",
+    "title": "My Expertise",
+    "subtitle": "// TECHNOLOGY STACK & PROJECTS",
+    "tech_stack": "TECH_STACK:",
+    "status_active": "ACTIVE",
+    "learnings": "KEY LEARNINGS:",
+    "exp_year": "{{ years }} YEAR EXPERIENCE",
+    "exp_years": "{{ years }} YEARS EXPERIENCE",
+    "angular": {
+      "title": "Angular",
+      "experience": "2 YEARS EXPERIENCE",
+      "description": "Comprehensive experience in modern web development with Angular. Specialization in enterprise-level frontend applications with focus on performance and scalability. Developing a Software-as-a-Service Angular frontend application in a three-person team. The application communicates with the backend via a REST API and utilizes reusable libraries for cross-application functionality. Ensuring code quality through JEST unit tests and reactive programming with NgRx state management and Angular Signals. Successfully migrated Angular versions from 19 to 20 and from 20 to 21, resolving all migration errors.",
+      "tech": [
+        "PrimeNG",
+        "NgRx",
+        "Signals",
+        "RxJS",
+        "TypeScript"
+      ],
+      "details": "Through this work, I have gained solid knowledge in frontend-backend communication via REST APIs. I have internalized best practices for developing scalable frontend applications and mastered working with strict typing in TypeScript. Particularly valuable was the experience in developing reusable, cross-application components and libraries, which significantly improve the maintainability and consistency of the entire project."
+    },
+    "dotnet": {
+      "title": ".NET",
+      "experience": "4 YEARS EXPERIENCE",
+      "description": "Modernizing a legacy on-premise application through C# extensions to meet modern requirements. Development of C# console applications for multiple file selection, QR code generation with payment information, and automated Word document creation. These extensions keep the legacy software productive and meet current business requirements. Additionally, I developed a WinForms database application to manage and rate my gaming library. Data is efficiently stored in a SQLite database.",
+      "tech": [
+        "C#",
+        ".NET Framework",
+        "Console Applications",
+        "File I/O",
+        "QR Code Generation",
+        "Word Automation"
+      ],
+      "details": "This work has provided me with profound knowledge in integrating modern .NET solutions. I learned to develop pragmatic solutions that elegantly circumvent existing system boundaries without affecting the core application. These projects have strengthened my ability to achieve maximum functionality extensions with minimal intervention."
+    }
+  }
 }

@@ -6,6 +6,19 @@
 @import '@fontsource/inter/400.css';
 @import '@fontsource/inter/500.css';
 
+/* ── Global CSS Variables ──────────────────────────────────────── */
+:root {
+  --cyan:    #00d4ff;
+  --green:   #00ff9d;
+  --violet:  #7700ff;
+  --pink:    #ff0077;
+  --dim:     rgba(0, 212, 255, 0.35);
+  --bg:      #010814;
+  --mono:    'Share Tech Mono', monospace;
+  --display: 'Orbitron', sans-serif;
+  --body:    'Inter', sans-serif;
+}
+
 *, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
@@ -14,9 +27,13 @@
 
 html, body {
   height: 100%;
-  overflow: hidden;
-  background: #020c1b;
+  overflow-x: hidden;
+  overflow-y: auto;
+  background: var(--bg);
   color: #e0f4ff;
+  font-family: var(--body);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  scroll-behavior: smooth;
+  scroll-snap-type: y mandatory;
 }

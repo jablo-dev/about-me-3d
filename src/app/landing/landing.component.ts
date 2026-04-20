@@ -10,11 +10,12 @@ import { CommonModule } from '@angular/common';
 import { TranslateService, TranslatePipe } from '@ngx-translate/core';
 import { BackgroundSceneService } from '../services/background-scene.service';
 import { SpaceSceneService } from '../services/space-scene.service';
+import { ProjectsComponent } from '../projects/projects.component';
 
 @Component({
   selector: 'app-landing',
   standalone: true,
-  imports: [CommonModule, TranslatePipe],
+  imports: [CommonModule, TranslatePipe, ProjectsComponent],
   templateUrl: './landing.component.html',
   styleUrl: './landing.component.css',
 })
@@ -138,6 +139,13 @@ export class LandingComponent implements AfterViewInit, OnDestroy {
 
   isLabelVisible(labelText: string): boolean {
     return this.labelVisibility.get(labelText) ?? true;
+  }
+
+  scrollToProjects(): void {
+    const projectsSection = document.getElementById('projects-section');
+    if (projectsSection) {
+      projectsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
   }
 }
 
