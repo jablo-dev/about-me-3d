@@ -150,10 +150,10 @@ export class TextureService {
     const center = size / 2;
 
     const grad = ctx.createRadialGradient(center, center, 0, center, center, center);
-    grad.addColorStop(0, 'rgba(0, 255, 157, 1)');
-    grad.addColorStop(0.4, 'rgba(0, 255, 157, 0.9)');
-    grad.addColorStop(0.7, 'rgba(0, 255, 157, 0.4)');
-    grad.addColorStop(1, 'rgba(0, 255, 157, 0)');
+    grad.addColorStop(0, 'rgba(0, 212, 255, 1)');
+    grad.addColorStop(0.4, 'rgba(0, 212, 255, 0.9)');
+    grad.addColorStop(0.7, 'rgba(0, 212, 255, 0.4)');
+    grad.addColorStop(1, 'rgba(0, 212, 255, 0)');
 
     ctx.fillStyle = grad;
     ctx.fillRect(0, 0, size, size);

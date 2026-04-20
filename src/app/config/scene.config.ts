@@ -1,6 +1,6 @@
 export const SCENE_CONFIG = {
   ORBIT_CENTER: { x: 3, y: 0, z: 0 },
-  PLANET_LABEL_COLOR: '#00ff9d',
+  PLANET_LABEL_COLOR: '#00d4ff',
   DEFAULT_ROT_SPEED: 0.001,
 
   CAMERA: {

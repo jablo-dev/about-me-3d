@@ -201,7 +201,7 @@ export class PlanetService {
       const dotGeo = new THREE.PlaneGeometry(dotSize, dotSize);
       const dotMat = new THREE.MeshBasicMaterial({
         map: this.textureService.makeMarkerDotTexture(),
-        color: 0xffffff,
+        color: 0x00d4ff,
         transparent: true,
         opacity: 0.9,
         depthWrite: false,
@@ -214,7 +214,7 @@ export class PlanetService {
       });
       const marker = new THREE.Mesh(dotGeo, dotMat);
 
-      const dotOffset = new THREE.Vector3(-width / 2 - 0.15, 0, 0);
+      const dotOffset = new THREE.Vector3(-width / 2 - 0.05, 0, 0);
       marker.position.copy(dotOffset);
 
       mesh.add(marker);
