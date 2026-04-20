@@ -1,0 +1,99 @@
+{
+  "status": {
+    "online": "SYS_ONLINE",
+    "stardate": "STARDATE",
+    "lat": "LAT",
+    "sector": "SECTOR"
+  },
+  "hero": {
+    "prompt": "IDENTIFY_SUBJECT",
+    "title": "Passionate Software Developer and Science Fiction Nerd",
+    "tagline_1": "Navigating the infinite void between",
+    "tagline_highlight_1": "elegant code",
+    "tagline_and": "and",
+    "tagline_highlight_2": "extraordinary ideas",
+    "stack_label": "$ stack --list",
+    "btn_projects": "Mission Logs",
+    "btn_contact": "Open Comms"
+  },
+  "scroll": "SCROLL TO CONTINUE",
+  "projects": {
+    "section_label": "MISSION_LOGS",
+    "title": "My Experience",
+    "subtitle": "// TECHNOLOGY STACK & PROJECTS",
+    "tech_stack": "TECH_STACK:",
+    "status_active": "ACTIVE",
+    "learnings": "KEY LEARNINGS:",
+    "visit_project": "VISIT PROJECT ↗",
+    "exp_year": "{{ years }} YEAR EXPERIENCE",
+    "exp_years": "{{ years }} YEARS EXPERIENCE",
+    "angular": {
+      "title": "Angular",
+      "experience": "2 YEARS EXPERIENCE",
+      "description": "Comprehensive experience in modern web development with Angular. Specialization in enterprise-level frontend applications with focus on performance and scalability. Developing a Software-as-a-Service Angular frontend application in a three-person team. The application communicates with the backend via a REST API and utilizes reusable libraries for cross-application functionality. Ensuring code quality through JEST unit tests and reactive programming with NgRx state management and Angular Signals. Successfully migrated Angular versions from 19 to 20 and from 20 to 21, resolving all migration errors.",
+      "tech": [
+        "PrimeNG",
+        "NgRx",
+        "Signals",
+        "RxJS",
+        "TypeScript"
+      ],
+      "details": "Through this work, I have gained solid knowledge in frontend-backend communication via REST APIs. I have internalized best practices for developing scalable frontend applications and mastered working with strict typing in TypeScript. Particularly valuable was the experience in developing reusable, cross-application components and libraries, which significantly improve the maintainability and consistency of the entire project."
+    },
+    "dotnet": {
+      "title": ".NET",
+      "experience": "4 YEARS EXPERIENCE",
+      "description": "Modernizing a legacy on-premise application through C# extensions to meet modern requirements. Development of C# console applications for multiple file selection, QR code generation with payment information, and automated Word document creation. These extensions keep the legacy software productive and meet current business requirements. Additionally, I developed a WinForms database application to manage and rate my gaming library. Data is efficiently stored in a SQLite database.",
+      "tech": [
+        "C#",
+        ".NET Framework",
+        "Console Applications",
+        "File I/O",
+        "QR Code Generation",
+        "Word Automation"
+      ],
+      "details": "This work has provided me with profound knowledge in integrating modern .NET solutions. I learned to develop pragmatic solutions that elegantly circumvent existing system boundaries without affecting the core application. These projects have strengthened my ability to achieve maximum functionality extensions with minimal intervention."
+    },
+    "ggdb": {
+      "title": "GoodGamesDB",
+      "experience": "1 YEAR EXPERIENCE",
+      "description": "Development of a web application for tracking and rating completed video games. Users can create entries after finishing each game and rate it across categories such as Gameplay, Presentation, Sound, Pacing, and Narrative. For each entry, a shareable thumbnail graphic can be generated and copied to the clipboard, perfect for sharing on Discord. The application is in closed beta with currently 9 active testers. The frontend is built with Angular, while the backend is a REST API written in PHP with a MySQL database.",
+      "tech": [
+        "Angular",
+        "PHP",
+        "MySQL",
+        "REST API",
+        "TypeScript",
+        "HTML",
+        "CSS"
+      ],
+      "details": "Through this project, I gained comprehensive experience in independently planning and developing a complete web application for multiple users. I was responsible for all aspects, from database model design through frontend and backend implementation to the communication interface via REST API. This end-to-end development significantly expanded my understanding of software architecture and the requirements of scalable web applications."
+    },
+    "gamedev": {
+      "title": "Game Development",
+      "experience": "1 YEAR EXPERIENCE",
+      "description": "Foundational knowledge in three leading game engines: Unreal Engine 5, Unity 6, and Godot 4. Development of small 2D and 3D games for learning purposes to understand the differences and strengths of each engine. Conceptualized a personal science fiction card game, though its development is still written in the stars. These projects served to understand the fundamentals of game development and gather practical experience with different development approaches.",
+      "tech": [
+        "Unreal Engine 5",
+        "Unity 6",
+        "Godot 4",
+        "Blender",
+        "Aseprite",
+        "C#",
+        "GDScript",
+        "Blueprints"
+      ],
+      "details": "These experiences taught me the fundamentals of game development, from game mechanics and level design to asset integration. I acquired initial practical skills in creating 3D assets with Blender and pixel art with Aseprite. Particularly valuable was understanding the different philosophies of game engines: Unreal's Blueprint system for visual scripting, Unity's component-based architecture, and Godot's lean, scene-based approach."
+    }
+  },
+  "contact": {
+    "section_label": "OPEN_COMMS",
+    "title": "Contact",
+    "subtitle": "// INITIALIZING COMMUNICATION CHANNELS",
+    "github_title": "GitHub Repository",
+    "github_desc": "Check out some of my public projects on GitHub.",
+    "email_title": "Email Contact",
+    "email_desc": "Send me a message for project inquiries or collaboration.",
+    "status": "READY TO RECEIVE"
+  }
+}

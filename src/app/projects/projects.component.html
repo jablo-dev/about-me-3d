@@ -1,0 +1,94 @@
+<div class="projects-wrapper" id="projects-section">
+  <!-- Background grid -->
+  <div class="grid-overlay" aria-hidden="true"></div>
+
+  <!-- Section header -->
+  <div class="section-header">
+    <div class="header-line">
+      <span class="header-bracket">[</span>
+      <span class="mono">{{ 'projects.section_label' | translate }}</span>
+      <span class="header-bracket">]</span>
+    </div>
+    <h2 class="section-title">
+      {{ 'projects.title' | translate }}
+    </h2>
+    <p class="section-subtitle mono">
+      {{ 'projects.subtitle' | translate }}
+    </p>
+  </div>
+
+  <!-- Project cards -->
+  <div class="projects-grid">
+    @for (project of projects; track project.id) {
+      <div class="project-card" [class.expanded]="project.expanded">
+        <!-- Card corners -->
+        <div class="card-corner corner-tl" aria-hidden="true"></div>
+        <div class="card-corner corner-tr" aria-hidden="true"></div>
+        <div class="card-corner corner-bl" aria-hidden="true"></div>
+        <div class="card-corner corner-br" aria-hidden="true"></div>
+
+        <!-- Card header (always visible, clickable) -->
+        <div class="card-header" (click)="toggleCard(project)">
+          <div class="card-title-area">
+            <h3 class="card-title">{{ 'projects.' + project.id + '.title' | translate }}</h3>
+            <div class="card-meta mono">
+              <span class="meta-icon"></span>
+              <span>{{ 'projects.' + project.id + '.experience' | translate }}</span>
+            </div>
+          </div>
+          <div class="expand-indicator">
+            <span class="expand-icon" [class.rotated]="project.expanded">▼</span>
+          </div>
+        </div>
+
+        <!-- Card content (collapsible) -->
+        <div class="card-content-wrapper" [class.collapsed]="!project.expanded">
+          <div class="card-content">
+            <p class="card-description">
+              {{ project.expDetailed | translate }}
+            </p>
+
+            <!-- Project link (if available) -->
+            @if (project.url) {
+              <div class="project-link-section">
+                <a [href]="project.url" target="_blank" rel="noopener noreferrer" class="project-link mono">
+                  {{ 'projects.visit_project' | translate }}
+                </a>
+              </div>
+            }
+
+            <!-- Tech highlights -->
+            <div class="tech-highlights">
+              <span class="highlight-label mono">{{ 'projects.tech_stack' | translate }}</span>
+              <div class="highlight-tags">
+                @for (tech of project.techstack; track tech) {
+                  <span class="tech-tag">{{ tech }}</span>
+                }
+              </div>
+            </div>
+
+            <!-- Details -->
+            <div class="card-details">
+              <span class="details-label mono">{{ 'projects.learnings' | translate }}</span>
+              <p>{{ project.keyLearning | translate }}</p>
+            </div>
+          </div>
+
+          <!-- Card footer accent -->
+          <div class="card-footer">
+            <div class="status-line">
+              <span class="status-indicator"></span>
+              <span class="mono status-text">{{ 'projects.status_active' | translate }}</span>
+            </div>
+            <div class="data-stream mono">
+              <span class="stream-label">DATA_STREAM:</span>
+              <span class="stream-bars">▊▊▊▊▊▊</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    }
+  </div>
+</div>
+
+

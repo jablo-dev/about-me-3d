@@ -1,0 +1,99 @@
+{
+  "status": {
+    "online": "SYS_ONLINE",
+    "stardate": "STERNDATUM",
+    "lat": "BREITE",
+    "sector": "SEKTOR"
+  },
+  "hero": {
+    "prompt": "SUBJEKT_IDENTIFIZIEREN",
+    "title": "Leidenschaftlicher Software-Entwickler und Science-Fiction Nerd",
+    "tagline_1": "Auf der Reise durch die unendliche Weite zwischen",
+    "tagline_highlight_1": "elegantem Code",
+    "tagline_and": "und",
+    "tagline_highlight_2": "außergewöhnlichen Ideen",
+    "stack_label": "$ stack --auflisten",
+    "btn_projects": "Missionsberichte",
+    "btn_contact": "Kontakt aufnehmen"
+  },
+  "scroll": "SCROLLEN ZUM FORTFAHREN",
+  "projects": {
+    "section_label": "MISSION_LOGS",
+    "title": "Meine Erfahrung",
+    "subtitle": "// TECHNOLOGIE-STACK & PROJEKTE",
+    "tech_stack": "TECH_STACK:",
+    "status_active": "AKTIV",
+    "learnings": "ERKENNTNISSE:",
+    "visit_project": "PROJEKT BESUCHEN ↗",
+    "exp_year": "{{ years }} JAHR ERFAHRUNG",
+    "exp_years": "{{ years }} JAHRE ERFAHRUNG",
+    "angular": {
+      "title": "Angular",
+      "experience": "2 JAHRE ERFAHRUNG",
+      "description": "Umfassende Erfahrung in der modernen Webentwicklung mit Angular. Spezialisierung auf Enterprise-Level Frontend-Anwendungen mit Fokus auf Performance und Skalierbarkeit. Entwicklung einer Software-as-a-Service Angular Frontend-Anwendung im dreiköpfigen Team. Die Anwendung kommuniziert über eine REST-API mit dem Backend und nutzt wiederverwendbare Libraries für anwendungsübergreifende Funktionen. Sicherstellung der Code-Qualität durch JEST Unit Tests und reaktive Programmierung mit NgRx State Management sowie Angular Signals. Erfolgreich Angular-Versionen von 19 auf 20 sowie von 20 auf 21 migriert und dabei alle Migrationsfehler behoben.",
+      "tech": [
+        "PrimeNG",
+        "NgRx",
+        "Signals",
+        "RxJS",
+        "TypeScript"
+      ],
+      "details": "Durch diese Arbeit habe ich fundierte Kenntnisse in der Kommunikation zwischen Frontend und Backend über REST-APIs erworben. Ich habe Best Practices für die Entwicklung skalierbarer Frontend-Anwendungen verinnerlicht und beherrsche den Umgang mit striktem Typing in TypeScript. Besonders wertvoll war die Erfahrung beim Entwickeln wiederverwendbarer, anwendungsübergreifender Komponenten und Libraries, die die Wartbarkeit und Konsistenz des gesamten Projekts deutlich verbessern."
+    },
+    "dotnet": {
+      "title": ".NET",
+      "experience": "4 JAHRE ERFAHRUNG",
+      "description": "Modernisierung einer Legacy-On-Premise-Anwendung durch C#-Erweiterungen, um moderne Anforderungen zu erfüllen. Entwicklung von C#-Konsolenanwendungen für Mehrfachdateiauswahl, QR-Code-Generierung mit Zahlungsinformationen und automatisierte Word-Dokumentenerstellung. Diese Erweiterungen halten die Legacy-Software produktiv und erfüllen aktuelle Geschäftsanforderungen. Zusätzlich habe ich eine WinForms-Datenbanksoftware entwickelt, um meine Gaming-Bibliothek zu verwalten und zu bewerten. Die Daten werden effizient in einer SQLite-Datenbank gespeichert.",
+      "tech": [
+        "C#",
+        ".NET Framework",
+        "Console Applications",
+        "File I/O",
+        "QR Code Generation",
+        "Word Automation"
+      ],
+      "details": "Diese Arbeit hat mir tiefgreifende Kenntnisse in der Integration moderner .NET-Lösungen vermittelt. Ich habe gelernt, pragmatische Lösungen zu entwickeln, die bestehende Systemgrenzen elegant umgehen, ohne die Kernanwendung zu beeinträchtigen. Diese Projekte haben meine Fähigkeit gestärkt, mit minimalen Eingriffen maximale Funktionalitätserweiterungen zu erzielen."
+    },
+    "ggdb": {
+      "title": "GoodGamesDB",
+      "experience": "1 JAHR ERFAHRUNG",
+      "description": "Entwicklung einer Webanwendung zum Erfassen und Bewerten durchgespielter Computerspiele. Nutzer können nach jedem abgeschlossenen Spiel einen Eintrag anlegen und das Spiel in Kategorien wie Gameplay, Präsentation, Sound, Pacing und Narrative bewerten. Für jeden Eintrag kann eine teilbare Thumbnail-Grafik generiert und in die Zwischenablage kopiert werden, ideal zum Teilen auf Discord. Die Anwendung befindet sich in der geschlossenen Beta mit aktuell 9 aktiven Testern. Das Frontend ist in Angular entwickelt, das Backend als REST-API in PHP mit MySQL-Datenbank.",
+      "tech": [
+        "Angular",
+        "PHP",
+        "MySQL",
+        "REST API",
+        "TypeScript",
+        "HTML",
+        "CSS"
+      ],
+      "details": "Durch dieses Projekt habe ich umfassende Erfahrung in der eigenständigen Planung und Entwicklung einer vollständigen Webanwendung für mehrere Nutzer gesammelt. Von der Konzeption des Datenbankmodells über die Implementierung von Frontend und Backend bis hin zur Kommunikationsschnittstelle über eine REST-API war ich für alle Aspekte verantwortlich. Diese End-to-End-Entwicklung hat mein Verständnis für Softwarearchitektur und die Anforderungen skalierbarer Webanwendungen deutlich erweitert."
+    },
+    "gamedev": {
+      "title": "Spieleentwicklung",
+      "experience": "1 JAHR ERFAHRUNG",
+      "description": "Grundkenntnisse in drei führenden Game Engines: Unreal Engine 5, Unity 6 und Godot 4. Entwicklung kleiner 2D- und 3D-Spiele zu Lernzwecken, um die Unterschiede und Stärken der einzelnen Engines zu verstehen. Konzeption eines eigenen Science-Fiction-Kartenspiels, dessen Entwicklung allerdings noch in den Sternen steht. Diese Projekte dienten dem Verständnis der Grundlagen der Spieleentwicklung und dem Sammeln praktischer Erfahrungen mit verschiedenen Entwicklungsansätzen.",
+      "tech": [
+        "Unreal Engine 5",
+        "Unity 6",
+        "Godot 4",
+        "Blender",
+        "Aseprite",
+        "C#",
+        "GDScript",
+        "Blueprints"
+      ],
+      "details": "Diese Erfahrungen haben mir die Grundlagen der Spieleentwicklung vermittelt, von der Spielmechanik über Level-Design bis hin zur Asset-Integration. Ich habe erste praktische Kenntnisse in der Erstellung von 3D-Assets mit Blender und Pixelart mit Aseprite erworben. Besonders wertvoll war das Verständnis für die unterschiedlichen Philosophien der Game Engines: Unreals Blueprint-System für visuelles Scripting, Unitys komponentenbasierte Architektur und Godots schlanker, szenenbasierter Ansatz."
+    }
+  },
+  "contact": {
+    "section_label": "OPEN_COMMS",
+    "title": "Kontakt",
+    "subtitle": "// KOMMUNIKATIONSKANÄLE INITIALISIEREN",
+    "github_title": "GitHub Repository",
+    "github_desc": "Schau dir einige meiner öffentlichen Projekte auf GitHub an.",
+    "email_title": "E-Mail Kontakt",
+    "email_desc": "Sende mir eine Nachricht für Projektanfragen oder Zusammenarbeit.",
+    "status": "BEREIT ZU EMPFANGEN"
+  }
+}

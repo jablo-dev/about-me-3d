@@ -1,0 +1,159 @@
+<!-- Global background canvases -->
+<canvas #canvas class="global-bg-canvas"></canvas>
+<div class="scanlines" aria-hidden="true"></div>
+
+<div class="landing-wrapper">
+  <canvas #sceneCanvas class="scene-canvas"></canvas>
+
+
+  <!-- Status bar -->
+  <header class="status-bar">
+    <div class="status-left">
+      <span class="status-dot"></span>
+      <span class="mono">{{ 'status.online' | translate }}</span>
+      <span class="status-sep">|</span>
+      <span class="mono dim">{{ 'status.stardate' | translate }}&nbsp;2026.04.16</span>
+    </div>
+    <div class="status-right">
+      <span class="mono dim">{{ 'status.lat' | translate }}:&nbsp;51°N</span>
+      <span class="status-sep">|</span>
+      <span class="mono dim">{{ 'status.sector' | translate }}:&nbsp;ALPHA-7</span>
+      <span class="status-sep">|</span>
+      <span class="mono signal">▊▊▊▊▊</span>
+      <span class="status-sep">|</span>
+      <!-- Language toggle -->
+      <button class="lang-toggle" (click)="toggleLang()" [attr.aria-label]="currentLang === 'en' ? 'Switch to German' : 'Switch to English'">
+        <span [class.active]="currentLang === 'en'">EN</span>
+        <span class="lang-sep">/</span>
+        <span [class.active]="currentLang === 'de'">DE</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- HUD corners -->
+  <div class="hud-corner hud-tl" aria-hidden="true"></div>
+  <div class="hud-corner hud-tr" aria-hidden="true"></div>
+  <div class="hud-corner hud-bl" aria-hidden="true"></div>
+  <div class="hud-corner hud-br" aria-hidden="true"></div>
+
+  <!-- Hero content -->
+  <div class="hero-overlay">
+    <div class="hero-content">
+
+      <p class="terminal-prompt">
+        <span class="prompt-char">&gt;&nbsp;</span>
+        <span class="prompt-text">{{ 'hero.prompt' | translate }}<span class="cursor">_</span></span>
+      </p>
+
+      <h1 class="name">PATRYK<br>JABLONSKI</h1>
+
+      <div class="title-line">
+        <span class="title-slash">// </span>
+        <span class="title-text">{{ 'hero.title' | translate }}</span>
+      </div>
+
+      <p class="tagline">
+        {{ 'hero.tagline_1' | translate }}<br>
+        <span class="highlight">{{ 'hero.tagline_highlight_1' | translate }}</span>
+        {{ 'hero.tagline_and' | translate }}
+        <span class="highlight">{{ 'hero.tagline_highlight_2' | translate }}</span>.
+      </p>
+
+      <!-- Tech stack as terminal tags -->
+      <div class="tech-stack">
+        <span class="stack-label mono">{{ 'hero.stack_label' | translate }}</span>
+        <div class="tech-pills">
+          <span class="pill"
+                [class.disabled]="!isLabelVisible('Angular')"
+                (click)="toggleLabel('Angular')">Angular</span>
+          <span class="pill"
+                [class.disabled]="!isLabelVisible('.NET')"
+                (click)="toggleLabel('.NET')">.NET</span>
+          <span class="pill"
+                [class.disabled]="!isLabelVisible('SpringBoot')"
+                (click)="toggleLabel('SpringBoot')">SpringBoot</span>
+          <span class="pill"
+                [class.disabled]="!isLabelVisible('TypeScript')"
+                (click)="toggleLabel('TypeScript')">TypeScript</span>
+          <span class="pill"
+                [class.disabled]="!isLabelVisible('JavaScript')"
+                (click)="toggleLabel('JavaScript')">JavaScript</span>
+          <span class="pill"
+                [class.disabled]="!isLabelVisible('HTML')"
+                (click)="toggleLabel('HTML')">HTML</span>
+          <span class="pill"
+                [class.disabled]="!isLabelVisible('CSS')"
+                (click)="toggleLabel('CSS')">CSS</span>
+          <span class="pill"
+                [class.disabled]="!isLabelVisible('JAVA')"
+                (click)="toggleLabel('JAVA')">JAVA</span>
+          <span class="pill"
+                [class.disabled]="!isLabelVisible('C#')"
+                (click)="toggleLabel('C#')">C#</span>
+          <span class="pill"
+                [class.disabled]="!isLabelVisible('SQL')"
+                (click)="toggleLabel('SQL')">SQL</span>
+          <span class="pill"
+                [class.disabled]="!isLabelVisible('PHP')"
+                (click)="toggleLabel('PHP')">PHP</span>
+          <span class="pill"
+                [class.disabled]="!isLabelVisible('GIT')"
+                (click)="toggleLabel('GIT')">GIT</span>
+          <span class="pill"
+                [class.disabled]="!isLabelVisible('JEST')"
+                (click)="toggleLabel('JEST')">JEST</span>
+          <span class="pill"
+                [class.disabled]="!isLabelVisible('Teamwork')"
+                (click)="toggleLabel('Teamwork')">Teamwork</span>
+          <span class="pill"
+                [class.disabled]="!isLabelVisible('Scrum')"
+                (click)="toggleLabel('Scrum')">Scrum</span>
+          <span class="pill"
+                [class.disabled]="!isLabelVisible('Unity 6')"
+                (click)="toggleLabel('Unity 6')">Unity 6</span>
+          <span class="pill"
+                [class.disabled]="!isLabelVisible('Unreal 5')"
+                (click)="toggleLabel('Unreal 5')">Unreal 5</span>
+          <span class="pill"
+                [class.disabled]="!isLabelVisible('Godot 4')"
+                (click)="toggleLabel('Godot 4')">Godot 4</span>
+          <span class="pill"
+                [class.disabled]="!isLabelVisible('WebGL')"
+                (click)="toggleLabel('WebGL')">WebGL</span>
+          <span class="pill"
+                [class.disabled]="!isLabelVisible('ThreeJS')"
+                (click)="toggleLabel('ThreeJS')">ThreeJS</span>
+          <span class="pill"
+                [class.disabled]="!isLabelVisible('REST-API')"
+                (click)="toggleLabel('REST-API')">REST-API</span>
+        </div>
+      </div>
+
+      <!-- CTA -->
+      <div class="cta-group">
+        <button class="btn-primary" (click)="scrollToProjects()">
+          <span class="btn-icon">⬡</span>
+          <span>{{ 'hero.btn_projects' | translate }}</span>
+        </button>
+        <button class="btn-outline" (click)="scrollToContact()">
+          <span class="btn-icon">◈</span>
+          <span>{{ 'hero.btn_contact' | translate }}</span>
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Bottom scroll indicator -->
+  <div class="scroll-hint" (click)="scrollToProjects()">
+    <span class="mono">{{ 'scroll' | translate }}</span>
+    <div class="scroll-line"></div>
+  </div>
+
+</div>
+
+<!-- Projects section -->
+<app-projects />
+
+<!-- Contact section -->
+<app-contact />

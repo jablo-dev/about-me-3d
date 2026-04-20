@@ -1,0 +1,182 @@
+import * as THREE from 'three';
+
+export interface PlanetLabel {
+  text: string;
+  normal: THREE.Vector3;
+  width: number;
+  height: number;
+  phase: number;
+  opacity: number;
+}
+
+export const PLANET_LABELS: PlanetLabel[] = [
+  {
+    text: 'Angular',
+    normal: new THREE.Vector3(-0.62, 0.46, 0.63),
+    width: 1.6,
+    height: 0.36,
+    phase: 0.2,
+    opacity: 0.58,
+  },
+  {
+    text: '.NET',
+    normal: new THREE.Vector3(-0.38, 0.05, -0.92),
+    width: 1.15,
+    height: 0.31,
+    phase: 1.9,
+    opacity: 0.56,
+  },
+  {
+    text: 'SpringBoot',
+    normal: new THREE.Vector3(0.72, 0.58, 0.38),
+    width: 2.2,
+    height: 0.37,
+    phase: 0.6,
+    opacity: 0.59,
+  },
+  {
+    text: 'TypeScript',
+    normal: new THREE.Vector3(0.38, 0.05, 0.92),
+    width: 2.1,
+    height: 0.38,
+    phase: 1.3,
+    opacity: 0.62,
+  },
+  {
+    text: 'JavaScript',
+    normal: new THREE.Vector3(-0.85, 0.42, 0.32),
+    width: 2.2,
+    height: 0.38,
+    phase: 2.7,
+    opacity: 0.6,
+  },
+  {
+    text: 'HTML',
+    normal: new THREE.Vector3(0.18, 0.82, 0.54),
+    width: 1.0,
+    height: 0.3,
+    phase: 0.5,
+    opacity: 0.58,
+  },
+  {
+    text: 'CSS',
+    normal: new THREE.Vector3(-0.75, 0.35, -0.56),
+    width: 0.85,
+    height: 0.28,
+    phase: 1.6,
+    opacity: 0.55,
+  },
+  {
+    text: 'JAVA',
+    normal: new THREE.Vector3(0.64, -0.18, -0.75),
+    width: 1.1,
+    height: 0.31,
+    phase: 2.9,
+    opacity: 0.52,
+  },
+  {
+    text: 'C#',
+    normal: new THREE.Vector3(0.92, -0.02, -0.38),
+    width: 0.75,
+    height: 0.28,
+    phase: 3.7,
+    opacity: 0.5,
+  },
+  {
+    text: 'SQL',
+    normal: new THREE.Vector3(-0.96, -0.02, 0.28),
+    width: 0.85,
+    height: 0.28,
+    phase: 3.1,
+    opacity: 0.5,
+  },
+  {
+    text: 'PHP',
+    normal: new THREE.Vector3(-0.54, -0.15, 0.82),
+    width: 0.9,
+    height: 0.3,
+    phase: 2.4,
+    opacity: 0.54,
+  },
+  {
+    text: 'GIT',
+    normal: new THREE.Vector3(0.12, -0.38, 0.92),
+    width: 0.85,
+    height: 0.28,
+    phase: 4.1,
+    opacity: 0.52,
+  },
+  {
+    text: 'JEST',
+    normal: new THREE.Vector3(0.45, -0.52, 0.72),
+    width: 1.0,
+    height: 0.3,
+    phase: 3.5,
+    opacity: 0.54,
+  },
+  {
+    text: 'Teamwork',
+    normal: new THREE.Vector3(-0.28, 0.65, 0.71),
+    width: 1.85,
+    height: 0.35,
+    phase: 1.1,
+    opacity: 0.57,
+  },
+  {
+    text: 'Scrum',
+    normal: new THREE.Vector3(0.62, 0.46, -0.63),
+    width: 1.3,
+    height: 0.33,
+    phase: 0.8,
+    opacity: 0.54,
+  },
+  {
+    text: 'Unity 6',
+    normal: new THREE.Vector3(-0.52, -0.48, -0.70),
+    width: 1.5,
+    height: 0.32,
+    phase: 4.8,
+    opacity: 0.56,
+  },
+  {
+    text: 'Unreal 5',
+    normal: new THREE.Vector3(0.78, -0.42, -0.46),
+    width: 1.7,
+    height: 0.34,
+    phase: 5.2,
+    opacity: 0.57,
+  },
+  {
+    text: 'Godot 4',
+    normal: new THREE.Vector3(0.88, -0.32, 0.35),
+    width: 1.5,
+    height: 0.32,
+    phase: 4.6,
+    opacity: 0.55,
+  },
+  {
+    text: 'WebGL',
+    normal: new THREE.Vector3(0.28, 0.38, -0.88),
+    width: 1.25,
+    height: 0.31,
+    phase: 4.3,
+    opacity: 0.53,
+  },
+  {
+    text: 'ThreeJS',
+    normal: new THREE.Vector3(-0.88, -0.15, 0.45),
+    width: 1.65,
+    height: 0.34,
+    phase: 5.1,
+    opacity: 0.59,
+  },
+  {
+    text: 'REST-API',
+    normal: new THREE.Vector3(-0.42, -0.62, 0.66),
+    width: 1.85,
+    height: 0.35,
+    phase: 3.9,
+    opacity: 0.58,
+  },
+];
+
