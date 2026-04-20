@@ -267,11 +267,86 @@ export class LandingComponent implements AfterViewInit, OnDestroy {
 
   private createPlanetLabels(): void {
     const labels = [
-      { text: 'angular',    normal: new THREE.Vector3(-0.62,  0.46, 0.63), width: 2.15, height: 0.48, phase: 0.2, opacity: 0.56 },
-      { text: 'javascript', normal: new THREE.Vector3( 0.38,  0.05, 0.92), width: 2.85, height: 0.52, phase: 1.3, opacity: 0.62 },
-      { text: 'php',        normal: new THREE.Vector3(-0.54, -0.43, 0.72), width: 1.18, height: 0.40, phase: 2.4, opacity: 0.54 },
-      { text: 'sql',        normal: new THREE.Vector3(-0.96, -0.02, 0.28), width: 1.08, height: 0.38, phase: 3.1, opacity: 0.5 },
-      { text: 'git',        normal: new THREE.Vector3( 0.08, -0.78, 0.62), width: 1.08, height: 0.38, phase: 4.1, opacity: 0.52 },
+      {
+        text: 'angular',
+        normal: new THREE.Vector3(-0.62, 0.46, 0.63),
+        width: 2.15,
+        height: 0.48,
+        phase: 0.2,
+        opacity: 0.56,
+      },
+      {
+        text: 'javascript',
+        normal: new THREE.Vector3(0.38, 0.05, 0.92),
+        width: 2.85,
+        height: 0.52,
+        phase: 1.3,
+        opacity: 0.62,
+      },
+      {
+        text: 'php',
+        normal: new THREE.Vector3(-0.54, -0.43, 0.72),
+        width: 1.18,
+        height: 0.4,
+        phase: 2.4,
+        opacity: 0.54,
+      },
+      {
+        text: 'sql',
+        normal: new THREE.Vector3(-0.96, -0.02, 0.28),
+        width: 1.08,
+        height: 0.38,
+        phase: 3.1,
+        opacity: 0.5,
+      },
+      {
+        text: 'git',
+        normal: new THREE.Vector3(0.08, -0.78, 0.62),
+        width: 1.08,
+        height: 0.38,
+        phase: 4.1,
+        opacity: 0.52,
+      },
+      {
+        text: 'scrum',
+        normal: new THREE.Vector3(0.62, 0.46, -0.63),
+        width: 2.0,
+        height: 0.44,
+        phase: 0.8,
+        opacity: 0.54,
+      },
+      {
+        text: '.NET',
+        normal: new THREE.Vector3(-0.38, 0.05, -0.92),
+        width: 1.55,
+        height: 0.42,
+        phase: 1.9,
+        opacity: 0.56,
+      },
+      {
+        text: 'Java',
+        normal: new THREE.Vector3(0.54, -0.43, -0.72),
+        width: 1.6,
+        height: 0.42,
+        phase: 2.9,
+        opacity: 0.52,
+      },
+      {
+        text: 'C#',
+        normal: new THREE.Vector3(0.92, -0.02, -0.38),
+        width: 1.1,
+        height: 0.38,
+        phase: 3.7,
+        opacity: 0.5,
+      },
+      {
+        text: 'Godot 4',
+        normal: new THREE.Vector3(1.12, -0.72, -0.68),
+        width: 1.9,
+        height: 0.42,
+        phase: 4.6,
+        opacity: 0.52,
+      },
     ];
     const sphereRadius = 4.5;
     const labelLift = 0.03;
@@ -414,12 +489,12 @@ export class LandingComponent implements AfterViewInit, OnDestroy {
     this.createPlanetLabels();
 
     // Surface detail bands (latitude stripes via torus inside planet)
-    for (let i = 0; i < 4; i++) {
+    for (let i = 0; i < 1; i++) {
       const bandGeo = new THREE.TorusGeometry(4.5, 0.04 + i * 0.015, 8, 120);
       const bandMat = new THREE.MeshBasicMaterial({
         color: i % 2 === 0 ? 0x00d4ff : 0x003366,
         transparent: true,
-        opacity: 0.18 + i * 0.04,
+        opacity: 0.18 + i * 0.01,
       });
       const band = new THREE.Mesh(bandGeo, bandMat);
       band.rotation.x = Math.PI / 2;
@@ -474,19 +549,6 @@ export class LandingComponent implements AfterViewInit, OnDestroy {
     this.rings = new THREE.Mesh(ringGeo, ringMat);
     this.rings.rotation.x = Math.PI / 2.4;
     this.spaceGroup.add(this.rings);
-
-    // Inner darker ring band
-    const ring2Geo = new THREE.RingGeometry(6.2, 7.4, 128);
-    const ring2Mat = new THREE.MeshBasicMaterial({
-      color: 0x004466,
-      transparent: true,
-      opacity: 0.35,
-      side: THREE.DoubleSide,
-      depthWrite: false,
-    });
-    const rings2 = new THREE.Mesh(ring2Geo, ring2Mat);
-    rings2.rotation.x = Math.PI / 2.4;
-    this.spaceGroup.add(rings2);
 
     // ── HUD targeting ring ─────────────────────────────────────
     const hudPoints: THREE.Vector3[] = [];
