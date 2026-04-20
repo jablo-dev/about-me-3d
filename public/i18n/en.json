@@ -19,7 +19,7 @@
   "scroll": "SCROLL TO CONTINUE",
   "projects": {
     "section_label": "MISSION_LOGS",
-    "title": "My Expertise",
+    "title": "My Experience",
     "subtitle": "// TECHNOLOGY STACK & PROJECTS",
     "tech_stack": "TECH_STACK:",
     "status_active": "ACTIVE",
@@ -53,5 +53,15 @@
       ],
       "details": "This work has provided me with profound knowledge in integrating modern .NET solutions. I learned to develop pragmatic solutions that elegantly circumvent existing system boundaries without affecting the core application. These projects have strengthened my ability to achieve maximum functionality extensions with minimal intervention."
     }
+  },
+  "contact": {
+    "section_label": "OPEN_COMMS",
+    "title": "Contact",
+    "subtitle": "// INITIALIZING COMMUNICATION CHANNELS",
+    "github_title": "GitHub Repository",
+    "github_desc": "Check out some of my public projects on GitHub.",
+    "email_title": "Email Contact",
+    "email_desc": "Send me a message for project inquiries or collaboration.",
+    "status": "READY TO RECEIVE"
   }
 }

@@ -135,7 +135,7 @@
           <span class="btn-icon">⬡</span>
           <span>{{ 'hero.btn_projects' | translate }}</span>
         </button>
-        <button class="btn-outline">
+        <button class="btn-outline" (click)="scrollToContact()">
           <span class="btn-icon">◈</span>
           <span>{{ 'hero.btn_contact' | translate }}</span>
         </button>
@@ -155,3 +155,5 @@
 <!-- Projects section -->
 <app-projects />
 
+<!-- Contact section -->
+<app-contact />

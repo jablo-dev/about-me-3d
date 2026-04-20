@@ -11,11 +11,12 @@ import { TranslateService, TranslatePipe } from '@ngx-translate/core';
 import { BackgroundSceneService } from '../services/background-scene.service';
 import { SpaceSceneService } from '../services/space-scene.service';
 import { ProjectsComponent } from '../projects/projects.component';
+import { ContactComponent } from '../contact/contact.component';
 
 @Component({
   selector: 'app-landing',
   standalone: true,
-  imports: [CommonModule, TranslatePipe, ProjectsComponent],
+  imports: [CommonModule, TranslatePipe, ProjectsComponent, ContactComponent],
   templateUrl: './landing.component.html',
   styleUrl: './landing.component.css',
 })
@@ -145,6 +146,13 @@ export class LandingComponent implements AfterViewInit, OnDestroy {
     const projectsSection = document.getElementById('projects-section');
     if (projectsSection) {
       projectsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }
+
+  scrollToContact(): void {
+    const contactSection = document.getElementById('contact-section');
+    if (contactSection) {
+      contactSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
   }
 }

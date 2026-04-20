@@ -19,7 +19,7 @@
   "scroll": "SCROLLEN ZUM FORTFAHREN",
   "projects": {
     "section_label": "MISSION_LOGS",
-    "title": "Meine Expertise",
+    "title": "Meine Erfahrung",
     "subtitle": "// TECHNOLOGIE-STACK & PROJEKTE",
     "tech_stack": "TECH_STACK:",
     "status_active": "AKTIV",
@@ -53,5 +53,15 @@
       ],
       "details": "Diese Arbeit hat mir tiefgreifende Kenntnisse in der Integration moderner .NET-Lösungen vermittelt. Ich habe gelernt, pragmatische Lösungen zu entwickeln, die bestehende Systemgrenzen elegant umgehen, ohne die Kernanwendung zu beeinträchtigen. Diese Projekte haben meine Fähigkeit gestärkt, mit minimalen Eingriffen maximale Funktionalitätserweiterungen zu erzielen."
     }
+  },
+  "contact": {
+    "section_label": "OPEN_COMMS",
+    "title": "Kontakt",
+    "subtitle": "// KOMMUNIKATIONSKANÄLE INITIALISIEREN",
+    "github_title": "GitHub Repository",
+    "github_desc": "Schau dir einige meiner öffentlichen Projekte auf GitHub an.",
+    "email_title": "E-Mail Kontakt",
+    "email_desc": "Sende mir eine Nachricht für Projektanfragen oder Zusammenarbeit.",
+    "status": "BEREIT ZU EMPFANGEN"
   }
 }
