@@ -17,6 +17,8 @@ import { TranslateService, TranslatePipe } from '@ngx-translate/core';
   styleUrl: './landing.component.css',
 })
 export class LandingComponent implements AfterViewInit, OnDestroy {
+  private readonly PLANET_LABEL_COLOR = '#00ff9d';
+
   @ViewChild('canvas') private canvasRef!: ElementRef<HTMLCanvasElement>;
   @ViewChild('sceneCanvas') private sceneCanvasRef!: ElementRef<HTMLCanvasElement>;
 
@@ -37,12 +39,27 @@ export class LandingComponent implements AfterViewInit, OnDestroy {
   private spaceCamera!: THREE.PerspectiveCamera;
   private spaceGroup!: THREE.Group;   // parent for planet + rings + hud
   private planet!: THREE.Mesh;
+  private planetLabelGroup!: THREE.Group;
+  private planetLabels: Array<{
+    mesh: THREE.Mesh;
+    phase: number;
+    baseOpacity: number;
+  }> = [];
   private planetAtmo!: THREE.Mesh;
   private rings!: THREE.Mesh;
-  private spaceship!: THREE.Group;
-  private shipOrbitAngle = 0;
+  private moon!: THREE.Group;
+  private moonOrbitAngle = 0;
+  private moonSpeedMultiplier = 1;
+  private moonBoostEndTime = 0;
+  private raycaster = new THREE.Raycaster();
   private hudRing!: THREE.LineLoop;
   private readonly ORBIT_CENTER = new THREE.Vector3(3, 0, 0);
+
+  // Planet drag-spin
+  private planetRotationY = 0;
+  private planetSpinVelocity = 0;
+  private isDraggingPlanet = false;
+  private dragLastX = 0;
 
   currentLang = 'en';
 
@@ -63,12 +80,129 @@ export class LandingComponent implements AfterViewInit, OnDestroy {
     cancelAnimationFrame(this.animationId);
     this.renderer?.dispose();
     this.sceneRenderer?.dispose();
+    this.planetLabels.forEach(({ mesh }) => {
+      mesh.geometry.dispose();
+      const material = mesh.material as THREE.MeshBasicMaterial;
+      material.map?.dispose();
+      material.dispose();
+    });
     window.removeEventListener('mousemove', this.onMouseMove);
     window.removeEventListener('resize', this.onResize);
+    this.sceneCanvasRef?.nativeElement.removeEventListener('click',     this.onSceneClick);
+    this.sceneCanvasRef?.nativeElement.removeEventListener('mousemove', this.onSceneHover);
+    this.sceneCanvasRef?.nativeElement.removeEventListener('mousedown', this.onSceneDragStart);
+    window.removeEventListener('mousemove', this.onSceneDrag);
+    window.removeEventListener('mouseup',   this.onSceneDragEnd);
   }
 
   private get canvas(): HTMLCanvasElement {
     return this.canvasRef.nativeElement;
+  }
+
+  private makePlanetTexture(): THREE.CanvasTexture {
+    const W = 1024, H = 512;
+    const c = document.createElement('canvas');
+    c.width = W; c.height = H;
+    const ctx = c.getContext('2d')!;
+
+    // Deep dark gas giant base
+    ctx.fillStyle = '#061733';
+    ctx.fillRect(0, 0, W, H);
+
+    // Main gas bands — mostly dark, softly varying
+    const bands = [
+      { cy: 0.10, h: 0.08, op: 0.18, color: 'rgba(120,170,220,0.18)' },
+      { cy: 0.22, h: 0.06, op: 0.10, color: 'rgba(20,45,95,0.35)' },
+      { cy: 0.35, h: 0.10, op: 0.22, color: 'rgba(110,160,210,0.20)' },
+      { cy: 0.49, h: 0.07, op: 0.12, color: 'rgba(15,35,80,0.38)' },
+      { cy: 0.63, h: 0.11, op: 0.24, color: 'rgba(100,150,205,0.22)' },
+      { cy: 0.77, h: 0.07, op: 0.11, color: 'rgba(18,40,88,0.34)' },
+      { cy: 0.90, h: 0.08, op: 0.16, color: 'rgba(125,175,225,0.16)' },
+    ];
+    bands.forEach(b => {
+      const y0 = (b.cy - b.h / 2) * H;
+      const y1 = (b.cy + b.h / 2) * H;
+      const g  = ctx.createLinearGradient(0, y0, 0, y1);
+      g.addColorStop(0,   'rgba(0,0,0,0)');
+      g.addColorStop(0.5, b.color);
+      g.addColorStop(1,   'rgba(0,0,0,0)');
+      ctx.fillStyle = g;
+      ctx.fillRect(0, y0, W, y1 - y0);
+    });
+
+    // Soft flow noise to keep rotation readable without making it busy
+    bands.forEach(b => {
+      for (let x = 0; x < W; x += 42) {
+        const wobble = Math.sin(x / 80) * 9 + Math.cos(x / 44) * 4;
+        const cy = b.cy * H + wobble;
+        const g2 = ctx.createRadialGradient(x, cy, 0, x, cy, 26);
+        g2.addColorStop(0, `rgba(90,140,190,${b.op * 0.22})`);
+        g2.addColorStop(1, 'rgba(0,0,0,0)');
+        ctx.fillStyle = g2;
+        ctx.beginPath();
+        ctx.arc(x, cy, 26, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    });
+
+    // A few subtle glowing clouds only
+    const clouds = [
+      { x: 0.22, y: 0.31, rx: 0.09, ry: 0.07, op: 0.18 },
+      { x: 0.58, y: 0.56, rx: 0.11, ry: 0.08, op: 0.16 },
+      { x: 0.84, y: 0.41, rx: 0.07, ry: 0.06, op: 0.14 },
+    ];
+    clouds.forEach(p => {
+      const sy = p.ry / p.rx;
+      const cx = p.x * W;
+      const cy = p.y * H / sy;
+      const g  = ctx.createRadialGradient(cx, cy, 0, cx, cy, p.rx * W);
+      g.addColorStop(0,   `rgba(210,240,255,${p.op})`);
+      g.addColorStop(0.35, `rgba(110,185,255,${p.op * 0.7})`);
+      g.addColorStop(0.65, `rgba(70,130,200,${p.op * 0.35})`);
+      g.addColorStop(1,   'rgba(0,0,0,0)');
+      ctx.save();
+      ctx.scale(1, sy);
+      ctx.fillStyle = g;
+      ctx.beginPath();
+      ctx.arc(cx, cy, p.rx * W, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.restore();
+    });
+
+    // One small soft storm eye for asymmetry
+    const storm = { x: 0.73, y: 0.27, r: 0.04 };
+    const eye = ctx.createRadialGradient(storm.x * W, storm.y * H, 0, storm.x * W, storm.y * H, storm.r * W);
+    eye.addColorStop(0,   'rgba(180,230,255,0.22)');
+    eye.addColorStop(0.45,'rgba(80,140,210,0.10)');
+    eye.addColorStop(1,   'rgba(0,0,0,0)');
+    ctx.fillStyle = eye;
+    ctx.beginPath();
+    ctx.arc(storm.x * W, storm.y * H, storm.r * W, 0, Math.PI * 2);
+    ctx.fill();
+
+    // Dark lane separators to keep the gas structure visible
+    [0.18, 0.30, 0.43, 0.56, 0.70, 0.82].forEach(gy => {
+      const g = ctx.createLinearGradient(0, (gy-0.025)*H, 0, (gy+0.025)*H);
+      g.addColorStop(0,   'rgba(0,0,0,0)');
+      g.addColorStop(0.5, 'rgba(2,7,18,0.42)');
+      g.addColorStop(1,   'rgba(0,0,0,0)');
+      ctx.fillStyle = g;
+      ctx.fillRect(0, (gy-0.025)*H, W, 0.05*H);
+    });
+
+    // Subtle polar glow only
+    [true, false].forEach(top => {
+      const capH = H * 0.10;
+      const g = ctx.createLinearGradient(0, top ? 0 : H-capH, 0, top ? capH : H);
+      g.addColorStop(0,   'rgba(120,175,220,0.18)');
+      g.addColorStop(1,   'rgba(0,0,0,0)');
+      ctx.fillStyle = g;
+      ctx.fillRect(0, top ? 0 : H-capH, W, capH);
+    });
+
+    const tex = new THREE.CanvasTexture(c);
+    tex.colorSpace = THREE.SRGBColorSpace;
+    return tex;
   }
 
   private makeStarSprite(): THREE.Texture {
@@ -78,14 +212,104 @@ export class LandingComponent implements AfterViewInit, OnDestroy {
     const ctx = c.getContext('2d')!;
     const h = size / 2;
     const grad = ctx.createRadialGradient(h, h, 0, h, h, h);
-    grad.addColorStop(0, 'rgba(255,255,255,1)');
+    grad.addColorStop(0,    'rgba(255,255,255,1)');
     grad.addColorStop(0.18, 'rgba(255,255,255,1)');
     grad.addColorStop(0.45, 'rgba(210,235,255,0.9)');
     grad.addColorStop(0.75, 'rgba(120,190,255,0.35)');
-    grad.addColorStop(1, 'rgba(120,190,255,0)');
+    grad.addColorStop(1,    'rgba(120,190,255,0)');
     ctx.fillStyle = grad;
     ctx.fillRect(0, 0, size, size);
     return new THREE.CanvasTexture(c);
+  }
+
+  private makePlanetLabelTexture(text: string): THREE.CanvasTexture {
+    const width = Math.max(320, text.length * 68);
+    const height = 128;
+    const c = document.createElement('canvas');
+    c.width = width;
+    c.height = height;
+    const ctx = c.getContext('2d')!;
+    const color = this.PLANET_LABEL_COLOR;
+
+    ctx.clearRect(0, 0, width, height);
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.font = "700 64px 'Share Tech Mono', monospace";
+    ctx.shadowColor = color;
+    ctx.shadowBlur = 18;
+    ctx.lineWidth = 2.5;
+    ctx.strokeStyle = 'rgba(0, 255, 157, 0.22)';
+    ctx.strokeText(text, width / 2, height / 2 + 1);
+
+    ctx.fillStyle = color;
+    ctx.fillText(text, width / 2, height / 2 + 1);
+
+    const tex = new THREE.CanvasTexture(c);
+    tex.colorSpace = THREE.SRGBColorSpace;
+    return tex;
+  }
+
+  private makeCurvedPlanetLabelGeometry(width: number, height: number, radius: number): THREE.BufferGeometry {
+    const geo = new THREE.PlaneGeometry(width, height, 24, 6);
+    const pos = geo.attributes['position'] as THREE.BufferAttribute;
+
+    for (let i = 0; i < pos.count; i++) {
+      const x = pos.getX(i);
+      const y = pos.getY(i);
+      const z = Math.sqrt(Math.max(radius * radius - x * x - y * y, 0)) - radius;
+      pos.setZ(i, z);
+    }
+
+    pos.needsUpdate = true;
+    geo.computeVertexNormals();
+    return geo;
+  }
+
+  private createPlanetLabels(): void {
+    const labels = [
+      { text: 'angular',    normal: new THREE.Vector3(-0.62,  0.46, 0.63), width: 2.15, height: 0.48, phase: 0.2, opacity: 0.56 },
+      { text: 'javascript', normal: new THREE.Vector3( 0.38,  0.05, 0.92), width: 2.85, height: 0.52, phase: 1.3, opacity: 0.62 },
+      { text: 'php',        normal: new THREE.Vector3(-0.54, -0.43, 0.72), width: 1.18, height: 0.40, phase: 2.4, opacity: 0.54 },
+      { text: 'sql',        normal: new THREE.Vector3(-0.96, -0.02, 0.28), width: 1.08, height: 0.38, phase: 3.1, opacity: 0.5 },
+      { text: 'git',        normal: new THREE.Vector3( 0.08, -0.78, 0.62), width: 1.08, height: 0.38, phase: 4.1, opacity: 0.52 },
+    ];
+    const sphereRadius = 4.5;
+    const labelLift = 0.03;
+
+    this.planetLabelGroup = new THREE.Group();
+    this.planet.add(this.planetLabelGroup);
+    this.planetLabels = [];
+
+    labels.forEach(({ text, normal, width, height, phase, opacity }) => {
+      const surfaceNormal = normal.clone().normalize();
+      const geometry = this.makeCurvedPlanetLabelGeometry(width, height, sphereRadius);
+      const material = new THREE.MeshBasicMaterial({
+        map: this.makePlanetLabelTexture(text),
+        color: 0xffffff,
+        transparent: true,
+        opacity,
+        depthWrite: false,
+        depthTest: true,
+        blending: THREE.AdditiveBlending,
+        side: THREE.FrontSide,
+        polygonOffset: true,
+        polygonOffsetFactor: -2,
+        polygonOffsetUnits: -2,
+      });
+      const mesh = new THREE.Mesh(geometry, material);
+      const basePosition = surfaceNormal.clone().multiplyScalar(sphereRadius + labelLift);
+
+      mesh.position.copy(basePosition);
+      mesh.quaternion.setFromUnitVectors(new THREE.Vector3(0, 0, 1), surfaceNormal);
+      mesh.renderOrder = 3;
+
+      this.planetLabelGroup.add(mesh);
+      this.planetLabels.push({
+        mesh,
+        phase,
+        baseOpacity: opacity,
+      });
+    });
   }
 
   private initScene(): void {
@@ -165,7 +389,11 @@ export class LandingComponent implements AfterViewInit, OnDestroy {
     const sunLight = new THREE.PointLight(0xffeedd, 2.5, 200);
     sunLight.position.set(-18, 12, 20);
     this.spaceScene.add(sunLight);
-    this.spaceScene.add(new THREE.AmbientLight(0x0a1628, 1.2));
+    // Balanced fill so the planet stays dark but readable
+    this.spaceScene.add(new THREE.AmbientLight(0x15253a, 1.2));
+    const fillLight = new THREE.DirectionalLight(0x6b98bc, 0.24);
+    fillLight.position.set(8, 5, 14);
+    this.spaceScene.add(fillLight);
 
     // ── Planet group (offset right) ─────────────────────���─────
     this.spaceGroup = new THREE.Group();
@@ -175,13 +403,15 @@ export class LandingComponent implements AfterViewInit, OnDestroy {
     // ── Planet ────────────────────────────────────────────────
     const planetGeo = new THREE.SphereGeometry(4.5, 64, 64);
     const planetMat = new THREE.MeshPhongMaterial({
-      color: 0x0a2a5e,
-      emissive: 0x001133,
-      specular: 0x00d4ff,
-      shininess: 60,
+      map: this.makePlanetTexture(),
+      color: 0xffffff,
+      emissive: 0x041328,
+      specular: 0x0d2238,
+      shininess: 8,
     });
     this.planet = new THREE.Mesh(planetGeo, planetMat);
     this.spaceGroup.add(this.planet);
+    this.createPlanetLabels();
 
     // Surface detail bands (latitude stripes via torus inside planet)
     for (let i = 0; i < 4; i++) {
@@ -275,10 +505,9 @@ export class LandingComponent implements AfterViewInit, OnDestroy {
     this.spaceGroup.add(this.hudRing);
 
     // ── Moon (glowing dot orbiting planet) ────────────────────
-    this.spaceship = new THREE.Group();
+    this.moon = new THREE.Group();
 
-    // Engine glow
-    // Engine glow
+    // Core glow dot
     const glowGeo = new THREE.SphereGeometry(0.22, 16, 16);
     const glowMat = new THREE.MeshBasicMaterial({
       color: 0x00ffdd,
@@ -288,7 +517,7 @@ export class LandingComponent implements AfterViewInit, OnDestroy {
     });
     const engineGlow = new THREE.Mesh(glowGeo, glowMat);
     engineGlow.position.x = 0;
-    this.spaceship.add(engineGlow);
+    this.moon.add(engineGlow);
 
     // Soft halo around moon
     const moonHaloGeo = new THREE.SphereGeometry(0.45, 16, 16);
@@ -299,39 +528,55 @@ export class LandingComponent implements AfterViewInit, OnDestroy {
       blending: THREE.AdditiveBlending,
       side: THREE.BackSide,
     });
-    this.spaceship.add(new THREE.Mesh(moonHaloGeo, moonHaloMat));
+    this.moon.add(new THREE.Mesh(moonHaloGeo, moonHaloMat));
 
-    this.spaceship.scale.setScalar(0.55);
-    this.spaceScene.add(this.spaceship);
+    this.moon.scale.setScalar(0.55);
+    this.spaceScene.add(this.moon);
+
+    // Click, hover & drag detection on scene canvas
+    canvas.addEventListener('click',     this.onSceneClick);
+    canvas.addEventListener('mousemove', this.onSceneHover);
+    canvas.addEventListener('mousedown', this.onSceneDragStart);
+    window.addEventListener('mousemove', this.onSceneDrag);
+    window.addEventListener('mouseup',   this.onSceneDragEnd);
   }
 
   private animateSpaceScene(t: number): void {
-    // Planet slow rotation
-    this.planet.rotation.y = t * 0.06;
-    this.planetAtmo.rotation.y = t * 0.065;
+    // Planet rotation — base drift + drag-spin inertia
+    const baseRotSpeed = 0.004;
+    this.planetSpinVelocity *= 0.96;           // friction / decay
+    this.planetRotationY += baseRotSpeed + this.planetSpinVelocity;
+    this.planet.rotation.y    = this.planetRotationY;
+    this.planetAtmo.rotation.y = this.planetRotationY * 1.08;
+
+    this.planetLabels.forEach(label => {
+      (label.mesh.material as THREE.MeshBasicMaterial).opacity = label.baseOpacity + 0.08 * Math.sin(t * 1.15 + label.phase);
+    });
 
     // Rings subtle wobble
     this.rings.rotation.y = t * 0.012;
     this.hudRing.rotation.z = t * 0.05;
 
-    // Spaceship orbit around ORBIT_CENTER
-    this.shipOrbitAngle = t * 0.38;
-    const orbitR = 8.5;
-    const orbitTilt = 0.38;
-    const ox = this.ORBIT_CENTER.x;
-    this.spaceship.position.x = ox + Math.cos(this.shipOrbitAngle) * orbitR;
-    this.spaceship.position.y = Math.sin(this.shipOrbitAngle) * orbitR * Math.sin(orbitTilt);
-    this.spaceship.position.z = Math.sin(this.shipOrbitAngle) * orbitR * Math.cos(orbitTilt);
+    // Decay boost back to normal once timer expires
+    if (this.moonSpeedMultiplier > 1 && t > this.moonBoostEndTime) {
+      this.moonSpeedMultiplier = 1;
+    }
 
-    // Point ship nose in direction of travel (tangent)
-    const tangentX = -Math.sin(this.shipOrbitAngle);
-    const tangentY =  Math.cos(this.shipOrbitAngle) * Math.sin(orbitTilt);
-    const tangentZ =  Math.cos(this.shipOrbitAngle) * Math.cos(orbitTilt);
-    this.spaceship.lookAt(
-      this.spaceship.position.x + tangentX,
-      this.spaceship.position.y + tangentY,
-      this.spaceship.position.z + tangentZ,
-    );
+    // Moon orbit — accumulate angle per-frame scaled by speed multiplier
+    const baseSpeed  = 0.15;
+    const deltaAngle = (1 / 60) * baseSpeed * this.moonSpeedMultiplier;
+    this.moonOrbitAngle += deltaAngle;
+
+    const orbitR    = 8.5;
+    const orbitTilt = 0.38;
+    const ox        = this.ORBIT_CENTER.x;
+    this.moon.position.x = ox + Math.cos(this.moonOrbitAngle) * orbitR;
+    this.moon.position.y = Math.sin(this.moonOrbitAngle) * orbitR * Math.sin(orbitTilt);
+    this.moon.position.z = Math.sin(this.moonOrbitAngle) * orbitR * Math.cos(orbitTilt);
+
+    // Pulse the moon glow slightly faster when boosted
+    const glowPulse = 0.85 + 0.15 * Math.sin(t * (this.moonSpeedMultiplier > 1 ? 18 : 6));
+    (this.moon.children[0] as THREE.Mesh).scale.setScalar(glowPulse);
 
     // Camera subtle drift — always looking at the planet group
     this.spaceCamera.position.x = Math.sin(t * 0.07) * 0.8;
@@ -358,6 +603,69 @@ export class LandingComponent implements AfterViewInit, OnDestroy {
 
     this.renderer.render(this.scene, this.camera);
     if (this.sceneRenderer) this.animateSpaceScene(t);
+  };
+
+  private onSceneClick = (e: MouseEvent): void => {
+    const canvas = this.sceneCanvasRef.nativeElement;
+    const rect   = canvas.getBoundingClientRect();
+    // NDC coords relative to the scene canvas
+    const ndcX = ((e.clientX - rect.left) / rect.width)  * 2 - 1;
+    const ndcY = -((e.clientY - rect.top)  / rect.height) * 2 + 1;
+
+    this.raycaster.setFromCamera(new THREE.Vector2(ndcX, ndcY), this.spaceCamera);
+    const hits = this.raycaster.intersectObjects(this.moon.children, false);
+    if (hits.length > 0) {
+      // Boost for 4 seconds at 3× speed
+      this.moonSpeedMultiplier = 3;
+      this.moonBoostEndTime = this.clock.getElapsedTime() + 4;
+    }
+  };
+
+  private onSceneHover = (e: MouseEvent): void => {
+    if (this.isDraggingPlanet) return;
+    const canvas = this.sceneCanvasRef.nativeElement;
+    const rect   = canvas.getBoundingClientRect();
+    const ndcX = ((e.clientX - rect.left) / rect.width)  * 2 - 1;
+    const ndcY = -((e.clientY - rect.top)  / rect.height) * 2 + 1;
+    this.raycaster.setFromCamera(new THREE.Vector2(ndcX, ndcY), this.spaceCamera);
+
+    const moonHits   = this.raycaster.intersectObjects(this.moon.children, false);
+    const planetHits = this.raycaster.intersectObject(this.planet, true);
+
+    if (moonHits.length > 0)        canvas.style.cursor = 'pointer';
+    else if (planetHits.length > 0) canvas.style.cursor = 'grab';
+    else                             canvas.style.cursor = 'default';
+  };
+
+  private onSceneDragStart = (e: MouseEvent): void => {
+    const canvas = this.sceneCanvasRef.nativeElement;
+    const rect   = canvas.getBoundingClientRect();
+    const ndcX = ((e.clientX - rect.left) / rect.width)  * 2 - 1;
+    const ndcY = -((e.clientY - rect.top)  / rect.height) * 2 + 1;
+    this.raycaster.setFromCamera(new THREE.Vector2(ndcX, ndcY), this.spaceCamera);
+    const hits = this.raycaster.intersectObject(this.planet, true);
+    if (hits.length > 0) {
+      this.isDraggingPlanet = true;
+      this.dragLastX = e.clientX;
+      canvas.style.cursor = 'grabbing';
+      e.preventDefault();
+    }
+  };
+
+  private onSceneDrag = (e: MouseEvent): void => {
+    if (!this.isDraggingPlanet) return;
+    const canvas  = this.sceneCanvasRef.nativeElement;
+    const deltaX  = e.clientX - this.dragLastX;
+    this.dragLastX = e.clientX;
+    // Translate pixel delta to rotation velocity — scale by canvas width
+    this.planetSpinVelocity += (deltaX / canvas.clientWidth) * Math.PI * 1.8;
+    canvas.style.cursor = 'grabbing';
+  };
+
+  private onSceneDragEnd = (): void => {
+    if (!this.isDraggingPlanet) return;
+    this.isDraggingPlanet = false;
+    this.sceneCanvasRef.nativeElement.style.cursor = 'default';
   };
 
   private onMouseMove = (e: MouseEvent): void => {
