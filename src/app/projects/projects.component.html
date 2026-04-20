@@ -17,78 +17,113 @@
     </p>
   </div>
 
+  <!-- Project Navigation List -->
+  <div class="project-nav">
+    <div class="nav-label mono">
+      <span class="nav-bracket">&lt;</span>
+      SELECT_PROJECT
+      <span class="nav-bracket">&gt;</span>
+    </div>
+    <div class="nav-items">
+      @for (project of projects; track project.id) {
+        <button
+          class="nav-item"
+          [class.active]="isProjectActive(project.id)"
+          (click)="selectProject(project.id)"
+        >
+          <span class="nav-text">{{ 'projects.' + project.id + '.title' | translate }}</span>
+          <span class="nav-indicator"></span>
+        </button>
+      }
+    </div>
+  </div>
+
   <!-- Project cards -->
   <div class="projects-grid">
     @for (project of projects; track project.id) {
-      <div class="project-card" [class.expanded]="project.expanded">
-        <!-- Card corners -->
-        <div class="card-corner corner-tl" aria-hidden="true"></div>
-        <div class="card-corner corner-tr" aria-hidden="true"></div>
-        <div class="card-corner corner-bl" aria-hidden="true"></div>
-        <div class="card-corner corner-br" aria-hidden="true"></div>
-
-        <!-- Card header (always visible, clickable) -->
-        <div class="card-header" (click)="toggleCard(project)">
-          <div class="card-title-area">
-            <h3 class="card-title">{{ 'projects.' + project.id + '.title' | translate }}</h3>
-            <div class="card-meta mono">
-              <span class="meta-icon"></span>
-              <span>{{ 'projects.' + project.id + '.experience' | translate }}</span>
-            </div>
-          </div>
-          <div class="expand-indicator">
-            <span class="expand-icon" [class.rotated]="project.expanded">▼</span>
-          </div>
-        </div>
-
-        <!-- Card content (collapsible) -->
-        <div class="card-content-wrapper" [class.collapsed]="!project.expanded">
-          <div class="card-content">
-            <p class="card-description">
-              {{ project.expDetailed | translate }}
-            </p>
-
-            <!-- Project link (if available) -->
-            @if (project.url) {
-              <div class="project-link-section">
-                <a [href]="project.url" target="_blank" rel="noopener noreferrer" class="project-link mono">
-                  {{ 'projects.visit_project' | translate }}
-                </a>
-              </div>
+      @if (project.visible) {
+        <div class="project-card"
+             [class.materializing]="project.materializing">
+          <!-- Materialization particles -->
+          <div class="materialize-particles" aria-hidden="true">
+            @for (particle of [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]; track particle) {
+              <div class="particle"></div>
             }
+          </div>
 
-            <!-- Tech highlights -->
-            <div class="tech-highlights">
-              <span class="highlight-label mono">{{ 'projects.tech_stack' | translate }}</span>
-              <div class="highlight-tags">
-                @for (tech of project.techstack; track tech) {
-                  <span class="tech-tag">{{ tech }}</span>
-                }
+          <!-- Scan line effect -->
+          <div class="scan-line" aria-hidden="true"></div>
+
+          <!-- Card corners -->
+          <div class="card-corner corner-tl" aria-hidden="true"></div>
+          <div class="card-corner corner-tr" aria-hidden="true"></div>
+          <div class="card-corner corner-bl" aria-hidden="true"></div>
+          <div class="card-corner corner-br" aria-hidden="true"></div>
+
+          <!-- Card header -->
+          <div class="card-header">
+            <div class="card-title-area">
+              <h3 class="card-title">{{ 'projects.' + project.id + '.title' | translate }}</h3>
+              <div class="card-meta mono">
+                <span class="meta-icon"></span>
+                <span>{{ 'projects.' + project.id + '.experience' | translate }}</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card content -->
+          <div class="card-content-wrapper">
+            <div class="card-content">
+              <p class="card-description">
+                {{ project.expDetailed | translate }}
+              </p>
+
+              <!-- Project link (if available) -->
+              @if (project.url) {
+                <div class="project-link-section">
+                  <a [href]="project.url" target="_blank" rel="noopener noreferrer" class="project-link mono">
+                    {{ 'projects.visit_project' | translate }}
+                  </a>
+                </div>
+              }
+
+              <!-- Tech highlights -->
+              <div class="tech-highlights">
+                <span class="highlight-label mono">{{ 'projects.tech_stack' | translate }}</span>
+                <div class="highlight-tags">
+                  @for (tech of project.techstack; track tech) {
+                    <span class="tech-tag">{{ tech }}</span>
+                  }
+                </div>
+              </div>
+
+              <!-- Details -->
+              <div class="card-details">
+                <span class="details-label mono">{{ 'projects.learnings' | translate }}</span>
+                <p>{{ project.keyLearning | translate }}</p>
               </div>
             </div>
 
-            <!-- Details -->
-            <div class="card-details">
-              <span class="details-label mono">{{ 'projects.learnings' | translate }}</span>
-              <p>{{ project.keyLearning | translate }}</p>
-            </div>
-          </div>
-
-          <!-- Card footer accent -->
-          <div class="card-footer">
-            <div class="status-line">
-              <span class="status-indicator"></span>
-              <span class="mono status-text">{{ 'projects.status_active' | translate }}</span>
-            </div>
-            <div class="data-stream mono">
-              <span class="stream-label">DATA_STREAM:</span>
-              <span class="stream-bars">▊▊▊▊▊▊</span>
+            <!-- Card footer accent -->
+            <div class="card-footer">
+              <div class="status-line">
+                <span class="status-indicator"></span>
+                <span class="mono status-text">{{ 'projects.status_active' | translate }}</span>
+              </div>
+              <div class="data-stream mono">
+                <span class="stream-label">DATA_STREAM:</span>
+                <span class="stream-bars">▊▊▊▊▊▊</span>
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      }
     }
   </div>
 </div>
+
+
+
+
 
 

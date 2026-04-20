@@ -1,10 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { PROJECT_CARDS, ProjectCard } from '../config/project-cards.config';
 
 interface ProjectCardExpanded extends ProjectCard {
-  expanded: boolean;
+  visible: boolean;
+  materializing: boolean;
 }
 
 
@@ -17,22 +18,53 @@ interface ProjectCardExpanded extends ProjectCard {
 })
 export class ProjectsComponent {
   projects: ProjectCardExpanded[] = [];
+  selectedProjectId: string | null = null;
 
-  constructor(private translate: TranslateService) {
-
+  constructor(
+    private translate: TranslateService,
+    private cdr: ChangeDetectorRef
+  ) {
     this.projects = PROJECT_CARDS.map(card => ({
       ...card,
-      expanded: false
+      visible: false,
+      materializing: false
     }));
   }
 
-  toggleCard(project: ProjectCardExpanded): void {
-    project.expanded = !project.expanded;
+  selectProject(projectId: string): void {
+    if (this.selectedProjectId === projectId) {
+      const project = this.projects.find(p => p.id === projectId);
+      if (project) {
+        project.visible = false;
+        project.materializing = false;
+        this.selectedProjectId = null;
+        this.cdr.detectChanges();
+      }
+      return;
+    }
+
+    this.projects.forEach(p => {
+      p.visible = false;
+      p.materializing = false;
+    });
+
+    const selectedProject = this.projects.find(p => p.id === projectId);
+    if (selectedProject) {
+      this.selectedProjectId = projectId;
+      selectedProject.visible = true;
+
+      this.cdr.detectChanges();
+
+      requestAnimationFrame(() => {
+        selectedProject.materializing = true;
+        this.cdr.detectChanges();
+      });
+    }
   }
 
-  getExperienceLabel(expInYears: number): string {
-    const key = expInYears === 1 ? 'projects.exp_year' : 'projects.exp_years';
-    return this.translate.instant(key, { years: expInYears });
+
+  isProjectActive(projectId: string): boolean {
+    return this.selectedProjectId === projectId;
   }
 }
 
