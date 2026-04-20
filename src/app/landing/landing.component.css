@@ -448,3 +448,273 @@ canvas {
   0%, 100% { opacity: 0.3; transform: scaleY(1); }
   50%       { opacity: 0.8; transform: scaleY(1.2); }
 }
+
+/* ── Responsive ─────────────────────────────────────────────────── */
+@media (max-width: 1024px) {
+  .scene-canvas {
+    width: 50vw;
+  }
+
+  .hero-content {
+    max-width: min(600px, 50vw);
+  }
+}
+
+@media (max-width: 768px) {
+  .status-bar {
+    padding: 0.5rem 1rem;
+    font-size: 0.65rem;
+  }
+
+  .status-left, .status-right {
+    gap: 0.4rem;
+  }
+
+  .status-dot {
+    width: 5px;
+    height: 5px;
+  }
+
+  .lang-toggle {
+    font-size: 0.6rem;
+    padding: 0.12rem 0.4rem;
+  }
+
+  .hud-corner {
+    width: 18px;
+    height: 18px;
+  }
+
+  .hud-tl { top: 2.8rem; left: 0.75rem; }
+  .hud-tr { top: 2.8rem; right: 0.75rem; }
+  .hud-bl { bottom: 3rem; left: 0.75rem; }
+  .hud-br { bottom: 3rem; right: 0.75rem; }
+
+  .scene-canvas {
+    width: 100%;
+    height: 45vh;
+    top: auto;
+    bottom: 0;
+    opacity: 0.6;
+  }
+
+  .hero-overlay {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+    padding-top: 2.5rem;
+    align-items: flex-start;
+    justify-content: flex-start;
+  }
+
+  .hero-content {
+    max-width: 100%;
+  }
+
+  .terminal-prompt {
+    font-size: 0.72rem;
+    margin-bottom: 0.6rem;
+  }
+
+  .name {
+    font-size: clamp(2rem, 10vw, 3.5rem);
+    margin-bottom: 0.85rem;
+  }
+
+  .title-line {
+    font-size: 0.85rem;
+    margin-bottom: 1rem;
+  }
+
+  .tagline {
+    font-size: 0.9rem;
+    margin-bottom: 1.5rem;
+    line-height: 1.65;
+  }
+
+  .tech-stack {
+    margin-bottom: 1.75rem;
+  }
+
+  .stack-label {
+    font-size: 0.65rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .tech-pills {
+    gap: 0.4rem;
+  }
+
+  .pill {
+    font-size: 0.68rem;
+    padding: 0.28rem 0.68rem;
+  }
+
+  .cta-group {
+    gap: 0.85rem;
+  }
+
+  .btn-primary,
+  .btn-outline {
+    padding: 0.65rem 1.5rem;
+    font-size: 0.68rem;
+  }
+
+  .scroll-hint {
+    bottom: 1rem;
+  }
+
+  .scroll-hint .mono {
+    font-size: 0.58rem;
+  }
+
+  .scroll-line {
+    height: 30px;
+  }
+}
+
+@media (max-width: 480px) {
+  .status-bar {
+    padding: 0.4rem 0.75rem;
+    font-size: 0.6rem;
+    flex-wrap: wrap;
+    gap: 0.3rem;
+  }
+
+  .status-left, .status-right {
+    gap: 0.3rem;
+    font-size: 0.58rem;
+  }
+
+  .status-sep {
+    display: none;
+  }
+
+  .lang-toggle {
+    font-size: 0.58rem;
+    padding: 0.1rem 0.35rem;
+  }
+
+  .signal {
+    font-size: 0.6rem;
+  }
+
+  .hud-corner {
+    width: 14px;
+    height: 14px;
+  }
+
+  .hud-tl { top: 2.5rem; left: 0.5rem; }
+  .hud-tr { top: 2.5rem; right: 0.5rem; }
+  .hud-bl { bottom: 2.5rem; left: 0.5rem; }
+  .hud-br { bottom: 2.5rem; right: 0.5rem; }
+
+  .scene-canvas {
+    height: 40vh;
+    opacity: 0.5;
+  }
+
+  .hero-overlay {
+    padding-left: 1rem;
+    padding-right: 1rem;
+    padding-top: 2rem;
+  }
+
+  .terminal-prompt {
+    font-size: 0.68rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .name {
+    font-size: 2rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .title-line {
+    font-size: 0.78rem;
+    margin-bottom: 0.85rem;
+  }
+
+  .tagline {
+    font-size: 0.85rem;
+    margin-bottom: 1.25rem;
+    line-height: 1.6;
+  }
+
+  .tech-stack {
+    margin-bottom: 1.5rem;
+  }
+
+  .stack-label {
+    font-size: 0.62rem;
+  }
+
+  .tech-pills {
+    gap: 0.35rem;
+  }
+
+  .pill {
+    font-size: 0.65rem;
+    padding: 0.25rem 0.6rem;
+  }
+
+  .pill::before {
+    font-size: 0.45rem;
+  }
+
+  .cta-group {
+    gap: 0.75rem;
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .btn-primary,
+  .btn-outline {
+    width: 100%;
+    justify-content: center;
+    padding: 0.7rem 1.25rem;
+    font-size: 0.65rem;
+  }
+
+  .btn-icon {
+    font-size: 0.85rem;
+  }
+
+  .scroll-hint {
+    bottom: 0.75rem;
+  }
+
+  .scroll-hint .mono {
+    font-size: 0.55rem;
+  }
+
+  .scroll-line {
+    height: 24px;
+  }
+}
+
+@media (orientation: landscape) and (max-height: 600px) {
+  .scene-canvas {
+    height: 35vh;
+  }
+
+  .hero-overlay {
+    padding-top: 1.5rem;
+  }
+
+  .name {
+    font-size: 1.75rem;
+  }
+
+  .tagline {
+    font-size: 0.8rem;
+    margin-bottom: 1rem;
+  }
+
+  .tech-stack {
+    margin-bottom: 1.25rem;
+  }
+
+  .scroll-hint {
+    display: none;
+  }
+}
