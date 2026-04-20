@@ -9,6 +9,11 @@ export interface PlanetLabelMesh {
   phase: number;
   baseOpacity: number;
   marker?: THREE.Mesh;
+  text: string;
+  animationState: 'visible' | 'hiding' | 'hidden' | 'showing';
+  animationStartTime: number;
+  originalScale: THREE.Vector3;
+  targetPosition: THREE.Vector3;
 }
 
 @Injectable({
@@ -219,6 +224,11 @@ export class PlanetService {
         phase,
         baseOpacity: opacity,
         marker,
+        text,
+        animationState: 'visible',
+        animationStartTime: 0,
+        originalScale: new THREE.Vector3(1, 1, 1),
+        targetPosition: basePosition.clone(),
       });
     });
   }
@@ -264,6 +274,21 @@ export class PlanetService {
     return this.isDragging;
   }
 
+  toggleLabel(labelText: string, shouldBeVisible: boolean, currentTime: number): void {
+    const labelData = this.planetLabels.find(l => l.text === labelText);
+    if (!labelData) return;
+
+    if (shouldBeVisible && labelData.animationState === 'hidden') {
+      // Start showing animation
+      labelData.animationState = 'showing';
+      labelData.animationStartTime = currentTime;
+    } else if (!shouldBeVisible && labelData.animationState === 'visible') {
+      // Start hiding animation
+      labelData.animationState = 'hiding';
+      labelData.animationStartTime = currentTime;
+    }
+  }
+
   animate(elapsedTime: number): void {
     const baseRotSpeed = this.isDragging ? 0 : this.config.DEFAULT_ROT_SPEED;
     if (Math.abs(this.spinVelocity) > 0.00001) {
@@ -276,16 +301,75 @@ export class PlanetService {
     this.rotationY += baseRotSpeed + this.spinVelocity;
     this.planet.rotation.y = this.rotationY;
     this.planetAtmo.rotation.y = this.rotationY * 1.08;
+
+    // Animate labels
     this.planetLabels.forEach(label => {
-      (label.mesh.material as THREE.MeshBasicMaterial).opacity =
-        label.baseOpacity + 0.08 * Math.sin(elapsedTime * 1.15 + label.phase);
+      const material = label.mesh.material as THREE.MeshBasicMaterial;
 
-      if (label.marker) {
-        const markerMat = label.marker.material as THREE.MeshBasicMaterial;
-        markerMat.opacity = 0.85 + 0.15 * Math.sin(elapsedTime * 1.15 + label.phase);
+      // Handle animation states
+      if (label.animationState === 'hiding') {
+        const animDuration = 0.5; // 0.5 seconds for implosion
+        const progress = Math.min((elapsedTime - label.animationStartTime) / animDuration, 1);
 
-        const scale = 1 + 0.1 * Math.sin(elapsedTime * 2 + label.phase);
-        label.marker.scale.setScalar(scale);
+        // Implosion effect: scale down and fade out
+        const scale = 1 - progress;
+        label.mesh.scale.set(scale, scale, scale);
+        material.opacity = label.baseOpacity * scale;
+
+        if (label.marker) {
+          const markerMat = label.marker.material as THREE.MeshBasicMaterial;
+          markerMat.opacity = 0.85 * scale;
+        }
+
+        if (progress >= 1) {
+          label.animationState = 'hidden';
+          label.mesh.visible = false;
+        }
+      } else if (label.animationState === 'showing') {
+        const animDuration = 0.8; // 0.8 seconds for falling
+        const progress = Math.min((elapsedTime - label.animationStartTime) / animDuration, 1);
+
+        // Make visible immediately when starting animation
+        if (!label.mesh.visible) {
+          label.mesh.visible = true;
+        }
+
+        // Falling effect: start above target position and fall down with easing
+        const easeProgress = 1 - Math.pow(1 - progress, 3); // Cubic ease-out
+        const fallDistance = 5; // Distance above the target to start from
+        const yOffset = fallDistance * (1 - easeProgress);
+
+        // Update position (fall down)
+        const currentPos = label.targetPosition.clone();
+        currentPos.y += yOffset;
+        label.mesh.position.copy(currentPos);
+
+        // Scale and opacity
+        const scale = easeProgress;
+        label.mesh.scale.set(scale, scale, scale);
+        material.opacity = label.baseOpacity * easeProgress;
+
+        if (label.marker) {
+          const markerMat = label.marker.material as THREE.MeshBasicMaterial;
+          markerMat.opacity = 0.85 * easeProgress;
+        }
+
+        if (progress >= 1) {
+          label.animationState = 'visible';
+          label.mesh.scale.copy(label.originalScale);
+          label.mesh.position.copy(label.targetPosition);
+        }
+      } else if (label.animationState === 'visible') {
+        // Normal pulsing animation for visible labels
+        material.opacity = label.baseOpacity + 0.08 * Math.sin(elapsedTime * 1.15 + label.phase);
+
+        if (label.marker) {
+          const markerMat = label.marker.material as THREE.MeshBasicMaterial;
+          markerMat.opacity = 0.85 + 0.15 * Math.sin(elapsedTime * 1.15 + label.phase);
+
+          const scale = 1 + 0.1 * Math.sin(elapsedTime * 2 + label.phase);
+          label.marker.scale.setScalar(scale);
+        }
       }
     });
 

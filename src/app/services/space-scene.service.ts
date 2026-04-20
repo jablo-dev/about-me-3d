@@ -186,6 +186,10 @@ export class SpaceSceneService {
     this.renderer.setSize(w, h);
   }
 
+  togglePlanetLabel(labelText: string, shouldBeVisible: boolean): void {
+    this.planetService.toggleLabel(labelText, shouldBeVisible, this.clock.getElapsedTime());
+  }
+
   dispose(): void {
     this.planetService.dispose();
     this.moonService.dispose();
