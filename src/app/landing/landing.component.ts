@@ -44,6 +44,7 @@ export class LandingComponent implements AfterViewInit, OnDestroy {
     mesh: THREE.Mesh;
     phase: number;
     baseOpacity: number;
+    marker?: THREE.Mesh;
   }> = [];
   private planetAtmo!: THREE.Mesh;
   private rings!: THREE.Mesh;
@@ -60,6 +61,7 @@ export class LandingComponent implements AfterViewInit, OnDestroy {
   private planetSpinVelocity = 0;
   private isDraggingPlanet = false;
   private dragLastX = 0;
+  private readonly DEFAULT_ROT_SPEED = 0.001; // Reduced default rotation speed
 
   currentLang = 'en';
 
@@ -223,8 +225,8 @@ export class LandingComponent implements AfterViewInit, OnDestroy {
   }
 
   private makePlanetLabelTexture(text: string): THREE.CanvasTexture {
-    const width = Math.max(320, text.length * 68);
-    const height = 128;
+    const width = Math.max(280, text.length * 52);
+    const height = 96;
     const c = document.createElement('canvas');
     c.width = width;
     c.height = height;
@@ -234,15 +236,33 @@ export class LandingComponent implements AfterViewInit, OnDestroy {
     ctx.clearRect(0, 0, width, height);
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
-    ctx.font = "700 64px 'Share Tech Mono', monospace";
-    ctx.shadowColor = color;
-    ctx.shadowBlur = 18;
-    ctx.lineWidth = 2.5;
-    ctx.strokeStyle = 'rgba(0, 255, 157, 0.22)';
-    ctx.strokeText(text, width / 2, height / 2 + 1);
+    ctx.font = "700 48px 'Orbitron', sans-serif";
 
+    // No shadow/glow effects - clean font rendering
     ctx.fillStyle = color;
-    ctx.fillText(text, width / 2, height / 2 + 1);
+    ctx.fillText(text, width / 2, height / 2);
+
+    const tex = new THREE.CanvasTexture(c);
+    tex.colorSpace = THREE.SRGBColorSpace;
+    return tex;
+  }
+
+  private makeMarkerDotTexture(): THREE.CanvasTexture {
+    const size = 64;
+    const c = document.createElement('canvas');
+    c.width = c.height = size;
+    const ctx = c.getContext('2d')!;
+    const center = size / 2;
+
+    // Create circular gradient for the dot
+    const grad = ctx.createRadialGradient(center, center, 0, center, center, center);
+    grad.addColorStop(0, 'rgba(0, 255, 157, 1)');
+    grad.addColorStop(0.4, 'rgba(0, 255, 157, 0.9)');
+    grad.addColorStop(0.7, 'rgba(0, 255, 157, 0.4)');
+    grad.addColorStop(1, 'rgba(0, 255, 157, 0)');
+
+    ctx.fillStyle = grad;
+    ctx.fillRect(0, 0, size, size);
 
     const tex = new THREE.CanvasTexture(c);
     tex.colorSpace = THREE.SRGBColorSpace;
@@ -268,86 +288,175 @@ export class LandingComponent implements AfterViewInit, OnDestroy {
   private createPlanetLabels(): void {
     const labels = [
       {
-        text: 'angular',
+        text: 'Angular',
         normal: new THREE.Vector3(-0.62, 0.46, 0.63),
-        width: 2.15,
-        height: 0.48,
+        width: 1.6,
+        height: 0.36,
         phase: 0.2,
-        opacity: 0.56,
-      },
-      {
-        text: 'javascript',
-        normal: new THREE.Vector3(0.38, 0.05, 0.92),
-        width: 2.85,
-        height: 0.52,
-        phase: 1.3,
-        opacity: 0.62,
-      },
-      {
-        text: 'php',
-        normal: new THREE.Vector3(-0.54, -0.43, 0.72),
-        width: 1.18,
-        height: 0.4,
-        phase: 2.4,
-        opacity: 0.54,
-      },
-      {
-        text: 'sql',
-        normal: new THREE.Vector3(-0.96, -0.02, 0.28),
-        width: 1.08,
-        height: 0.38,
-        phase: 3.1,
-        opacity: 0.5,
-      },
-      {
-        text: 'git',
-        normal: new THREE.Vector3(0.08, -0.78, 0.62),
-        width: 1.08,
-        height: 0.38,
-        phase: 4.1,
-        opacity: 0.52,
-      },
-      {
-        text: 'scrum',
-        normal: new THREE.Vector3(0.62, 0.46, -0.63),
-        width: 2.0,
-        height: 0.44,
-        phase: 0.8,
-        opacity: 0.54,
+        opacity: 0.58,
       },
       {
         text: '.NET',
         normal: new THREE.Vector3(-0.38, 0.05, -0.92),
-        width: 1.55,
-        height: 0.42,
+        width: 1.15,
+        height: 0.31,
         phase: 1.9,
         opacity: 0.56,
       },
       {
-        text: 'Java',
-        normal: new THREE.Vector3(0.54, -0.43, -0.72),
-        width: 1.6,
-        height: 0.42,
+        text: 'SpringBoot',
+        normal: new THREE.Vector3(0.72, 0.58, 0.38),
+        width: 2.2,
+        height: 0.37,
+        phase: 0.6,
+        opacity: 0.59,
+      },
+      {
+        text: 'TypeScript',
+        normal: new THREE.Vector3(0.38, 0.05, 0.92),
+        width: 2.1,
+        height: 0.38,
+        phase: 1.3,
+        opacity: 0.62,
+      },
+      {
+        text: 'JavaScript',
+        normal: new THREE.Vector3(-0.85, 0.42, 0.32),
+        width: 2.2,
+        height: 0.38,
+        phase: 2.7,
+        opacity: 0.6,
+      },
+      {
+        text: 'HTML',
+        normal: new THREE.Vector3(0.18, 0.82, 0.54),
+        width: 1.0,
+        height: 0.3,
+        phase: 0.5,
+        opacity: 0.58,
+      },
+      {
+        text: 'CSS',
+        normal: new THREE.Vector3(-0.75, 0.35, -0.56),
+        width: 0.85,
+        height: 0.28,
+        phase: 1.6,
+        opacity: 0.55,
+      },
+      {
+        text: 'JAVA',
+        normal: new THREE.Vector3(0.64, -0.18, -0.75),
+        width: 1.1,
+        height: 0.31,
         phase: 2.9,
         opacity: 0.52,
       },
       {
         text: 'C#',
         normal: new THREE.Vector3(0.92, -0.02, -0.38),
-        width: 1.1,
-        height: 0.38,
+        width: 0.75,
+        height: 0.28,
         phase: 3.7,
         opacity: 0.5,
       },
       {
-        text: 'Godot 4',
-        normal: new THREE.Vector3(1.12, -0.72, -0.68),
-        width: 1.9,
-        height: 0.42,
-        phase: 4.6,
+        text: 'SQL',
+        normal: new THREE.Vector3(-0.96, -0.02, 0.28),
+        width: 0.85,
+        height: 0.28,
+        phase: 3.1,
+        opacity: 0.5,
+      },
+      {
+        text: 'PHP',
+        normal: new THREE.Vector3(-0.54, -0.15, 0.82),
+        width: 0.9,
+        height: 0.3,
+        phase: 2.4,
+        opacity: 0.54,
+      },
+      {
+        text: 'GIT',
+        normal: new THREE.Vector3(0.12, -0.38, 0.92),
+        width: 0.85,
+        height: 0.28,
+        phase: 4.1,
         opacity: 0.52,
       },
+      {
+        text: 'JEST',
+        normal: new THREE.Vector3(0.45, -0.52, 0.72),
+        width: 1.0,
+        height: 0.3,
+        phase: 3.5,
+        opacity: 0.54,
+      },
+      {
+        text: 'Teamwork',
+        normal: new THREE.Vector3(-0.28, 0.65, 0.71),
+        width: 1.85,
+        height: 0.35,
+        phase: 1.1,
+        opacity: 0.57,
+      },
+      {
+        text: 'Scrum',
+        normal: new THREE.Vector3(0.62, 0.46, -0.63),
+        width: 1.3,
+        height: 0.33,
+        phase: 0.8,
+        opacity: 0.54,
+      },
+      {
+        text: 'Unity 6',
+        normal: new THREE.Vector3(-0.52, -0.48, -0.70),
+        width: 1.5,
+        height: 0.32,
+        phase: 4.8,
+        opacity: 0.56,
+      },
+      {
+        text: 'Unreal 5',
+        normal: new THREE.Vector3(0.78, -0.42, -0.46),
+        width: 1.7,
+        height: 0.34,
+        phase: 5.2,
+        opacity: 0.57,
+      },
+      {
+        text: 'Godot 4',
+        normal: new THREE.Vector3(0.88, -0.32, 0.35),
+        width: 1.5,
+        height: 0.32,
+        phase: 4.6,
+        opacity: 0.55,
+      },
+      {
+        text: 'WebGL',
+        normal: new THREE.Vector3(0.28, 0.38, -0.88),
+        width: 1.25,
+        height: 0.31,
+        phase: 4.3,
+        opacity: 0.53,
+      },
+      {
+        text: 'ThreeJS',
+        normal: new THREE.Vector3(-0.88, -0.15, 0.45),
+        width: 1.65,
+        height: 0.34,
+        phase: 5.1,
+        opacity: 0.59,
+      },
+      {
+        text: 'REST-API',
+        normal: new THREE.Vector3(-0.42, -0.62, 0.66),
+        width: 1.85,
+        height: 0.35,
+        phase: 3.9,
+        opacity: 0.58,
+      },
     ];
+
     const sphereRadius = 4.5;
     const labelLift = 0.03;
 
@@ -356,6 +465,7 @@ export class LandingComponent implements AfterViewInit, OnDestroy {
     this.planetLabels = [];
 
     labels.forEach(({ text, normal, width, height, phase, opacity }) => {
+      // Create curved label on planet surface
       const surfaceNormal = normal.clone().normalize();
       const geometry = this.makeCurvedPlanetLabelGeometry(width, height, sphereRadius);
       const material = new THREE.MeshBasicMaterial({
@@ -375,14 +485,59 @@ export class LandingComponent implements AfterViewInit, OnDestroy {
       const basePosition = surfaceNormal.clone().multiplyScalar(sphereRadius + labelLift);
 
       mesh.position.copy(basePosition);
-      mesh.quaternion.setFromUnitVectors(new THREE.Vector3(0, 0, 1), surfaceNormal);
+
+      // Orient label to face outward with proper up direction
+      // Calculate an appropriate up vector that's perpendicular to the normal
+      // Use world up (0,1,0) as reference, but if normal is too close to vertical, use (0,0,1)
+      const worldUp = Math.abs(surfaceNormal.y) > 0.9
+        ? new THREE.Vector3(0, 0, 1)
+        : new THREE.Vector3(0, 1, 0);
+
+      // Create a right vector perpendicular to normal and worldUp
+      const right = new THREE.Vector3().crossVectors(worldUp, surfaceNormal).normalize();
+      // Create true up vector perpendicular to both
+      const up = new THREE.Vector3().crossVectors(surfaceNormal, right).normalize();
+
+      // Build rotation matrix manually to control orientation
+      const rotMatrix = new THREE.Matrix4();
+      rotMatrix.makeBasis(right, up, surfaceNormal);
+      mesh.setRotationFromMatrix(rotMatrix);
+
       mesh.renderOrder = 3;
 
       this.planetLabelGroup.add(mesh);
+
+      // Create flat marker dot next to the label - blends with curved surface
+      const dotSize = 0.18;
+      const dotGeo = new THREE.PlaneGeometry(dotSize, dotSize);
+      const dotMat = new THREE.MeshBasicMaterial({
+        map: this.makeMarkerDotTexture(),
+        color: 0xffffff,
+        transparent: true,
+        opacity: 0.9,
+        depthWrite: false,
+        depthTest: true,
+        blending: THREE.AdditiveBlending,
+        side: THREE.FrontSide,
+        polygonOffset: true,
+        polygonOffsetFactor: -1,
+        polygonOffsetUnits: -1,
+      });
+      const marker = new THREE.Mesh(dotGeo, dotMat);
+
+      // Position dot to the left of the label, closer to text
+      const dotOffset = new THREE.Vector3(-width / 2 - 0.15, 0, 0);
+      marker.position.copy(dotOffset);
+
+
+      // Add marker as child of the label mesh so it rotates with it
+      mesh.add(marker);
+
       this.planetLabels.push({
         mesh,
         phase,
         baseOpacity: opacity,
+        marker,
       });
     });
   }
@@ -486,7 +641,6 @@ export class LandingComponent implements AfterViewInit, OnDestroy {
     });
     this.planet = new THREE.Mesh(planetGeo, planetMat);
     this.spaceGroup.add(this.planet);
-    this.createPlanetLabels();
 
     // Surface detail bands (latitude stripes via torus inside planet)
     for (let i = 0; i < 1; i++) {
@@ -566,6 +720,9 @@ export class LandingComponent implements AfterViewInit, OnDestroy {
     this.hudRing.rotation.x = Math.PI / 2.4;
     this.spaceGroup.add(this.hudRing);
 
+    // Create labels after hudRing is created
+    this.createPlanetLabels();
+
     // ── Moon (glowing dot orbiting planet) ────────────────────
     this.moon = new THREE.Group();
 
@@ -605,14 +762,38 @@ export class LandingComponent implements AfterViewInit, OnDestroy {
 
   private animateSpaceScene(t: number): void {
     // Planet rotation — base drift + drag-spin inertia
-    const baseRotSpeed = 0.004;
-    this.planetSpinVelocity *= 0.96;           // friction / decay
+    // Stop base rotation while dragging
+    const baseRotSpeed = this.isDraggingPlanet ? 0 : this.DEFAULT_ROT_SPEED;
+
+    // Smooth deceleration with exponential decay
+    if (Math.abs(this.planetSpinVelocity) > 0.00001) {
+      // Slower decay for longer spin after release
+      const decayRate = this.isDraggingPlanet ? 0.99 : 0.975;
+      this.planetSpinVelocity *= decayRate;
+    } else {
+      // Snap to zero when very small
+      this.planetSpinVelocity = 0;
+    }
+
     this.planetRotationY += baseRotSpeed + this.planetSpinVelocity;
     this.planet.rotation.y    = this.planetRotationY;
     this.planetAtmo.rotation.y = this.planetRotationY * 1.08;
 
+    // Update labels opacity and marker animations
     this.planetLabels.forEach(label => {
-      (label.mesh.material as THREE.MeshBasicMaterial).opacity = label.baseOpacity + 0.08 * Math.sin(t * 1.15 + label.phase);
+      // Opacity pulse for labels
+      (label.mesh.material as THREE.MeshBasicMaterial).opacity =
+        label.baseOpacity + 0.08 * Math.sin(t * 1.15 + label.phase);
+
+      // Pulse the timeline markers in sync with labels
+      if (label.marker) {
+        const markerMat = label.marker.material as THREE.MeshBasicMaterial;
+        markerMat.opacity = 0.85 + 0.15 * Math.sin(t * 1.15 + label.phase);
+
+        // Subtle scale pulse
+        const scale = 1 + 0.1 * Math.sin(t * 2 + label.phase);
+        label.marker.scale.setScalar(scale);
+      }
     });
 
     // Rings subtle wobble
