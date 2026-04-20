@@ -48,6 +48,15 @@
               {{ project.expDetailed | translate }}
             </p>
 
+            <!-- Project link (if available) -->
+            @if (project.url) {
+              <div class="project-link-section">
+                <a [href]="project.url" target="_blank" rel="noopener noreferrer" class="project-link mono">
+                  {{ 'projects.visit_project' | translate }}
+                </a>
+              </div>
+            }
+
             <!-- Tech highlights -->
             <div class="tech-highlights">
               <span class="highlight-label mono">{{ 'projects.tech_stack' | translate }}</span>

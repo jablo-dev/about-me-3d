@@ -24,6 +24,7 @@
     "tech_stack": "TECH_STACK:",
     "status_active": "AKTIV",
     "learnings": "ERKENNTNISSE:",
+    "visit_project": "PROJEKT BESUCHEN ↗",
     "exp_year": "{{ years }} JAHR ERFAHRUNG",
     "exp_years": "{{ years }} JAHRE ERFAHRUNG",
     "angular": {
@@ -52,6 +53,37 @@
         "Word Automation"
       ],
       "details": "Diese Arbeit hat mir tiefgreifende Kenntnisse in der Integration moderner .NET-Lösungen vermittelt. Ich habe gelernt, pragmatische Lösungen zu entwickeln, die bestehende Systemgrenzen elegant umgehen, ohne die Kernanwendung zu beeinträchtigen. Diese Projekte haben meine Fähigkeit gestärkt, mit minimalen Eingriffen maximale Funktionalitätserweiterungen zu erzielen."
+    },
+    "ggdb": {
+      "title": "GoodGamesDB",
+      "experience": "1 JAHR ERFAHRUNG",
+      "description": "Entwicklung einer Webanwendung zum Erfassen und Bewerten durchgespielter Computerspiele. Nutzer können nach jedem abgeschlossenen Spiel einen Eintrag anlegen und das Spiel in Kategorien wie Gameplay, Präsentation, Sound, Pacing und Narrative bewerten. Für jeden Eintrag kann eine teilbare Thumbnail-Grafik generiert und in die Zwischenablage kopiert werden, ideal zum Teilen auf Discord. Die Anwendung befindet sich in der geschlossenen Beta mit aktuell 9 aktiven Testern. Das Frontend ist in Angular entwickelt, das Backend als REST-API in PHP mit MySQL-Datenbank.",
+      "tech": [
+        "Angular",
+        "PHP",
+        "MySQL",
+        "REST API",
+        "TypeScript",
+        "HTML",
+        "CSS"
+      ],
+      "details": "Durch dieses Projekt habe ich umfassende Erfahrung in der eigenständigen Planung und Entwicklung einer vollständigen Webanwendung für mehrere Nutzer gesammelt. Von der Konzeption des Datenbankmodells über die Implementierung von Frontend und Backend bis hin zur Kommunikationsschnittstelle über eine REST-API war ich für alle Aspekte verantwortlich. Diese End-to-End-Entwicklung hat mein Verständnis für Softwarearchitektur und die Anforderungen skalierbarer Webanwendungen deutlich erweitert."
+    },
+    "gamedev": {
+      "title": "Spieleentwicklung",
+      "experience": "1 JAHR ERFAHRUNG",
+      "description": "Grundkenntnisse in drei führenden Game Engines: Unreal Engine 5, Unity 6 und Godot 4. Entwicklung kleiner 2D- und 3D-Spiele zu Lernzwecken, um die Unterschiede und Stärken der einzelnen Engines zu verstehen. Konzeption eines eigenen Science-Fiction-Kartenspiels, dessen Entwicklung allerdings noch in den Sternen steht. Diese Projekte dienten dem Verständnis der Grundlagen der Spieleentwicklung und dem Sammeln praktischer Erfahrungen mit verschiedenen Entwicklungsansätzen.",
+      "tech": [
+        "Unreal Engine 5",
+        "Unity 6",
+        "Godot 4",
+        "Blender",
+        "Aseprite",
+        "C#",
+        "GDScript",
+        "Blueprints"
+      ],
+      "details": "Diese Erfahrungen haben mir die Grundlagen der Spieleentwicklung vermittelt, von der Spielmechanik über Level-Design bis hin zur Asset-Integration. Ich habe erste praktische Kenntnisse in der Erstellung von 3D-Assets mit Blender und Pixelart mit Aseprite erworben. Besonders wertvoll war das Verständnis für die unterschiedlichen Philosophien der Game Engines: Unreals Blueprint-System für visuelles Scripting, Unitys komponentenbasierte Architektur und Godots schlanker, szenenbasierter Ansatz."
     }
   },
   "contact": {

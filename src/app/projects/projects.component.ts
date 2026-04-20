@@ -7,6 +7,7 @@ interface ProjectCardExpanded extends ProjectCard {
   expanded: boolean;
 }
 
+
 @Component({
   selector: 'app-projects',
   standalone: true,
@@ -18,7 +19,7 @@ export class ProjectsComponent {
   projects: ProjectCardExpanded[] = [];
 
   constructor(private translate: TranslateService) {
-    // Initialize projects from config with expanded state
+
     this.projects = PROJECT_CARDS.map(card => ({
       ...card,
       expanded: false

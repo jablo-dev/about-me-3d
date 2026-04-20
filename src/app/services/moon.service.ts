@@ -15,7 +15,6 @@ export class MoonService {
   create(scene: THREE.Scene): THREE.Group {
     this.moon = new THREE.Group();
 
-    // Core glow dot
     const glowGeo = new THREE.SphereGeometry(0.22, 16, 16);
     const glowMat = new THREE.MeshBasicMaterial({
       color: this.config.GLOW_COLOR,
@@ -27,7 +26,6 @@ export class MoonService {
     engineGlow.position.x = 0;
     this.moon.add(engineGlow);
 
-    // Soft halo around moon
     const moonHaloGeo = new THREE.SphereGeometry(0.45, 16, 16);
     const moonHaloMat = new THREE.MeshBasicMaterial({
       color: this.config.HALO_COLOR,
@@ -54,12 +52,10 @@ export class MoonService {
   }
 
   animate(elapsedTime: number, orbitCenter: THREE.Vector3): void {
-    // Decay boost back to normal once timer expires
     if (this.speedMultiplier > 1 && elapsedTime > this.boostEndTime) {
       this.speedMultiplier = 1;
     }
 
-    // Moon orbit — accumulate angle per-frame scaled by speed multiplier
     const deltaAngle = (1 / 60) * this.config.BASE_SPEED * this.speedMultiplier;
     this.orbitAngle += deltaAngle;
 
@@ -70,7 +66,6 @@ export class MoonService {
     this.moon.position.y = Math.sin(this.orbitAngle) * orbitR * Math.sin(orbitTilt);
     this.moon.position.z = Math.sin(this.orbitAngle) * orbitR * Math.cos(orbitTilt);
 
-    // Pulse the moon glow slightly faster when boosted
     const glowPulse = 0.85 + 0.15 * Math.sin(elapsedTime * (this.speedMultiplier > 1 ? 18 : 6));
     (this.moon.children[0] as THREE.Mesh).scale.setScalar(glowPulse);
   }

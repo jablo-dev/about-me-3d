@@ -58,7 +58,6 @@ export class PlanetService {
     this.planet = new THREE.Mesh(planetGeo, planetMat);
     parentGroup.add(this.planet);
 
-    // Surface detail bands
     for (let i = 0; i < 1; i++) {
       const bandGeo = new THREE.TorusGeometry(this.config.PLANET.RADIUS, 0.04 + i * 0.015, 8, 120);
       const bandMat = new THREE.MeshBasicMaterial({
@@ -279,11 +278,9 @@ export class PlanetService {
     if (!labelData) return;
 
     if (shouldBeVisible && labelData.animationState === 'hidden') {
-      // Start showing animation
       labelData.animationState = 'showing';
       labelData.animationStartTime = currentTime;
     } else if (!shouldBeVisible && labelData.animationState === 'visible') {
-      // Start hiding animation
       labelData.animationState = 'hiding';
       labelData.animationStartTime = currentTime;
     }
@@ -302,16 +299,13 @@ export class PlanetService {
     this.planet.rotation.y = this.rotationY;
     this.planetAtmo.rotation.y = this.rotationY * 1.08;
 
-    // Animate labels
     this.planetLabels.forEach(label => {
       const material = label.mesh.material as THREE.MeshBasicMaterial;
 
-      // Handle animation states
       if (label.animationState === 'hiding') {
         const animDuration = 0.5; // 0.5 seconds for implosion
         const progress = Math.min((elapsedTime - label.animationStartTime) / animDuration, 1);
 
-        // Implosion effect: scale down and fade out
         const scale = 1 - progress;
         label.mesh.scale.set(scale, scale, scale);
         material.opacity = label.baseOpacity * scale;
@@ -329,22 +323,19 @@ export class PlanetService {
         const animDuration = 0.8; // 0.8 seconds for falling
         const progress = Math.min((elapsedTime - label.animationStartTime) / animDuration, 1);
 
-        // Make visible immediately when starting animation
         if (!label.mesh.visible) {
           label.mesh.visible = true;
         }
 
-        // Falling effect: start above target position and fall down with easing
-        const easeProgress = 1 - Math.pow(1 - progress, 3); // Cubic ease-out
-        const fallDistance = 5; // Distance above the target to start from
+        const easeProgress = 1 - Math.pow(1 - progress, 3);
+        const fallDistance = 5;
         const yOffset = fallDistance * (1 - easeProgress);
 
-        // Update position (fall down)
+
         const currentPos = label.targetPosition.clone();
         currentPos.y += yOffset;
         label.mesh.position.copy(currentPos);
 
-        // Scale and opacity
         const scale = easeProgress;
         label.mesh.scale.set(scale, scale, scale);
         material.opacity = label.baseOpacity * easeProgress;
@@ -360,7 +351,6 @@ export class PlanetService {
           label.mesh.position.copy(label.targetPosition);
         }
       } else if (label.animationState === 'visible') {
-        // Normal pulsing animation for visible labels
         material.opacity = label.baseOpacity + 0.08 * Math.sin(elapsedTime * 1.15 + label.phase);
 
         if (label.marker) {

@@ -40,7 +40,6 @@ export class LandingComponent implements AfterViewInit, OnDestroy {
     this.translate.setDefaultLang('en');
     this.translate.use('en');
 
-    // Initialize all labels as visible
     const labels = ['Angular', '.NET', 'SpringBoot', 'TypeScript', 'JavaScript',
                     'HTML', 'CSS', 'JAVA', 'C#', 'SQL', 'PHP', 'GIT', 'JEST',
                     'Teamwork', 'Scrum', 'Unity 6', 'Unreal 5', 'Godot 4',

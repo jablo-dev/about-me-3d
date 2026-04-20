@@ -289,6 +289,53 @@
   margin: 0 0 1.5rem;
 }
 
+/* ── Project link ───────────────────────────────────────────────── */
+.project-link-section {
+  margin: 1.5rem 0;
+}
+
+.project-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  padding: 0.6rem 1.2rem;
+  background: rgba(0, 212, 255, 0.08);
+  border: 1px solid rgba(0, 212, 255, 0.3);
+  border-radius: 3px;
+  color: var(--cyan);
+  text-decoration: none;
+  text-shadow: 0 0 8px rgba(0, 212, 255, 0.4);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.project-link::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, transparent, rgba(0, 212, 255, 0.1), transparent);
+  transform: translateX(-100%);
+  transition: transform 0.5s ease;
+}
+
+.project-link:hover {
+  background: rgba(0, 212, 255, 0.15);
+  border-color: var(--cyan);
+  box-shadow: 0 0 20px rgba(0, 212, 255, 0.3), inset 0 0 20px rgba(0, 212, 255, 0.1);
+  transform: translateX(2px);
+}
+
+.project-link:hover::before {
+  transform: translateX(100%);
+}
+
+.project-link:active {
+  transform: translateX(0) scale(0.98);
+}
+
 /* ── Tech highlights ────────────────────────────────────────────── */
 .tech-highlights {
   margin-bottom: 1.5rem;
