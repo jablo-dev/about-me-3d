@@ -86,6 +86,101 @@
   color: rgba(0, 212, 255, 0.5);
 }
 
+/* ── Project Navigation ─────────────────────────────────────────── */
+.project-nav {
+  position: relative;
+  z-index: 1;
+  max-width: 900px;
+  margin: 0 auto 3rem;
+  opacity: 0;
+  animation: fadeSlideUp 0.6s ease forwards 0.4s;
+}
+
+.nav-label {
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  color: rgba(0, 212, 255, 0.6);
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.nav-bracket {
+  color: var(--violet);
+  text-shadow: 0 0 8px var(--violet);
+}
+
+.nav-items {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  justify-content: center;
+}
+
+.nav-item {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.35rem 0.85rem;
+  background: rgba(0, 212, 255, 0.05);
+  border: 1px solid rgba(0, 212, 255, 0.25);
+  border-radius: 2px;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+  font-family: var(--mono);
+  color: var(--cyan);
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  backdrop-filter: blur(4px);
+}
+
+.nav-item::before {
+  content: '◆ ';
+  font-size: 0.5rem;
+  opacity: 0.5;
+  transition: opacity 0.3s;
+}
+
+.nav-item:hover {
+  background: rgba(0, 212, 255, 0.12);
+  border-color: var(--cyan);
+  box-shadow: 0 0 12px rgba(0, 212, 255, 0.2), inset 0 0 12px rgba(0, 212, 255, 0.05);
+}
+
+.nav-item:hover::before {
+  opacity: 1;
+}
+
+.nav-item.active {
+  background: rgba(0, 212, 255, 0.15);
+  border-color: var(--cyan);
+  box-shadow: 0 0 16px rgba(0, 212, 255, 0.3), inset 0 0 20px rgba(0, 212, 255, 0.08);
+}
+
+.nav-item.active::before {
+  opacity: 1;
+}
+
+.nav-item.active .nav-indicator {
+  opacity: 1;
+  box-shadow: 0 0 10px var(--cyan), 0 0 20px rgba(0, 212, 255, 0.5);
+}
+
+.nav-text {
+  flex: 1;
+}
+
+.nav-indicator {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--cyan);
+  opacity: 0;
+  transition: opacity 0.3s, box-shadow 0.3s;
+  box-shadow: 0 0 6px var(--cyan);
+}
+
 /* ── Projects grid ──────────────────────────────────────────────── */
 .projects-grid {
   position: relative;
@@ -112,14 +207,35 @@
   backdrop-filter: blur(8px);
   transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
   opacity: 0;
-  animation: fadeSlideUp 0.6s ease forwards;
-  animation-delay: calc(var(--card-index, 0) * 0.1s + 0.4s);
+  transform: translateY(30px) scale(0.95);
 }
 
-.project-card:nth-child(1) { --card-index: 0; }
-.project-card:nth-child(2) { --card-index: 1; }
-.project-card:nth-child(3) { --card-index: 2; }
-.project-card:nth-child(4) { --card-index: 3; }
+/* Materialization animation */
+.project-card.materializing {
+  animation: materialize 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes materialize {
+  0% {
+    opacity: 0;
+    transform: translateY(30px) scale(0.95);
+    filter: blur(10px) brightness(1.5);
+  }
+  30% {
+    opacity: 0.3;
+    filter: blur(8px) brightness(1.3);
+  }
+  60% {
+    opacity: 0.7;
+    transform: translateY(5px) scale(0.98);
+    filter: blur(2px) brightness(1.1);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0) brightness(1);
+  }
+}
 
 .project-card:hover {
   transform: translateY(-4px);
@@ -127,6 +243,110 @@
   box-shadow:
     0 0 30px rgba(0, 212, 255, 0.15),
     inset 0 0 30px rgba(0, 212, 255, 0.03);
+}
+
+/* Materialization particles */
+.materialize-particles {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  border-radius: 4px;
+  opacity: 0;
+}
+
+.project-card.materializing .materialize-particles {
+  animation: particlesFade 1.2s ease-out forwards;
+}
+
+@keyframes particlesFade {
+  0% { opacity: 1; }
+  70% { opacity: 0.6; }
+  100% { opacity: 0; }
+}
+
+.particle {
+  position: absolute;
+  width: 3px;
+  height: 3px;
+  background: var(--cyan);
+  border-radius: 50%;
+  box-shadow: 0 0 6px var(--cyan), 0 0 12px rgba(0, 212, 255, 0.5);
+  opacity: 0;
+}
+
+.project-card.materializing .particle {
+  animation: particleFloat 1s ease-out forwards;
+}
+
+.particle:nth-child(1) { left: 10%; top: 20%; animation-delay: 0s; }
+.particle:nth-child(2) { left: 25%; top: 80%; animation-delay: 0.05s; }
+.particle:nth-child(3) { left: 40%; top: 40%; animation-delay: 0.1s; }
+.particle:nth-child(4) { left: 55%; top: 70%; animation-delay: 0.15s; }
+.particle:nth-child(5) { left: 70%; top: 30%; animation-delay: 0.2s; }
+.particle:nth-child(6) { left: 85%; top: 60%; animation-delay: 0.25s; }
+.particle:nth-child(7) { left: 15%; top: 50%; animation-delay: 0.3s; }
+.particle:nth-child(8) { left: 90%; top: 15%; animation-delay: 0.35s; }
+.particle:nth-child(9) { left: 35%; top: 10%; animation-delay: 0.4s; }
+.particle:nth-child(10) { left: 60%; top: 90%; animation-delay: 0.45s; }
+.particle:nth-child(11) { left: 5%; top: 75%; animation-delay: 0.5s; }
+.particle:nth-child(12) { left: 75%; top: 45%; animation-delay: 0.55s; }
+.particle:nth-child(13) { left: 50%; top: 25%; animation-delay: 0.6s; }
+.particle:nth-child(14) { left: 20%; top: 65%; animation-delay: 0.65s; }
+.particle:nth-child(15) { left: 95%; top: 85%; animation-delay: 0.7s; }
+
+@keyframes particleFloat {
+  0% {
+    opacity: 0;
+    transform: translateY(20px) scale(0);
+  }
+  50% {
+    opacity: 1;
+    transform: translateY(-10px) scale(1.5);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-30px) scale(0);
+  }
+}
+
+/* Scan line effect */
+.scan-line {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg,
+    transparent,
+    var(--cyan),
+    transparent
+  );
+  box-shadow: 0 0 10px var(--cyan), 0 0 20px rgba(0, 212, 255, 0.5);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.project-card.materializing .scan-line {
+  animation: scanDown 1.2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes scanDown {
+  0% {
+    opacity: 0;
+    top: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+    top: 100%;
+  }
+  100% {
+    opacity: 0;
+    top: 100%;
+  }
 }
 
 /* ── Card corners ───────────────────────────────────────────────── */
@@ -245,40 +465,13 @@
 
 /* ── Card content ───────────────────────────────────────────────── */
 .card-content-wrapper {
-  max-height: 1000px;
-  overflow: hidden;
-  transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease;
-  opacity: 1;
-}
-
-.card-content-wrapper.collapsed {
-  max-height: 0;
-  opacity: 0;
+  overflow: visible;
 }
 
 .card-content {
   margin-bottom: 1.5rem;
 }
 
-/* ── Expand indicator ───────────────────────────────────────────── */
-.expand-indicator {
-  margin-left: auto;
-  display: flex;
-  align-items: center;
-  padding-left: 1rem;
-}
-
-.expand-icon {
-  font-size: 0.9rem;
-  color: var(--cyan);
-  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  display: inline-block;
-  filter: drop-shadow(0 0 6px rgba(0, 212, 255, 0.4));
-}
-
-.expand-icon.rotated {
-  transform: rotate(180deg);
-}
 
 .card-description {
   font-family: 'Inter', sans-serif;
@@ -467,6 +660,15 @@
 @media (max-width: 768px) {
   .projects-wrapper {
     padding: 4rem 1.5rem;
+  }
+
+  .nav-items {
+    gap: 0.4rem;
+  }
+
+  .nav-item {
+    padding: 0.3rem 0.7rem;
+    font-size: 0.68rem;
   }
 
   .projects-grid {
