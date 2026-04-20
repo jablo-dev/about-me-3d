@@ -274,75 +274,32 @@ export class LandingComponent implements AfterViewInit, OnDestroy {
     this.hudRing.rotation.x = Math.PI / 2.4;
     this.spaceGroup.add(this.hudRing);
 
-    // ── Spaceship ─────────────────────────────────────────────
+    // ── Moon (glowing dot orbiting planet) ────────────────────
     this.spaceship = new THREE.Group();
 
-    // Fuselage
-    const bodyGeo = new THREE.CylinderGeometry(0.08, 0.22, 1.2, 8);
-    const shipMat = new THREE.MeshPhongMaterial({
-      color: 0x8ad4f0,
-      emissive: 0x003355,
-      specular: 0xffffff,
-      shininess: 120,
-    });
-    const body = new THREE.Mesh(bodyGeo, shipMat);
-    body.rotation.z = Math.PI / 2;
-    this.spaceship.add(body);
-
-    // Nose cone
-    const noseGeo = new THREE.ConeGeometry(0.08, 0.5, 8);
-    const nose = new THREE.Mesh(noseGeo, shipMat);
-    nose.rotation.z = -Math.PI / 2;
-    nose.position.x = 0.85;
-    this.spaceship.add(nose);
-
-    // Wings
-    const wingShape = new THREE.Shape();
-    wingShape.moveTo(0, 0);
-    wingShape.lineTo(-0.7, 0.55);
-    wingShape.lineTo(-0.7, 0.65);
-    wingShape.lineTo(0.1, 0.1);
-    wingShape.closePath();
-    const wingGeo = new THREE.ShapeGeometry(wingShape);
-    const wingMat = new THREE.MeshPhongMaterial({
-      color: 0x00aacc,
-      emissive: 0x001122,
-      specular: 0x88ddff,
-      shininess: 80,
-      side: THREE.DoubleSide,
-    });
-    const wingL = new THREE.Mesh(wingGeo, wingMat);
-    wingL.rotation.x = Math.PI / 2;
-    wingL.position.set(-0.1, 0, 0);
-    this.spaceship.add(wingL);
-    const wingR = wingL.clone();
-    wingR.scale.y = -1;
-    this.spaceship.add(wingR);
-
     // Engine glow
-    const glowGeo = new THREE.SphereGeometry(0.12, 8, 8);
+    // Engine glow
+    const glowGeo = new THREE.SphereGeometry(0.22, 16, 16);
     const glowMat = new THREE.MeshBasicMaterial({
       color: 0x00ffdd,
       transparent: true,
-      opacity: 0.85,
+      opacity: 0.95,
       blending: THREE.AdditiveBlending,
     });
     const engineGlow = new THREE.Mesh(glowGeo, glowMat);
-    engineGlow.position.x = -0.75;
+    engineGlow.position.x = 0;
     this.spaceship.add(engineGlow);
 
-    // Engine exhaust trail (elongated sphere)
-    const trailGeo = new THREE.SphereGeometry(0.06, 8, 8);
-    const trailMat = new THREE.MeshBasicMaterial({
+    // Soft halo around moon
+    const moonHaloGeo = new THREE.SphereGeometry(0.45, 16, 16);
+    const moonHaloMat = new THREE.MeshBasicMaterial({
       color: 0x00d4ff,
       transparent: true,
-      opacity: 0.4,
+      opacity: 0.12,
       blending: THREE.AdditiveBlending,
+      side: THREE.BackSide,
     });
-    const trail = new THREE.Mesh(trailGeo, trailMat);
-    trail.scale.x = 4;
-    trail.position.x = -1.4;
-    this.spaceship.add(trail);
+    this.spaceship.add(new THREE.Mesh(moonHaloGeo, moonHaloMat));
 
     this.spaceship.scale.setScalar(0.55);
     this.spaceScene.add(this.spaceship);
