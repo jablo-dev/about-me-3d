@@ -6,13 +6,16 @@
 /* ── Layout ─────────────────────────────────────────────────────── */
 .projects-wrapper {
   position: relative;
-  min-height: 100vh;
+  height: 100vh;
   width: 100%;
   background: transparent;
   padding: 3rem clamp(2rem, 7vw, 8rem);
-  overflow: hidden;
+  overflow: visible;
   scroll-snap-align: start;
   scroll-snap-stop: always;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
 }
 
 /* ── Grid overlay ───────────────────────────────────────────────── */
@@ -96,89 +99,151 @@
   animation: fadeSlideUp 0.6s ease forwards 0.4s;
 }
 
-.nav-label {
-  font-size: 0.7rem;
-  letter-spacing: 0.2em;
-  color: rgba(0, 212, 255, 0.6);
-  margin-bottom: 1rem;
-  text-align: center;
-}
-
 .nav-bracket {
   color: var(--violet);
   text-shadow: 0 0 8px var(--violet);
 }
 
-.nav-items {
+.nav-controls {
   display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-  justify-content: center;
-}
-
-.nav-item {
-  position: relative;
-  display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
-  padding: 0.35rem 0.85rem;
-  background: rgba(0, 212, 255, 0.05);
-  border: 1px solid rgba(0, 212, 255, 0.25);
-  border-radius: 2px;
-  cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  overflow: hidden;
-  font-family: var(--mono);
-  color: var(--cyan);
-  font-size: 0.72rem;
-  letter-spacing: 0.08em;
-  backdrop-filter: blur(4px);
+  justify-content: center;
+  gap: 1.5rem;
 }
 
-.nav-item::before {
-  content: '◆ ';
-  font-size: 0.5rem;
-  opacity: 0.5;
-  transition: opacity 0.3s;
+.arrow-icon {
+  font-size: 1.2rem;
+  line-height: 1;
 }
 
-.nav-item:hover {
-  background: rgba(0, 212, 255, 0.12);
-  border-color: var(--cyan);
-  box-shadow: 0 0 12px rgba(0, 212, 255, 0.2), inset 0 0 12px rgba(0, 212, 255, 0.05);
-}
-
-.nav-item:hover::before {
-  opacity: 1;
-}
-
-.nav-item.active {
-  background: rgba(0, 212, 255, 0.15);
-  border-color: var(--cyan);
-  box-shadow: 0 0 16px rgba(0, 212, 255, 0.3), inset 0 0 20px rgba(0, 212, 255, 0.08);
-}
-
-.nav-item.active::before {
-  opacity: 1;
-}
-
-.nav-item.active .nav-indicator {
-  opacity: 1;
-  box-shadow: 0 0 10px var(--cyan), 0 0 20px rgba(0, 212, 255, 0.5);
-}
-
-.nav-text {
+/* ── Progress bar ───────────────────────────────────────────────── */
+.nav-progress {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.6rem;
   flex: 1;
+  max-width: 400px;
 }
 
-.nav-indicator {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
+.progress-label {
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  color: rgba(0, 212, 255, 0.6);
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.progress-track {
+  display: flex;
+  gap: 0.35rem;
+  width: 100%;
+}
+
+.progress-segment {
+  flex: 1;
+  height: 3px;
+  background: rgba(0, 212, 255, 0.15);
+  border-radius: 2px;
+  transition: background 0.4s ease, box-shadow 0.4s ease;
+}
+
+.progress-segment.visited {
+  background: rgba(0, 212, 255, 0.4);
+}
+
+.progress-segment.active {
   background: var(--cyan);
+  box-shadow: 0 0 8px var(--cyan), 0 0 16px rgba(0, 212, 255, 0.4);
+}
+
+/* ── Card navigation arrows ─────────────────────────────────────── */
+.card-nav-arrow {
+  position: fixed;
+  top: 50vh;
+  transform: translateY(-50%);
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 120px;
+  height: 28px;
+  background: transparent;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  transition: opacity 0.3s ease;
+}
+
+/* Left arrow: fixed to left edge of viewport */
+.card-nav-left  { left: 1.5rem; }
+/* Right arrow: fixed to right edge of viewport */
+.card-nav-right { right: 1.5rem; }
+
+.card-nav-arrow:active {
+  transform: translateY(-50%) scale(0.92);
+}
+
+.card-nav-arrow.hidden {
   opacity: 0;
-  transition: opacity 0.3s, box-shadow 0.3s;
-  box-shadow: 0 0 6px var(--cyan);
+  pointer-events: none;
+}
+
+/* ── Chevron group ──────────────────────────────────────────────── */
+.chevron-group {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+}
+
+/* Each chevron is a V-shape made with borders */
+.chev {
+  display: block;
+  width: 18px;
+  height: 18px;
+  border-right: 2px solid var(--cyan);
+  border-bottom: 2px solid var(--cyan);
+  box-shadow: 1px 1px 4px rgba(0, 212, 255, 0.2);
+  opacity: 0.2;
+  animation: chevBlink 1.2s ease-in-out infinite;
+}
+
+/* Left arrow: chevrons point left (rotate 135deg) */
+.card-nav-left .chev {
+  transform: rotate(135deg);
+}
+
+/* Right arrow: chevrons point right (rotate -45deg) */
+.card-nav-right .chev {
+  transform: rotate(-45deg);
+}
+
+/* Sequential blink: right arrow pulses left→right (chev-1 first), left arrow pulses right→left (chev-3 first) */
+.card-nav-right .chev-1 { animation-delay: 0.0s; }
+.card-nav-right .chev-2 { animation-delay: 0.2s; }
+.card-nav-right .chev-3 { animation-delay: 0.4s; }
+
+.card-nav-left .chev-1  { animation-delay: 0.4s; }
+.card-nav-left .chev-2  { animation-delay: 0.2s; }
+.card-nav-left .chev-3  { animation-delay: 0.0s; }
+
+@keyframes chevBlink {
+  0%, 100% {
+    opacity: 0.12;
+    box-shadow: 1px 1px 3px rgba(0, 212, 255, 0.1);
+  }
+  50% {
+    opacity: 0.85;
+    box-shadow: 1px 1px 6px rgba(0, 212, 255, 0.35), 1px 1px 10px rgba(0, 212, 255, 0.2);
+  }
+}
+
+.card-nav-arrow:hover .chev {
+  animation-duration: 0.6s;
 }
 
 /* ── Projects grid ──────────────────────────────────────────────── */
@@ -188,8 +253,11 @@
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
+  width: 100%;
   max-width: 900px;
   margin: 0 auto;
+  overflow: visible;
+  flex: 1;
 }
 
 /* ── Project card ───────────────────────────────────────────────── */
@@ -208,6 +276,8 @@
   transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
   opacity: 0;
   transform: translateY(30px) scale(0.95);
+  min-height: 60vh;
+  box-sizing: border-box;
 }
 
 /* Materialization animation */
@@ -678,15 +748,6 @@
     margin-bottom: 1.5rem;
   }
 
-  .nav-items {
-    gap: 0.4rem;
-  }
-
-  .nav-item {
-    padding: 0.3rem 0.7rem;
-    font-size: 0.68rem;
-  }
-
   .projects-grid {
     gap: 1.5rem;
   }
@@ -757,15 +818,6 @@
 
   .project-nav {
     margin-bottom: 1.25rem;
-  }
-
-  .nav-label {
-    font-size: 0.65rem;
-  }
-
-  .nav-item {
-    padding: 0.28rem 0.65rem;
-    font-size: 0.65rem;
   }
 
   .projects-grid {

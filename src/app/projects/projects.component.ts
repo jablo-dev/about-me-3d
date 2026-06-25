@@ -1,4 +1,4 @@
-import { Component, ChangeDetectorRef } from '@angular/core';
+import { Component, ChangeDetectorRef, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { PROJECT_CARDS, ProjectCard } from '../config/project-cards.config';
@@ -16,9 +16,9 @@ interface ProjectCardExpanded extends ProjectCard {
   templateUrl: './projects.component.html',
   styleUrl: './projects.component.css',
 })
-export class ProjectsComponent {
+export class ProjectsComponent implements OnInit {
   projects: ProjectCardExpanded[] = [];
-  selectedProjectId: string | null = null;
+  currentIndex: number = 0;
 
   constructor(
     private translate: TranslateService,
@@ -31,40 +31,37 @@ export class ProjectsComponent {
     }));
   }
 
-  selectProject(projectId: string): void {
-    if (this.selectedProjectId === projectId) {
-      const project = this.projects.find(p => p.id === projectId);
-      if (project) {
-        project.visible = false;
-        project.materializing = false;
-        this.selectedProjectId = null;
-        this.cdr.detectChanges();
-      }
-      return;
-    }
+  ngOnInit(): void {
+    this.showProject(0);
+  }
 
+  private showProject(index: number): void {
     this.projects.forEach(p => {
       p.visible = false;
       p.materializing = false;
     });
 
-    const selectedProject = this.projects.find(p => p.id === projectId);
-    if (selectedProject) {
-      this.selectedProjectId = projectId;
-      selectedProject.visible = true;
-
-      this.cdr.detectChanges();
-
+    this.currentIndex = index;
+    const project = this.projects[index];
+    if (project) {
+      project.visible = true;
       requestAnimationFrame(() => {
-        selectedProject.materializing = true;
+        project.materializing = true;
         this.cdr.detectChanges();
       });
     }
   }
 
+  nextProject(): void {
+    if (this.currentIndex < this.projects.length - 1) {
+      this.showProject(this.currentIndex + 1);
+    }
+  }
 
-  isProjectActive(projectId: string): boolean {
-    return this.selectedProjectId === projectId;
+  prevProject(): void {
+    if (this.currentIndex > 0) {
+      this.showProject(this.currentIndex - 1);
+    }
   }
 }
 
