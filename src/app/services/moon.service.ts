@@ -46,6 +46,10 @@ export class MoonService {
     return this.moon;
   }
 
+  getPosition(): THREE.Vector3 {
+    return this.moon ? this.moon.position : new THREE.Vector3();
+  }
+
   boost(currentTime: number): void {
     this.speedMultiplier = this.config.BOOST_MULTIPLIER;
     this.boostEndTime = currentTime + this.config.BOOST_DURATION;

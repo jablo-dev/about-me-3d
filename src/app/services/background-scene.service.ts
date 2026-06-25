@@ -48,6 +48,10 @@ export class BackgroundSceneService {
     this.scene.add(starField);
   }
 
+  explode(): void {
+    this.starFieldService.explode();
+  }
+
   handleMouseMove(event: MouseEvent): void {
     this.targetMouseX = (event.clientX / window.innerWidth) * 2 - 1;
     this.targetMouseY = (event.clientY / window.innerHeight) * 2 - 1;

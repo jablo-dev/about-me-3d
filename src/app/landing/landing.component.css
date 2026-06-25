@@ -1,4 +1,234 @@
 
+/* ── Destroy the universe button ────────────────────────────────── */
+.destroy-btn {
+  position: fixed;
+  bottom: calc(1.2rem + 60px);
+  right: calc(1.2rem + 40px);
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.9rem;
+  background: rgba(30, 30, 30, 0.6);
+  border: 1px solid #888;
+  border-radius: 3px;
+  color: #aaa;
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  cursor: pointer;
+  backdrop-filter: blur(4px);
+  transition: background 0.2s ease;
+}
+
+.destroy-btn:hover {
+  background: rgba(60, 60, 60, 0.8);
+}
+
+.destroy-btn:disabled,
+.destroy-btn.armed {
+  opacity: 0.4;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.destroy-icon {
+  font-size: 1rem;
+  line-height: 1;
+}
+
+/* ── Destroy confirmation modal ─────────────────────────────────── */
+.destroy-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(1, 8, 20, 0.75);
+  backdrop-filter: blur(3px);
+  animation: fadeIn 0.2s ease forwards;
+}
+
+.destroy-modal {
+  position: relative;
+  max-width: 460px;
+  width: calc(100% - 3rem);
+  padding: 1.6rem 1.8rem;
+  background: rgba(8, 14, 26, 0.96);
+  border: 1px solid var(--pink);
+  border-radius: 4px;
+  box-shadow: 0 0 36px rgba(255, 0, 119, 0.35);
+  text-align: center;
+}
+
+.destroy-modal.final {
+  border-color: #ff2a2a;
+}
+
+/* ── Arrows pointing at the final modal ─────────────────────────── */
+.destroy-arrows {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.destroy-arrow {
+  position: absolute;
+  font-size: 2.4rem;
+  line-height: 1;
+  color: #ff2a4a;
+  text-shadow: 0 0 10px rgba(255, 0, 60, 0.8);
+  pointer-events: none;
+  z-index: 70;
+}
+
+.destroy-arrow.top {
+  top: -3.4rem;
+  left: 50%;
+  transform: translateX(-50%);
+  animation: arrow-bounce-down 0.7s ease-in-out infinite;
+}
+
+.destroy-arrow.bottom {
+  bottom: -3.4rem;
+  left: 50%;
+  transform: translateX(-50%);
+  animation: arrow-bounce-up 0.7s ease-in-out infinite;
+}
+
+.destroy-arrow.left {
+  left: -3.4rem;
+  top: 50%;
+  transform: translateY(-50%);
+  animation: arrow-bounce-right 0.7s ease-in-out infinite;
+}
+
+.destroy-arrow.right {
+  right: -3.4rem;
+  top: 50%;
+  transform: translateY(-50%);
+  animation: arrow-bounce-left 0.7s ease-in-out infinite;
+}
+
+@keyframes arrow-bounce-down {
+  0%, 100% { transform: translateX(-50%) translateY(0); }
+  50%      { transform: translateX(-50%) translateY(14px); }
+}
+@keyframes arrow-bounce-up {
+  0%, 100% { transform: translateX(-50%) translateY(0); }
+  50%      { transform: translateX(-50%) translateY(-14px); }
+}
+@keyframes arrow-bounce-right {
+  0%, 100% { transform: translateY(-50%) translateX(0); }
+  50%      { transform: translateY(-50%) translateX(14px); }
+}
+@keyframes arrow-bounce-left {
+  0%, 100% { transform: translateY(-50%) translateX(0); }
+  50%      { transform: translateY(-50%) translateX(-14px); }
+}
+
+/* ── Game over screen ───────────────────────────────────────────── */
+.game-over-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background: #000;
+  animation: fadeIn 1.4s ease forwards;
+}
+
+.game-over-title {
+  margin: 0;
+  color: #ff2a4a;
+  font-family: var(--mono);
+  font-size: clamp(2.4rem, 9vw, 6rem);
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  text-shadow: 0 0 24px rgba(255, 0, 60, 0.7);
+}
+
+.game-over-sub {
+  margin: 1rem 0 2.4rem;
+  color: #6c7a86;
+  font-family: var(--mono);
+  font-size: 0.85rem;
+  letter-spacing: 0.18em;
+}
+
+.game-over-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.9rem 1.8rem;
+  background: rgba(0, 212, 255, 0.08);
+  border: 1px solid var(--cyan);
+  border-radius: 3px;
+  color: var(--cyan);
+  font-family: var(--mono);
+  font-size: 0.9rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.2s ease, box-shadow 0.2s ease;
+}
+
+.game-over-btn:hover {
+  background: rgba(0, 212, 255, 0.2);
+  box-shadow: 0 0 22px rgba(0, 212, 255, 0.5);
+}
+
+.destroy-modal-tag {
+  color: var(--pink);
+  font-size: 0.7rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  margin: 0 0 0.8rem;
+}
+
+.destroy-modal-msg {
+  color: #e6f6ff;
+  font-family: var(--body);
+  font-size: 1rem;
+  line-height: 1.5;
+  margin: 0 0 1.4rem;
+}
+
+.destroy-modal-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+  justify-content: center;
+}
+
+.btn-danger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.6rem 1.1rem;
+  background: rgba(255, 0, 60, 0.12);
+  border: 1px solid #ff2a4a;
+  border-radius: 3px;
+  color: #ff667f;
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.2s ease, box-shadow 0.2s ease;
+}
+
+.btn-danger:hover {
+  background: rgba(255, 0, 60, 0.28);
+  box-shadow: 0 0 18px rgba(255, 0, 60, 0.5);
+  color: #fff;
+}
+
 /* ── Host styles ────────────────────────────────────────────────── */
 :host {
   display: block;
@@ -717,4 +947,26 @@ canvas {
   .scroll-hint {
     display: none;
   }
+}
+
+
+.sat-coords {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5ch;
+}
+
+.sat-label {
+  display: inline-block;
+  width: 20ch;
+}
+
+.sat-sep {
+  opacity: 0.5;
+}
+
+.coord {
+  display: inline-block;
+  width: 7ch;
+  text-align: right;
 }

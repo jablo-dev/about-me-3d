@@ -5,11 +5,14 @@ import {
   ViewChild,
   AfterViewInit,
   NgZone,
+  ChangeDetectorRef,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TranslateService, TranslatePipe } from '@ngx-translate/core';
 import { BackgroundSceneService } from '../services/background-scene.service';
 import { SpaceSceneService } from '../services/space-scene.service';
+import { TechNavigationService } from '../services/tech-navigation.service';
+import { MoonService } from '../services/moon.service';
 import { ProjectsComponent } from '../projects/projects.component';
 import { ContactComponent } from '../contact/contact.component';
 
@@ -26,25 +29,36 @@ export class LandingComponent implements AfterViewInit, OnDestroy {
 
   private animationId!: number;
   private clock = Date.now();
-  private labelVisibility: Map<string, boolean> = new Map();
+  private lastMoonUpdate = 0;
 
+  currentDate = '';
   currentLang = 'en';
+  moonX = 0;
+  moonY = 0;
+  moonZ = 0;
+
+  // 'destroy the universe' gimmick
+  destroyStep: 0 | 1 | 2 = 0;
+  destroying = false;
+  gameOver = false;
 
   constructor(
     private ngZone: NgZone,
+    private cdr: ChangeDetectorRef,
     private translate: TranslateService,
     private backgroundSceneService: BackgroundSceneService,
-    private spaceSceneService: SpaceSceneService
+    private spaceSceneService: SpaceSceneService,
+    private techNavigation: TechNavigationService,
+    private moonService: MoonService
   ) {
     this.translate.addLangs(['en', 'de']);
     this.translate.setDefaultLang('en');
     this.translate.use('en');
-
-    const labels = ['Angular', '.NET', 'SpringBoot', 'TypeScript', 'JavaScript',
-                    'HTML', 'CSS', 'JAVA', 'C#', 'SQL', 'PHP', 'GIT', 'JEST',
-                    'Teamwork', 'Scrum', 'Unity 6', 'Unreal 5', 'Godot 4',
-                    'WebGL', 'ThreeJS', 'REST-API'];
-    labels.forEach(label => this.labelVisibility.set(label, true));
+    const now = new Date();
+    const y = now.getFullYear();
+    const m = String(now.getMonth() + 1).padStart(2, '0');
+    const d = String(now.getDate()).padStart(2, '0');
+    this.currentDate = `${y}.${m}.${d}`;
   }
 
   ngAfterViewInit(): void {
@@ -93,6 +107,16 @@ export class LandingComponent implements AfterViewInit, OnDestroy {
 
     this.backgroundSceneService.animate(t);
     this.spaceSceneService.animate();
+
+    const now = Date.now();
+    if (now - this.lastMoonUpdate >= 1000) {
+      this.lastMoonUpdate = now;
+      const moonPos = this.moonService.getPosition();
+      this.moonX = Math.round(moonPos.x * 1000) / 1000;
+      this.moonY = Math.round(moonPos.y * 1000) / 1000;
+      this.moonZ = Math.round(moonPos.z * 1000) / 1000;
+      this.cdr.detectChanges();
+    }
   };
 
   private onSceneClick = (e: MouseEvent): void => {
@@ -129,16 +153,9 @@ export class LandingComponent implements AfterViewInit, OnDestroy {
     this.translate.use(this.currentLang);
   }
 
-  toggleLabel(labelText: string): void {
-    const isCurrentlyVisible = this.labelVisibility.get(labelText) ?? true;
-    this.labelVisibility.set(labelText, !isCurrentlyVisible);
-    this.ngZone.run(() => {
-      this.spaceSceneService.togglePlanetLabel(labelText, !isCurrentlyVisible);
-    });
-  }
-
-  isLabelVisible(labelText: string): boolean {
-    return this.labelVisibility.get(labelText) ?? true;
+  navigateToTech(tech: string): void {
+    this.scrollToProjects();
+    this.techNavigation.navigateToTech(tech);
   }
 
   scrollToProjects(): void {
@@ -154,5 +171,38 @@ export class LandingComponent implements AfterViewInit, OnDestroy {
       contactSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
   }
-}
 
+  openDestroyDialog(): void {
+    if (this.destroying) return;
+    this.destroyStep = 1;
+  }
+
+  cancelDestroy(): void {
+    this.destroyStep = 0;
+  }
+
+  confirmDestroyStep1(): void {
+    this.destroyStep = 2;
+  }
+
+  confirmDestroy(): void {
+    this.destroyStep = 0;
+    this.destroying = true;
+
+    this.ngZone.runOutsideAngular(() => {
+      // First the stars explode and vanish faster and faster...
+      this.backgroundSceneService.explode();
+      // ...then, as the last step, the planet collapses.
+      setTimeout(() => this.spaceSceneService.collapse(), 2200);
+      // ...finally everything goes dark and the game over screen appears.
+      setTimeout(() => {
+        this.gameOver = true;
+        this.cdr.detectChanges();
+      }, 4000);
+    });
+  }
+
+  restartUniverse(): void {
+    window.location.reload();
+  }
+}

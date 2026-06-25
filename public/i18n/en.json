@@ -2,88 +2,84 @@
   "status": {
     "online": "SYS_ONLINE",
     "stardate": "STARDATE",
-    "lat": "LAT",
-    "sector": "SECTOR"
+    "satellite": "SATELLITE_POS"
   },
   "hero": {
     "prompt": "IDENTIFY_SUBJECT",
     "title": "Passionate Software Developer and Science Fiction Nerd",
-    "tagline_1": "Navigating the infinite void between",
-    "tagline_highlight_1": "elegant code",
-    "tagline_and": "and",
-    "tagline_highlight_2": "extraordinary ideas",
+    "tagline_1": "Developer by passion. Gamer by conviction.",
+    "tagline_highlight_1": "Science Fiction",
+    "tagline_and": "is my",
+    "tagline_highlight_2": "fuel",
     "stack_label": "$ stack --list",
     "btn_projects": "Mission Logs",
     "btn_contact": "Open Comms"
   },
   "scroll": "SCROLL TO CONTINUE",
+  "destroy": {
+    "button": "Destroy the universe",
+    "title_1": "INITIATE_TOTAL_ANNIHILATION",
+    "msg_1": "Are you really sure you want to destroy the universe?",
+    "cancel_1": "No, keep the universe",
+    "confirm_1": "Yes, I'm sure",
+    "title_2": "FINAL_WARNING",
+    "msg_2": "Okay, serious — you are about to destroy everything, are you really really sure?",
+    "cancel_2": "Okay nevermind",
+    "confirm_2": "Stop annoying me and destroy it finally!",
+    "game_over": "Game Over",
+    "game_over_sub": "// THE UNIVERSE NO LONGER EXISTS",
+    "restart": "Start a new universe"
+  },
   "projects": {
     "section_label": "MISSION_LOGS",
-    "title": "My Experience",
+    "title": "My Experience as a Software Developer",
     "subtitle": "// TECHNOLOGY STACK & PROJECTS",
     "tech_stack": "TECH_STACK:",
-    "status_active": "ACTIVE",
     "learnings": "KEY LEARNINGS:",
     "visit_project": "VISIT PROJECT ↗",
-    "exp_year": "{{ years }} YEAR EXPERIENCE",
-    "exp_years": "{{ years }} YEARS EXPERIENCE",
-    "angular": {
-      "title": "Angular",
-      "experience": "2 YEARS EXPERIENCE",
-      "description": "Comprehensive experience in modern web development with Angular. Specialization in enterprise-level frontend applications with focus on performance and scalability. Developing a Software-as-a-Service Angular frontend application in a three-person team. The application communicates with the backend via a REST API and utilizes reusable libraries for cross-application functionality. Ensuring code quality through JEST unit tests and reactive programming with NgRx state management and Angular Signals. Successfully migrated Angular versions from 19 to 20 and from 20 to 21, resolving all migration errors.",
-      "tech": [
-        "PrimeNG",
-        "NgRx",
-        "Signals",
-        "RxJS",
-        "TypeScript"
-      ],
-      "details": "Through this work, I have gained solid knowledge in frontend-backend communication via REST APIs. I have internalized best practices for developing scalable frontend applications and mastered working with strict typing in TypeScript. Particularly valuable was the experience in developing reusable, cross-application components and libraries, which significantly improve the maintainability and consistency of the entire project."
+    "state_ongoing": "ONGOING",
+    "state_ongoing_main_focus": "ONGOING · MAIN FOCUS",
+    "state_finished": "FINISHED",
+    "state_canceled": "CANCELED",
+    "wintools": {
+      "title": "Windows Desktop Tools",
+      "description": "At my current employer I developed numerous tools that extended an in-house on-premise legacy software with modern features. These include the ability to automatically place QR codes for invoices and other documents inside Microsoft Word files, as well as a communication interface between both applications for data exchange. As a private hobby project I additionally built a desktop database tool with a Windows Forms UI that visualizes an underlying SQLite database, displays statistics based on the data, and allows easy creation, editing, and deletion of records.",
+      "details": "These projects taught me how to pragmatically modernize legacy systems through external tooling without touching the core application. Building the communication interface gave me a deep understanding of inter-process communication and data serialization. The standalone database project significantly strengthened my skills in UI development with Windows Forms and working with SQLite."
     },
-    "dotnet": {
-      "title": ".NET",
-      "experience": "4 YEARS EXPERIENCE",
-      "description": "Modernizing a legacy on-premise application through C# extensions to meet modern requirements. Development of C# console applications for multiple file selection, QR code generation with payment information, and automated Word document creation. These extensions keep the legacy software productive and meet current business requirements. Additionally, I developed a WinForms database application to manage and rate my gaming library. Data is efficiently stored in a SQLite database.",
-      "tech": [
-        "C#",
-        ".NET Framework",
-        "Console Applications",
-        "File I/O",
-        "QR Code Generation",
-        "Word Automation"
-      ],
-      "details": "This work has provided me with profound knowledge in integrating modern .NET solutions. I learned to develop pragmatic solutions that elegantly circumvent existing system boundaries without affecting the core application. These projects have strengthened my ability to achieve maximum functionality extensions with minimal intervention."
+    "legacyweb": {
+      "title": "Independent Maintenance of Legacy Web Applications",
+      "description": "At my current employer I am solely responsible for maintaining various intranet web applications that were developed before I joined. Over the years I have fixed numerous bugs and extended the applications with features requested by customers. Since these are on-premise web applications, I have additionally installed the web environments on customer servers at various client sites, including the associated infrastructure and configuration.",
+      "details": "This work taught me how to quickly navigate unfamiliar, organically grown codebases and apply changes with minimal risk. Being solely responsible for these applications deepened my understanding of the full lifecycle of a web application — from development through to customer deployment. I learned to prioritize pragmatically and deliver stable solutions for production systems."
+    },
+    "saas": {
+      "title": "Modern Web Development as Software as a Service in the Cloud",
+      "description": "Greenfield development of our in-house software at my current employer, gradually migrating existing on-premise applications to the cloud as Software-as-a-Service. Initially contributed to the backend as a full-stack developer using Java and Spring. After an internal team split into front- and backend, I specialized in frontend development with Angular, leveraging my existing solid knowledge of HTML, CSS, and JavaScript. Throughout development I worked closely with the entire team to align API concepts so that frontend and backend development go hand in hand. The application was progressively covered with Jest unit tests and continuously optimized through agile processes. Example features include web mailboxes, email sending, email template creation with interactive text modules, and global services provided via a shared library. Successfully performed version upgrades from Angular 19 through 22 and continuously monitored and resolved CVEs.",
+      "details": "This project showed me how critical close collaboration between front- and backend teams is when designing APIs. I learned to build scalable and maintainable Angular applications with state management, unit tests, and reusable libraries. The regular version upgrades and CVE remediation significantly sharpened my awareness of security and long-term software maintainability."
     },
     "ggdb": {
-      "title": "GoodGamesDB",
-      "experience": "1 YEAR EXPERIENCE",
-      "description": "Development of a web application for tracking and rating completed video games. Users can create entries after finishing each game and rate it across categories such as Gameplay, Presentation, Sound, Pacing, and Narrative. For each entry, a shareable thumbnail graphic can be generated and copied to the clipboard, perfect for sharing on Discord. The application is in closed beta with currently 9 active testers. The frontend is built with Angular, while the backend is a REST API written in PHP with a MySQL database.",
-      "tech": [
-        "Angular",
-        "PHP",
-        "MySQL",
-        "REST API",
-        "TypeScript",
-        "HTML",
-        "CSS"
-      ],
-      "details": "Through this project, I gained comprehensive experience in independently planning and developing a complete web application for multiple users. I was responsible for all aspects, from database model design through frontend and backend implementation to the communication interface via REST API. This end-to-end development significantly expanded my understanding of software architecture and the requirements of scalable web applications."
+      "title": "Personal Full-Stack Web Application",
+      "description": "As a passionate gamer, I developed a web application that lets you track which games you have completed and how much fun you had — including a full rating system. The application offers numerous customization options such as a theme picker as well as optional features like time tracking. The entire development process — from planning and conception through frontend development with Angular and backend development with PHP and MySQL, to deployment on my own server and version control — was entirely my responsibility. Statistics and various views are generated from the tracked games, allowing you to follow your annual gaming progress. Every update is accompanied by carefully maintained patch notes. The application is currently not public but invite-only. A free, public version is planned for the future. Feel free to contact me by email at any time — I am happy to provide a demo account.",
+      "details": "This project gave me comprehensive experience in independently planning and delivering a complete web application for multiple users. I was responsible for every aspect — from database modeling and REST API design to deployment. Particularly valuable was the experience of operating, maintaining, and iteratively evolving an application over the long term."
     },
     "gamedev": {
       "title": "Game Development",
-      "experience": "1 YEAR EXPERIENCE",
-      "description": "Foundational knowledge in three leading game engines: Unreal Engine 5, Unity 6, and Godot 4. Development of small 2D and 3D games for learning purposes to understand the differences and strengths of each engine. Conceptualized a personal science fiction card game, though its development is still written in the stars. These projects served to understand the fundamentals of game development and gather practical experience with different development approaches.",
-      "tech": [
-        "Unreal Engine 5",
-        "Unity 6",
-        "Godot 4",
-        "Blender",
-        "Aseprite",
-        "C#",
-        "GDScript",
-        "Blueprints"
-      ],
-      "details": "These experiences taught me the fundamentals of game development, from game mechanics and level design to asset integration. I acquired initial practical skills in creating 3D assets with Blender and pixel art with Aseprite. Particularly valuable was understanding the different philosophies of game engines: Unreal's Blueprint system for visual scripting, Unity's component-based architecture, and Godot's lean, scene-based approach."
+      "description": "Conception and prototyping of original computer games. Completed various smaller projects with Unreal Engine, Unity, and Godot 4 to get a feel for each engine. Along the way I made smaller asset adjustments, for example using Blender. The accumulated experience allowed me to make a well-informed decision about which engine suits a larger game project best. I am currently developing my first original game with Godot 4, for which I have already created a concept and prototype, and which I continuously develop as a hobby project.",
+      "details": "Working with multiple game engines gave me a broad understanding of different development philosophies — from Unreal's visual Blueprint system and Unity's component-based architecture to Godot's lean, scene-based approach. I learned how to design game mechanics, rapidly prototype ideas, and create assets with Blender and Aseprite. This experience helps me make well-founded technical decisions in game development."
+    },
+    "agile": {
+      "title": "Agile Software Development",
+      "description": "Both at my employer and in my personal projects, I place great value on agile development. In the team, Daily Standups allow us to quickly identify blockers and resolve them efficiently. Daily Checkouts help maintain a clear overview of the overall development progress. In regular retrospectives we discuss team-internal as well as cross-company processes and derive actionable items for continuous improvement. In my private solo projects I apply the same principles to my own workflow: I plan in iterations, track progress and open points in structured notes, and regularly reflect on what is working well and what I can optimize — without a team, but with the same discipline.",
+      "details": "Agile methods have shown me that regular communication and structured reflection are the key to sustainable progress — whether in a team or working alone. I learned how to identify blockers early, communicate priorities clearly, and improve processes iteratively. Applying agile principles to solo projects has also helped me work in a more disciplined and focused way."
+    },
+    "aboutme": {
+      "title": "This Portfolio — About Me",
+      "description": "This very website was built to showcase the capabilities of modern web development with 3D-based environments. Using Angular as the framework alongside WebGL and Three.js, I created an interactive 3D space scene with a rotating planet, dynamic star fields, and animated labels — all rendered in real time in the browser. The project demonstrates how far browser-based 3D rendering has come and serves as a creative playground for exploring the intersection of software engineering and visual design.",
+      "details": "Building this project deepened my understanding of WebGL and Three.js, including scene management, camera controls, raycasting for interaction, and performance optimization for real-time rendering. Integrating a 3D canvas seamlessly into an Angular application taught me how to bridge the gap between framework lifecycle and raw WebGL rendering loops. It reinforced my passion for pushing the boundaries of what is possible in the browser."
+    },
+    "aidev": {
+      "title": "AI-Assisted Development",
+      "description": "For about a year I have been increasingly using AI-assisted tools in web development at my current employer, witnessing first-hand the rapidly improving quality of available models. I actively follow current developments and integrate AI more and more into my daily professional workflow. In doing so I have learned how to develop agentically, how to improve prompts through structured markdown documents, and how to set up and configure MCP servers. Throughout this I maintain a critical eye on the actual AI output to meaningfully evaluate results and optimize them accordingly.",
+      "details": "Working with AI tools has shown me how important it is to critically question outputs rather than accepting them blindly. I learned how precise prompting and well-structured context documents can significantly improve the quality of AI-generated results. Experience with agentic development and MCP servers has given me a deep understanding of the possibilities and limitations of current AI tools in professional software development."
     }
   },
   "contact": {

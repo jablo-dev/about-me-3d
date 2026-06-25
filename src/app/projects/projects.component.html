@@ -9,34 +9,61 @@
       <span class="mono">{{ 'projects.section_label' | translate }}</span>
       <span class="header-bracket">]</span>
     </div>
-    <h2 class="section-title">
-      {{ 'projects.title' | translate }}
-    </h2>
     <p class="section-subtitle mono">
       {{ 'projects.subtitle' | translate }}
     </p>
   </div>
 
-  <!-- Project Navigation List -->
+  <!-- Project Navigation -->
   <div class="project-nav">
-    <div class="nav-label mono">
-      <span class="nav-bracket">&lt;</span>
-      SELECT_PROJECT
-      <span class="nav-bracket">&gt;</span>
-    </div>
-    <div class="nav-items">
-      @for (project of projects; track project.id) {
-        <button
-          class="nav-item"
-          [class.active]="isProjectActive(project.id)"
-          (click)="selectProject(project.id)"
-        >
-          <span class="nav-text">{{ 'projects.' + project.id + '.title' | translate }}</span>
-          <span class="nav-indicator"></span>
-        </button>
-      }
+    <div class="nav-controls">
+      <div class="nav-progress">
+        <div class="progress-label mono">
+          <span class="nav-bracket">&lt;</span>
+          <span>{{ currentIndex + 1 }}&nbsp;/&nbsp;{{ projects.length }}</span>
+          <span class="nav-bracket">&gt;</span>
+        </div>
+        <div class="progress-track">
+          @for (project of projects; track project.id; let i = $index) {
+            <button
+              class="progress-segment"
+              [class.active]="i === currentIndex"
+              [class.visited]="i < currentIndex"
+              (click)="showProject(i)"
+              [attr.aria-label]="('projects.' + project.id + '.title' | translate)"
+              [title]="('projects.' + project.id + '.title' | translate)"
+            ></button>
+          }
+        </div>
+      </div>
     </div>
   </div>
+
+  <!-- Fixed navigation arrows -->
+  <button
+    class="card-nav-arrow card-nav-left"
+    [class.hidden]="currentIndex === 0 || !sectionVisible"
+    (click)="prevProject()"
+    aria-label="Previous project"
+  >
+    <span class="chevron-group">
+      <span class="chev chev-1"></span>
+      <span class="chev chev-2"></span>
+      <span class="chev chev-3"></span>
+    </span>
+  </button>
+  <button
+    class="card-nav-arrow card-nav-right"
+    [class.hidden]="currentIndex === projects.length - 1 || !sectionVisible"
+    (click)="nextProject()"
+    aria-label="Next project"
+  >
+    <span class="chevron-group">
+      <span class="chev chev-1"></span>
+      <span class="chev chev-2"></span>
+      <span class="chev chev-3"></span>
+    </span>
+  </button>
 
   <!-- Project cards -->
   <div class="projects-grid">
@@ -44,6 +71,7 @@
       @if (project.visible) {
         <div class="project-card"
              [class.materializing]="project.materializing">
+
           <!-- Materialization particles -->
           <div class="materialize-particles" aria-hidden="true">
             @for (particle of [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]; track particle) {
@@ -65,8 +93,9 @@
             <div class="card-title-area">
               <h3 class="card-title">{{ 'projects.' + project.id + '.title' | translate }}</h3>
               <div class="card-meta mono">
-                <span class="meta-icon"></span>
-                <span>{{ 'projects.' + project.id + '.experience' | translate }}</span>
+                <span class="state-badge" [class]="'state-' + project.state">
+                  {{ stateKey(project.state) | translate }}
+                </span>
               </div>
             </div>
           </div>
@@ -108,7 +137,7 @@
             <div class="card-footer">
               <div class="status-line">
                 <span class="status-indicator"></span>
-                <span class="mono status-text">{{ 'projects.status_active' | translate }}</span>
+                <span class="mono status-text">{{ stateKey(project.state) | translate }}</span>
               </div>
               <div class="data-stream mono">
                 <span class="stream-label">DATA_STREAM:</span>
