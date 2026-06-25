@@ -17,6 +17,17 @@
     "btn_contact": "Open Comms"
   },
   "scroll": "SCROLL TO CONTINUE",
+  "destroy": {
+    "button": "Destroy the universe",
+    "title_1": "INITIATE_TOTAL_ANNIHILATION",
+    "msg_1": "Are you really sure you want to destroy the universe?",
+    "cancel_1": "No, keep the universe",
+    "confirm_1": "Yes, I'm sure",
+    "title_2": "FINAL_WARNING",
+    "msg_2": "Okay, serious — you are about to destroy everything, are you really really sure?",
+    "cancel_2": "Okay nevermind",
+    "confirm_2": "Stop annoying me and destroy"
+  },
   "projects": {
     "section_label": "MISSION_LOGS",
     "title": "My Experience as a Software Developer",

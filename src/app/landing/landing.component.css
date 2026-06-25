@@ -1,4 +1,119 @@
 
+/* ── Destroy the universe button ────────────────────────────────── */
+.destroy-btn {
+  position: fixed;
+  bottom: calc(1.2rem + 60px);
+  right: calc(1.2rem + 40px);
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.9rem;
+  background: rgba(30, 30, 30, 0.6);
+  border: 1px solid #888;
+  border-radius: 3px;
+  color: #aaa;
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  cursor: pointer;
+  backdrop-filter: blur(4px);
+  transition: background 0.2s ease;
+}
+
+.destroy-btn:hover {
+  background: rgba(60, 60, 60, 0.8);
+}
+
+.destroy-btn:disabled,
+.destroy-btn.armed {
+  opacity: 0.4;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.destroy-icon {
+  font-size: 1rem;
+  line-height: 1;
+}
+
+/* ── Destroy confirmation modal ─────────────────────────────────── */
+.destroy-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(1, 8, 20, 0.75);
+  backdrop-filter: blur(3px);
+  animation: fadeIn 0.2s ease forwards;
+}
+
+.destroy-modal {
+  max-width: 460px;
+  width: calc(100% - 3rem);
+  padding: 1.6rem 1.8rem;
+  background: rgba(8, 14, 26, 0.96);
+  border: 1px solid var(--pink);
+  border-radius: 4px;
+  box-shadow: 0 0 36px rgba(255, 0, 119, 0.35);
+  text-align: center;
+}
+
+.destroy-modal.final {
+  border-color: #ff2a2a;
+  box-shadow: 0 0 44px rgba(255, 42, 42, 0.5);
+  animation: pulse 1.2s ease-in-out infinite;
+}
+
+.destroy-modal-tag {
+  color: var(--pink);
+  font-size: 0.7rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  margin: 0 0 0.8rem;
+}
+
+.destroy-modal-msg {
+  color: #e6f6ff;
+  font-family: var(--body);
+  font-size: 1rem;
+  line-height: 1.5;
+  margin: 0 0 1.4rem;
+}
+
+.destroy-modal-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+  justify-content: center;
+}
+
+.btn-danger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.6rem 1.1rem;
+  background: rgba(255, 0, 60, 0.12);
+  border: 1px solid #ff2a4a;
+  border-radius: 3px;
+  color: #ff667f;
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.2s ease, box-shadow 0.2s ease;
+}
+
+.btn-danger:hover {
+  background: rgba(255, 0, 60, 0.28);
+  box-shadow: 0 0 18px rgba(255, 0, 60, 0.5);
+  color: #fff;
+}
+
 /* ── Host styles ────────────────────────────────────────────────── */
 :host {
   display: block;

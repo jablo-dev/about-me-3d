@@ -110,6 +110,44 @@
 
 </div>
 
+<!-- Destroy the universe button -->
+<button
+  class="destroy-btn"
+  [class.armed]="destroying"
+  [disabled]="destroying"
+  (click)="openDestroyDialog()"
+  [attr.aria-label]="'destroy.button' | translate">
+  <span class="destroy-icon">☢</span>
+  <span class="destroy-label mono">{{ 'destroy.button' | translate }}</span>
+</button>
+
+<!-- Destroy confirmation overlays -->
+@if (destroyStep > 0) {
+  <div class="destroy-overlay" (click)="cancelDestroy()">
+    <div class="destroy-modal" [class.final]="destroyStep === 2" (click)="$event.stopPropagation()">
+
+      @if (destroyStep === 1) {
+        <p class="destroy-modal-tag mono">// {{ 'destroy.title_1' | translate }}</p>
+        <p class="destroy-modal-msg">{{ 'destroy.msg_1' | translate }}</p>
+        <div class="destroy-modal-actions">
+          <button class="btn-outline" (click)="cancelDestroy()">{{ 'destroy.cancel_1' | translate }}</button>
+          <button class="btn-danger" (click)="confirmDestroyStep1()">{{ 'destroy.confirm_1' | translate }}</button>
+        </div>
+      }
+
+      @if (destroyStep === 2) {
+        <p class="destroy-modal-tag mono">// {{ 'destroy.title_2' | translate }}</p>
+        <p class="destroy-modal-msg">{{ 'destroy.msg_2' | translate }}</p>
+        <div class="destroy-modal-actions">
+          <button class="btn-outline" (click)="cancelDestroy()">{{ 'destroy.cancel_2' | translate }}</button>
+          <button class="btn-danger" (click)="confirmDestroy()">{{ 'destroy.confirm_2' | translate }}</button>
+        </div>
+      }
+
+    </div>
+  </div>
+}
+
 <!-- Projects section -->
 <app-projects />
 

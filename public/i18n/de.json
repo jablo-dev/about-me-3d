@@ -17,6 +17,17 @@
     "btn_contact": "Kontakt aufnehmen"
   },
   "scroll": "SCROLLEN ZUM FORTFAHREN",
+  "destroy": {
+    "button": "Universum zerstören",
+    "title_1": "TOTALE_VERNICHTUNG_EINLEITEN",
+    "msg_1": "Bist du wirklich sicher, dass du das Universum zerstören willst?",
+    "cancel_1": "Nein, das Universum behalten",
+    "confirm_1": "Ja, ich bin sicher",
+    "title_2": "LETZTE_WARNUNG",
+    "msg_2": "Okay, im Ernst — du bist dabei, alles zu zerstören. Bist du dir wirklich, wirklich sicher?",
+    "cancel_2": "Okay, vergiss es",
+    "confirm_2": "Hör auf zu nerven und zerstöre"
+  },
   "projects": {
     "section_label": "MISSION_LOGS",
     "title": "Meine Erfahrung als Software-Entwickler",

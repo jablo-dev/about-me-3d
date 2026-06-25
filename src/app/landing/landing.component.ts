@@ -34,6 +34,10 @@ export class LandingComponent implements AfterViewInit, OnDestroy {
   cursorX = 0;
   cursorY = 0;
 
+  // 'destroy the universe' gimmick
+  destroyStep: 0 | 1 | 2 = 0;
+  destroying = false;
+
   constructor(
     private ngZone: NgZone,
     private cdr: ChangeDetectorRef,
@@ -154,5 +158,30 @@ export class LandingComponent implements AfterViewInit, OnDestroy {
     if (contactSection) {
       contactSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
+  }
+
+  openDestroyDialog(): void {
+    if (this.destroying) return;
+    this.destroyStep = 1;
+  }
+
+  cancelDestroy(): void {
+    this.destroyStep = 0;
+  }
+
+  confirmDestroyStep1(): void {
+    this.destroyStep = 2;
+  }
+
+  confirmDestroy(): void {
+    this.destroyStep = 0;
+    this.destroying = true;
+
+    this.ngZone.runOutsideAngular(() => {
+      // First the stars explode and vanish faster and faster...
+      this.backgroundSceneService.explode();
+      // ...then, as the last step, the planet collapses.
+      setTimeout(() => this.spaceSceneService.collapse(), 2200);
+    });
   }
 }

@@ -16,6 +16,9 @@ export class SpaceSceneService {
   private clock = new THREE.Clock();
   private readonly config = SCENE_CONFIG;
   private dragLastX = 0;
+  private collapsing = false;
+  private collapseElapsed = 0;
+  private prevElapsed = 0;
 
   constructor(
     private planetService: PlanetService,
@@ -159,13 +162,53 @@ export class SpaceSceneService {
     canvas.style.cursor = 'default';
   }
 
+  collapse(): void {
+    if (this.collapsing) return;
+    this.collapsing = true;
+    this.collapseElapsed = 0;
+  }
+
+  isCollapsing(): boolean {
+    return this.collapsing;
+  }
+
   animate(): void {
     const t = this.clock.getElapsedTime();
+    const dt = Math.min(Math.max(t - this.prevElapsed, 0), 0.1);
+    this.prevElapsed = t;
+
     const orbitCenter = new THREE.Vector3(
       this.config.ORBIT_CENTER.x,
       this.config.ORBIT_CENTER.y,
       this.config.ORBIT_CENTER.z
     );
+
+    if (this.collapsing) {
+      this.collapseElapsed += dt;
+      const moon = this.moonService.getMoon();
+
+      // Brief violent shake, then implode into nothing.
+      const progress = Math.min(this.collapseElapsed / 1.4, 1);
+      const shake = progress < 0.35 ? (0.35 - progress) * 0.6 : 0;
+      const scale = Math.max(0, Math.pow(1 - progress, 2));
+
+      this.spaceGroup.scale.setScalar(scale);
+      this.spaceGroup.position.set(
+        orbitCenter.x + (Math.random() - 0.5) * shake,
+        orbitCenter.y + (Math.random() - 0.5) * shake,
+        orbitCenter.z
+      );
+      this.spaceGroup.rotation.z += dt * 4 * (1 - progress);
+      moon.scale.setScalar(scale);
+
+      if (progress >= 1) {
+        this.spaceGroup.visible = false;
+        moon.visible = false;
+      }
+
+      this.renderer.render(this.scene, this.camera);
+      return;
+    }
 
     this.planetService.animate(t);
     this.moonService.animate(t, orbitCenter);
