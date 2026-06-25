@@ -5,6 +5,7 @@ import {
   ViewChild,
   AfterViewInit,
   NgZone,
+  ChangeDetectorRef,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TranslateService, TranslatePipe } from '@ngx-translate/core';
@@ -30,9 +31,12 @@ export class LandingComponent implements AfterViewInit, OnDestroy {
 
   currentDate = '';
   currentLang = 'en';
+  cursorX = 0;
+  cursorY = 0;
 
   constructor(
     private ngZone: NgZone,
+    private cdr: ChangeDetectorRef,
     private translate: TranslateService,
     private backgroundSceneService: BackgroundSceneService,
     private spaceSceneService: SpaceSceneService,
@@ -118,6 +122,9 @@ export class LandingComponent implements AfterViewInit, OnDestroy {
 
   private onMouseMove = (e: MouseEvent): void => {
     this.backgroundSceneService.handleMouseMove(e);
+    this.cursorX = e.clientX;
+    this.cursorY = e.clientY;
+    this.cdr.detectChanges();
   };
 
   private onResize = (): void => {

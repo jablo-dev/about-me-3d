@@ -10,7 +10,7 @@ import { TranslatePipe } from '@ngx-translate/core';
   styleUrl: './contact.component.css',
 })
 export class ContactComponent {
-  readonly githubUrl = 'https://github.com/Jablothas';
+  readonly githubUrl = 'https://github.com/jablo-dev';
   readonly email = 'mail@jablo.dev';
 
   openGithub(): void {
