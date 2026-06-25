@@ -1,4 +1,4 @@
-import { Component, ChangeDetectorRef, OnInit } from '@angular/core';
+import { Component, ChangeDetectorRef, OnInit, OnDestroy, ElementRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { PROJECT_CARDS, ProjectCard } from '../config/project-cards.config';
@@ -16,13 +16,17 @@ interface ProjectCardExpanded extends ProjectCard {
   templateUrl: './projects.component.html',
   styleUrl: './projects.component.css',
 })
-export class ProjectsComponent implements OnInit {
+export class ProjectsComponent implements OnInit, OnDestroy {
   projects: ProjectCardExpanded[] = [];
   currentIndex: number = 0;
+  sectionVisible: boolean = false;
+
+  private observer!: IntersectionObserver;
 
   constructor(
     private translate: TranslateService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private el: ElementRef
   ) {
     this.projects = PROJECT_CARDS.map(card => ({
       ...card,
@@ -33,9 +37,21 @@ export class ProjectsComponent implements OnInit {
 
   ngOnInit(): void {
     this.showProject(0);
+    this.observer = new IntersectionObserver(
+      (entries) => {
+        this.sectionVisible = entries[0].isIntersecting;
+        this.cdr.detectChanges();
+      },
+      { threshold: 0.1 }
+    );
+    this.observer.observe(this.el.nativeElement);
   }
 
-  private showProject(index: number): void {
+  ngOnDestroy(): void {
+    this.observer?.disconnect();
+  }
+
+  showProject(index: number): void {
     this.projects.forEach(p => {
       p.visible = false;
       p.materializing = false;

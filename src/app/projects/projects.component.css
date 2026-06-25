@@ -93,7 +93,7 @@
 .project-nav {
   position: relative;
   z-index: 1;
-  max-width: 900px;
+  max-width: 1400px;
   margin: 0 auto 2rem;
   opacity: 0;
   animation: fadeSlideUp 0.6s ease forwards 0.4s;
@@ -143,10 +143,43 @@
 
 .progress-segment {
   flex: 1;
-  height: 3px;
+  height: 10px;
   background: rgba(0, 212, 255, 0.15);
+  border-radius: 3px;
+  transition: background 0.4s ease, box-shadow 0.4s ease, height 0.2s ease;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  position: relative;
+}
+
+.progress-segment::after {
+  content: attr(title);
+  position: absolute;
+  bottom: 18px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(1, 8, 20, 0.92);
+  border: 1px solid rgba(0, 212, 255, 0.3);
+  color: var(--cyan);
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  padding: 0.3rem 0.6rem;
   border-radius: 2px;
-  transition: background 0.4s ease, box-shadow 0.4s ease;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+  text-shadow: 0 0 8px rgba(0, 212, 255, 0.4);
+}
+
+.progress-segment:hover::after {
+  opacity: 1;
+}
+
+.progress-segment:hover {
+  height: 14px;
 }
 
 .progress-segment.visited {
@@ -254,7 +287,7 @@
   flex-direction: column;
   gap: 1.5rem;
   width: 100%;
-  max-width: 900px;
+  max-width: 1400px;
   margin: 0 auto;
   overflow: visible;
   flex: 1;
@@ -263,6 +296,8 @@
 /* ── Project card ───────────────────────────────────────────────── */
 .project-card {
   position: relative;
+  display: flex;
+  flex-direction: column;
   background: linear-gradient(
     135deg,
     rgba(0, 212, 255, 0.03) 0%,
@@ -536,10 +571,14 @@
 /* ── Card content ───────────────────────────────────────────────── */
 .card-content-wrapper {
   overflow: visible;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
 }
 
 .card-content {
   margin-bottom: 1.25rem;
+  flex: 1;
 }
 
 
