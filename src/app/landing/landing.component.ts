@@ -28,6 +28,7 @@ export class LandingComponent implements AfterViewInit, OnDestroy {
   private animationId!: number;
   private clock = Date.now();
 
+  currentDate = '';
   currentLang = 'en';
 
   constructor(
@@ -40,6 +41,11 @@ export class LandingComponent implements AfterViewInit, OnDestroy {
     this.translate.addLangs(['en', 'de']);
     this.translate.setDefaultLang('en');
     this.translate.use('en');
+    const now = new Date();
+    const y = now.getFullYear();
+    const m = String(now.getMonth() + 1).padStart(2, '0');
+    const d = String(now.getDate()).padStart(2, '0');
+    this.currentDate = `${y}.${m}.${d}`;
   }
 
   ngAfterViewInit(): void {
@@ -143,4 +149,3 @@ export class LandingComponent implements AfterViewInit, OnDestroy {
     }
   }
 }
-

@@ -8,10 +8,10 @@
   "hero": {
     "prompt": "SUBJEKT_IDENTIFIZIEREN",
     "title": "Leidenschaftlicher Software-Entwickler und Science-Fiction Nerd",
-    "tagline_1": "Auf der Reise durch die unendliche Weite zwischen",
-    "tagline_highlight_1": "elegantem Code",
-    "tagline_and": "und",
-    "tagline_highlight_2": "außergewöhnlichen Ideen",
+    "tagline_1": "Entwickler aus Leidenschaft. Gamer aus Überzeugung.",
+    "tagline_highlight_1": "Science-Fiction",
+    "tagline_and": "ist mein",
+    "tagline_highlight_2": "Kraftstoff",
     "stack_label": "$ stack --auflisten",
     "btn_projects": "Missionsberichte",
     "btn_contact": "Kontakt aufnehmen"

@@ -8,10 +8,10 @@
   "hero": {
     "prompt": "IDENTIFY_SUBJECT",
     "title": "Passionate Software Developer and Science Fiction Nerd",
-    "tagline_1": "Navigating the infinite void between",
-    "tagline_highlight_1": "elegant code",
-    "tagline_and": "and",
-    "tagline_highlight_2": "extraordinary ideas",
+    "tagline_1": "Developer by passion. Gamer by conviction.",
+    "tagline_highlight_1": "Science Fiction",
+    "tagline_and": "is my",
+    "tagline_highlight_2": "fuel",
     "stack_label": "$ stack --list",
     "btn_projects": "Mission Logs",
     "btn_contact": "Open Comms"
