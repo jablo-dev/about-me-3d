@@ -79,6 +79,10 @@ export class ProjectsComponent implements OnInit, OnDestroy {
       this.showProject(this.currentIndex - 1);
     }
   }
+
+  stateKey(state: string): string {
+    return 'projects.state_' + state.replace(/-/g, '_');
+  }
 }
 
 

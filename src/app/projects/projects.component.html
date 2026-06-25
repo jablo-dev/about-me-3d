@@ -9,9 +9,6 @@
       <span class="mono">{{ 'projects.section_label' | translate }}</span>
       <span class="header-bracket">]</span>
     </div>
-    <h2 class="section-title">
-      {{ 'projects.title' | translate }}
-    </h2>
     <p class="section-subtitle mono">
       {{ 'projects.subtitle' | translate }}
     </p>
@@ -96,8 +93,9 @@
             <div class="card-title-area">
               <h3 class="card-title">{{ 'projects.' + project.id + '.title' | translate }}</h3>
               <div class="card-meta mono">
-                <span class="meta-icon"></span>
-                <span>{{ 'projects.' + project.id + '.experience' | translate }}</span>
+                <span class="state-badge" [class]="'state-' + project.state">
+                  {{ stateKey(project.state) | translate }}
+                </span>
               </div>
             </div>
           </div>
@@ -139,7 +137,7 @@
             <div class="card-footer">
               <div class="status-line">
                 <span class="status-indicator"></span>
-                <span class="mono status-text">{{ 'projects.status_active' | translate }}</span>
+                <span class="mono status-text">{{ stateKey(project.state) | translate }}</span>
               </div>
               <div class="data-stream mono">
                 <span class="stream-label">DATA_STREAM:</span>

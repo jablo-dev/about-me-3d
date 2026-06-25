@@ -93,7 +93,7 @@
 .project-nav {
   position: relative;
   z-index: 1;
-  max-width: 1400px;
+  max-width: 860px;
   margin: 0 auto 2rem;
   opacity: 0;
   animation: fadeSlideUp 0.6s ease forwards 0.4s;
@@ -209,10 +209,9 @@
   transition: opacity 0.3s ease;
 }
 
-/* Left arrow: fixed to left edge of viewport */
-.card-nav-left  { left: 1.5rem; }
-/* Right arrow: fixed to right edge of viewport */
-.card-nav-right { right: 1.5rem; }
+/* Arrows sit just outside the 860px card + 20px gap, centered in the viewport */
+.card-nav-left  { left:  max(1rem, calc(50% - 430px - 120px)); }
+.card-nav-right { right: max(1rem, calc(50% - 430px - 120px)); }
 
 .card-nav-arrow:active {
   transform: translateY(-50%) scale(0.92);
@@ -287,7 +286,7 @@
   flex-direction: column;
   gap: 1.5rem;
   width: 100%;
-  max-width: 1400px;
+  max-width: 860px;
   margin: 0 auto;
   overflow: visible;
   flex: 1;
@@ -566,6 +565,44 @@
 .meta-icon {
   font-size: 0.5rem;
   opacity: 0.6;
+}
+
+/* ── State badge ────────────────────────────────────────────────── */
+.state-badge {
+  display: inline-block;
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.15em;
+  padding: 0.2rem 0.6rem;
+  border-radius: 2px;
+  border: 1px solid;
+}
+
+.state-badge.state-ongoing {
+  color: var(--green);
+  border-color: rgba(0, 255, 157, 0.4);
+  background: rgba(0, 255, 157, 0.06);
+  text-shadow: 0 0 8px rgba(0, 255, 157, 0.3);
+}
+
+.state-badge.state-ongoing-main-focus {
+  color: var(--cyan);
+  border-color: rgba(0, 212, 255, 0.5);
+  background: rgba(0, 212, 255, 0.08);
+  text-shadow: 0 0 8px rgba(0, 212, 255, 0.4);
+  box-shadow: 0 0 10px rgba(0, 212, 255, 0.15);
+}
+
+.state-badge.state-finished {
+  color: rgba(160, 200, 240, 0.6);
+  border-color: rgba(160, 200, 240, 0.2);
+  background: rgba(160, 200, 240, 0.04);
+}
+
+.state-badge.state-canceled {
+  color: rgba(255, 80, 80, 0.7);
+  border-color: rgba(255, 80, 80, 0.3);
+  background: rgba(255, 80, 80, 0.05);
 }
 
 /* ── Card content ───────────────────────────────────────────────── */

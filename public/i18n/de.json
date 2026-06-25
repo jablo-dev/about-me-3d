@@ -19,71 +19,49 @@
   "scroll": "SCROLLEN ZUM FORTFAHREN",
   "projects": {
     "section_label": "MISSION_LOGS",
-    "title": "Meine Erfahrung",
+    "title": "Meine Erfahrung als Software-Entwickler",
     "subtitle": "// TECHNOLOGIE-STACK & PROJEKTE",
     "tech_stack": "TECH_STACK:",
-    "status_active": "AKTIV",
     "learnings": "ERKENNTNISSE:",
     "visit_project": "PROJEKT BESUCHEN ↗",
-    "exp_year": "{{ years }} JAHR ERFAHRUNG",
-    "exp_years": "{{ years }} JAHRE ERFAHRUNG",
-    "angular": {
-      "title": "Angular",
-      "experience": "2 JAHRE ERFAHRUNG",
-      "description": "Umfassende Erfahrung in der modernen Webentwicklung mit Angular. Spezialisierung auf Enterprise-Level Frontend-Anwendungen mit Fokus auf Performance und Skalierbarkeit. Entwicklung einer Software-as-a-Service Angular Frontend-Anwendung im dreiköpfigen Team. Die Anwendung kommuniziert über eine REST-API mit dem Backend und nutzt wiederverwendbare Libraries für anwendungsübergreifende Funktionen. Sicherstellung der Code-Qualität durch JEST Unit Tests und reaktive Programmierung mit NgRx State Management sowie Angular Signals. Erfolgreich Angular-Versionen von 19 auf 20 sowie von 20 auf 21 migriert und dabei alle Migrationsfehler behoben.",
-      "tech": [
-        "PrimeNG",
-        "NgRx",
-        "Signals",
-        "RxJS",
-        "TypeScript"
-      ],
-      "details": "Durch diese Arbeit habe ich fundierte Kenntnisse in der Kommunikation zwischen Frontend und Backend über REST-APIs erworben. Ich habe Best Practices für die Entwicklung skalierbarer Frontend-Anwendungen verinnerlicht und beherrsche den Umgang mit striktem Typing in TypeScript. Besonders wertvoll war die Erfahrung beim Entwickeln wiederverwendbarer, anwendungsübergreifender Komponenten und Libraries, die die Wartbarkeit und Konsistenz des gesamten Projekts deutlich verbessern."
+    "state_ongoing": "LAUFEND",
+    "state_ongoing_main_focus": "LAUFEND · HAUPTFOKUS",
+    "state_finished": "ABGESCHLOSSEN",
+    "state_canceled": "ABGEBROCHEN",
+    "wintools": {
+      "title": "Windows Desktop Tools",
+      "description": "Bei meinem aktuellen Arbeitgeber habe ich zahlreiche Tools entwickelt, die eine On-Premise-Legacy-Software um moderne Features erweitert haben. Darunter die Möglichkeit, in Office-Word-Dokumenten automatisierte QR-Codes für Rechnungen und andere Dokumente zu platzieren sowie eine Kommunikationsschnittstelle zwischen beiden Anwendungen für den Datenaustausch. Als privates Hobby-Projekt habe ich zusätzlich ein Desktop-Datenbanktool mit einem Windows Forms UI entwickelt, das eine darunter liegende SQLite-Datenbank visualisiert, Statistiken anhand der Ergebnisse darstellt und das einfache Anlegen, Bearbeiten und Löschen von Datensätzen ermöglicht.",
+      "details": "Durch diese Projekte habe ich gelernt, wie man Legacy-Systeme durch externe Tools pragmatisch modernisiert, ohne den Kern der Anwendung anzutasten. Die Entwicklung der Kommunikationsschnittstelle hat mir ein tiefes Verständnis für Inter-Prozess-Kommunikation und Datenformate vermittelt. Das eigenständige Datenbankprojekt hat meine Fähigkeiten in der UI-Entwicklung mit Windows Forms sowie im Umgang mit SQLite deutlich gestärkt."
     },
-    "dotnet": {
-      "title": ".NET",
-      "experience": "4 JAHRE ERFAHRUNG",
-      "description": "Modernisierung einer Legacy-On-Premise-Anwendung durch C#-Erweiterungen, um moderne Anforderungen zu erfüllen. Entwicklung von C#-Konsolenanwendungen für Mehrfachdateiauswahl, QR-Code-Generierung mit Zahlungsinformationen und automatisierte Word-Dokumentenerstellung. Diese Erweiterungen halten die Legacy-Software produktiv und erfüllen aktuelle Geschäftsanforderungen. Zusätzlich habe ich eine WinForms-Datenbanksoftware entwickelt, um meine Gaming-Bibliothek zu verwalten und zu bewerten. Die Daten werden effizient in einer SQLite-Datenbank gespeichert.",
-      "tech": [
-        "C#",
-        ".NET Framework",
-        "Console Applications",
-        "File I/O",
-        "QR Code Generation",
-        "Word Automation"
-      ],
-      "details": "Diese Arbeit hat mir tiefgreifende Kenntnisse in der Integration moderner .NET-Lösungen vermittelt. Ich habe gelernt, pragmatische Lösungen zu entwickeln, die bestehende Systemgrenzen elegant umgehen, ohne die Kernanwendung zu beeinträchtigen. Diese Projekte haben meine Fähigkeit gestärkt, mit minimalen Eingriffen maximale Funktionalitätserweiterungen zu erzielen."
+    "legacyweb": {
+      "title": "Eigenverantwortliche Instandhaltung von Legacy-Webanwendungen",
+      "description": "Bei meinem aktuellen Arbeitgeber bin ich alleinverantwortlich für die Instandhaltung diverser Intranet-Webanwendungen, die vor meiner Einstellung entwickelt wurden. Im Laufe der Jahre habe ich zahlreiche Bugs behoben und die Anwendungen um Features erweitert, die von Kunden gewünscht wurden. Da es sich um On-Premise-Webanwendungen handelt, habe ich zusätzlich bei diversen Kunden die Webumgebungen auf deren Servern installiert, inklusive der dazugehörigen Infrastruktur und Konfiguration.",
+      "details": "Diese Arbeit hat mir beigebracht, mich schnell in fremden, gewachsenen Codebasen zurechtzufinden und Änderungen mit minimalem Risiko durchzuführen. Die eigenverantwortliche Betreuung der Anwendungen hat mein Verständnis für den gesamten Lebenszyklus einer Webanwendung – von der Entwicklung bis zum Deployment beim Kunden – erheblich vertieft. Ich habe gelernt, pragmatisch zu priorisieren und stabile Lösungen für produktive Systeme zu liefern."
+    },
+    "saas": {
+      "title": "Moderne Webentwicklung als Software-as-a-Service in der Cloud",
+      "description": "Neuentwicklung unserer On-Premise-Software bei meinem aktuellen Arbeitgeber, die die bestehenden On-Premise-Programme schrittweise als Software-as-a-Service in die Cloud überführt. Zunächst als Full-Stack-Entwickler mit Java und Spring am Backend mitgewirkt. Nach einem teaminternen Split in Front- und Backend-Entwicklung auf Frontend-Entwicklung mit Angular spezialisiert, da ich bereits fundierte Webkenntnisse mit HTML, CSS und JavaScript mitbrachte. Während der Entwicklung eng mit dem gesamten Team API-Konzepte abgestimmt, damit Front- und Backend-Entwicklung Hand in Hand gehen. Die Anwendung wurde zunehmend mit Jest-Unit-Tests ausgestattet und iterativ in agilen Prozessen optimiert. Beispielhafte Features: Web-Postfächer, E-Mail-Versand, E-Mail-Vorlagen mit interaktiven Textbausteinen sowie globale Services über eine gemeinsame Library. Erfolgreiche Versions-Upgrades von Angular 19 bis 22 durchgeführt sowie stetige Kontrolle und Behebung von CVEs.",
+      "details": "Dieses Projekt hat mir gezeigt, wie wichtig enge Abstimmung zwischen Front- und Backend-Teams bei der API-Konzeption ist. Ich habe gelernt, skalierbare und wartbare Angular-Anwendungen mit State Management, Unit-Tests und wiederverwendbaren Libraries zu entwickeln. Die regelmäßigen Versions-Upgrades und CVE-Behebungen haben mein Bewusstsein für Sicherheit und langfristige Wartbarkeit von Software deutlich geschärft."
     },
     "ggdb": {
-      "title": "GoodGamesDB",
-      "experience": "1 JAHR ERFAHRUNG",
-      "description": "Entwicklung einer Webanwendung zum Erfassen und Bewerten durchgespielter Computerspiele. Nutzer können nach jedem abgeschlossenen Spiel einen Eintrag anlegen und das Spiel in Kategorien wie Gameplay, Präsentation, Sound, Pacing und Narrative bewerten. Für jeden Eintrag kann eine teilbare Thumbnail-Grafik generiert und in die Zwischenablage kopiert werden, ideal zum Teilen auf Discord. Die Anwendung befindet sich in der geschlossenen Beta mit aktuell 9 aktiven Testern. Das Frontend ist in Angular entwickelt, das Backend als REST-API in PHP mit MySQL-Datenbank.",
-      "tech": [
-        "Angular",
-        "PHP",
-        "MySQL",
-        "REST API",
-        "TypeScript",
-        "HTML",
-        "CSS"
-      ],
-      "details": "Durch dieses Projekt habe ich umfassende Erfahrung in der eigenständigen Planung und Entwicklung einer vollständigen Webanwendung für mehrere Nutzer gesammelt. Von der Konzeption des Datenbankmodells über die Implementierung von Frontend und Backend bis hin zur Kommunikationsschnittstelle über eine REST-API war ich für alle Aspekte verantwortlich. Diese End-to-End-Entwicklung hat mein Verständnis für Softwarearchitektur und die Anforderungen skalierbarer Webanwendungen deutlich erweitert."
+      "title": "Eigene Full-Stack-Webanwendung",
+      "description": "Als leidenschaftlicher Gamer habe ich eine Webanwendung entwickelt, mit der man tracken kann, welche Spiele man durchgespielt hat und wie viel Spaß man mit ihnen hatte – inklusive Bewertungssystem. Die Anwendung bietet zahlreiche Anpassungsoptionen wie einen Theme-Picker sowie optionale Features wie Time-Tracking. Der gesamte Entwicklungsprozess – von Planung und Konzeption über die Entwicklung des Frontends mit Angular und des Backends mit PHP und MySQL bis hin zum Deployment auf meinem eigenen Server und der Versionskontrolle – lag vollständig in meiner Hand. Aus den getrackten Spielen werden Statistiken und diverse Ansichten generiert, mit denen man seinen jährlichen Spielfortschritt verfolgen kann. Jedes Update wird von sorgfältig gepflegten Patchnotes begleitet. Die Anwendung ist derzeit nicht öffentlich, sondern nur auf Einladung zugänglich. Eine freie, öffentliche Version ist für die Zukunft geplant. Bei Interesse kann man mich jederzeit per E-Mail kontaktieren – ich stelle gerne einen Demo-Zugang bereit.",
+      "details": "Dieses Projekt hat mir umfassende Erfahrung in der eigenständigen Planung und Umsetzung einer vollständigen Webanwendung für mehrere Nutzer vermittelt. Von der Datenbankmodellierung über die REST-API bis hin zum Deployment habe ich jeden Aspekt selbst verantwortet. Besonders wertvoll war die Erfahrung, eine Anwendung langfristig zu betreiben, zu pflegen und iterativ weiterzuentwickeln."
     },
     "gamedev": {
       "title": "Spieleentwicklung",
-      "experience": "1 JAHR ERFAHRUNG",
-      "description": "Grundkenntnisse in drei führenden Game Engines: Unreal Engine 5, Unity 6 und Godot 4. Entwicklung kleiner 2D- und 3D-Spiele zu Lernzwecken, um die Unterschiede und Stärken der einzelnen Engines zu verstehen. Konzeption eines eigenen Science-Fiction-Kartenspiels, dessen Entwicklung allerdings noch in den Sternen steht. Diese Projekte dienten dem Verständnis der Grundlagen der Spieleentwicklung und dem Sammeln praktischer Erfahrungen mit verschiedenen Entwicklungsansätzen.",
-      "tech": [
-        "Unreal Engine 5",
-        "Unity 6",
-        "Godot 4",
-        "Blender",
-        "Aseprite",
-        "C#",
-        "GDScript",
-        "Blueprints"
-      ],
-      "details": "Diese Erfahrungen haben mir die Grundlagen der Spieleentwicklung vermittelt, von der Spielmechanik über Level-Design bis hin zur Asset-Integration. Ich habe erste praktische Kenntnisse in der Erstellung von 3D-Assets mit Blender und Pixelart mit Aseprite erworben. Besonders wertvoll war das Verständnis für die unterschiedlichen Philosophien der Game Engines: Unreals Blueprint-System für visuelles Scripting, Unitys komponentenbasierte Architektur und Godots schlanker, szenenbasierter Ansatz."
+      "description": "Konzeption und Prototyping eigener Computerspiele. Diverse kleinere Projekte mit der Unreal Engine, Unity und Godot 4 umgesetzt, um ein Gefühl für die jeweiligen Engines zu bekommen. Nebenbei immer wieder kleinere Anpassungen an Assets vorgenommen, beispielsweise mit Blender. Durch die gesammelte Erfahrung konnte ich gut einschätzen, welche Engine am besten zu einem größeren Spieleprojekt passt. Aktuell entwickle ich mit Godot 4 mein erstes eigenes Spiel, für das ich bereits ein Konzept und einen Prototyp erstellt habe und das ich als Hobbyprojekt stetig weiterentwickle.",
+      "details": "Die Arbeit mit verschiedenen Game Engines hat mir ein breites Verständnis für unterschiedliche Entwicklungsphilosophien vermittelt – von Unreals visuellem Blueprint-System über Unitys komponentenbasierte Architektur bis hin zu Godots schlankem, szenenbasiertem Ansatz. Ich habe gelernt, wie man Spielmechaniken konzipiert, Prototypen schnell umsetzt und Assets mit Blender und Aseprite erstellt. Die Erfahrung hilft mir, technische Entscheidungen in der Spieleentwicklung fundiert zu treffen."
+    },
+    "agile": {
+      "title": "Agile Software-Entwicklung",
+      "description": "Sowohl bei meinem Arbeitgeber als auch bei meinen privaten Projekten lege ich hohen Wert auf agile Entwicklung. Im Team ermöglichen uns Daily Standups, Blocker schnell zu identifizieren und in der Regel zügig zu lösen. Daily Checkouts geben die Möglichkeit, einen Überblick über den gesamten Entwicklungsstand zu behalten. In regelmäßigen Retrospektiven besprechen wir teaminterne, aber auch firmenübergreifende Abläufe und erarbeiten daraus zielführende Action-Items zur kontinuierlichen Verbesserung. Bei meinen privaten Solo-Projekten übertrage ich diese Prinzipien auf meinen eigenen Workflow: Ich plane in Iterationen, halte Fortschritt und offene Punkte in strukturierten Notizen fest und reflektiere regelmäßig, was gut läuft und was ich optimieren kann – ganz ohne Team, aber mit derselben Disziplin.",
+      "details": "Agile Methoden haben mir gezeigt, dass regelmäßige Kommunikation und strukturierte Reflexion der Schlüssel zu nachhaltigem Fortschritt sind – im Team wie auch alleine. Ich habe gelernt, wie man Blocker frühzeitig erkennt, Prioritäten klar kommuniziert und Prozesse iterativ verbessert. Die Übertragung agiler Prinzipien auf Solo-Projekte hat mir zudem geholfen, disziplinierter und fokussierter zu arbeiten."
+    },
+    "aidev": {
+      "title": "KI-gestützte Entwicklung",
+      "description": "Seit etwa einem Jahr setze ich zunehmend KI-gestützte Werkzeuge in der Webentwicklung bei meinem aktuellen Arbeitgeber ein und verfolge dabei hautnah die rapide steigende Qualität der verfügbaren Modelle. Ich beschäftige mich aktiv mit der aktuellen Entwicklung und integriere KI zunehmend in meinen Berufsalltag. Dabei habe ich gelernt, wie man agentisch entwickelt, Prompts durch strukturierte Markdowns verbessert und MCP-Server einrichtet und konfiguriert. Dabei behalte ich stets den tatsächlichen Output der KI kritisch im Blick, um Ergebnisse sinnvoll zu bewerten und gezielt zu optimieren.",
+      "details": "Der Einsatz von KI-Werkzeugen hat mir gezeigt, wie wichtig es ist, die Ausgaben kritisch zu hinterfragen und nicht blind zu übernehmen. Ich habe gelernt, wie man durch präzises Prompting und strukturierte Kontextdokumente die Qualität der KI-Ausgaben deutlich steigern kann. Die Erfahrung mit agentischer Entwicklung und MCP-Servern hat mir ein tiefes Verständnis für die Möglichkeiten und Grenzen aktueller KI-Werkzeuge in der professionellen Softwareentwicklung vermittelt."
     }
   },
   "contact": {
