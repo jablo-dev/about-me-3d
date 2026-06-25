@@ -136,6 +136,12 @@
       }
 
       @if (destroyStep === 2) {
+        <div class="destroy-arrows" aria-hidden="true">
+          <span class="destroy-arrow top">▼</span>
+          <span class="destroy-arrow bottom">▲</span>
+          <span class="destroy-arrow left">▶</span>
+          <span class="destroy-arrow right">◀</span>
+        </div>
         <p class="destroy-modal-tag mono">// {{ 'destroy.title_2' | translate }}</p>
         <p class="destroy-modal-msg">{{ 'destroy.msg_2' | translate }}</p>
         <div class="destroy-modal-actions">
@@ -148,8 +154,22 @@
   </div>
 }
 
-<!-- Projects section -->
-<app-projects />
+@if (!gameOver) {
+  <!-- Projects section -->
+  <app-projects />
 
-<!-- Contact section -->
-<app-contact />
+  <!-- Contact section -->
+  <app-contact />
+}
+
+<!-- Game over screen -->
+@if (gameOver) {
+  <div class="game-over-overlay">
+    <h1 class="game-over-title">{{ 'destroy.game_over' | translate }}</h1>
+    <p class="game-over-sub mono">{{ 'destroy.game_over_sub' | translate }}</p>
+    <button class="game-over-btn" (click)="restartUniverse()">
+      <span>⟳</span>
+      <span>{{ 'destroy.restart' | translate }}</span>
+    </button>
+  </div>
+}

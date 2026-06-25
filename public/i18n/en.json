@@ -26,7 +26,10 @@
     "title_2": "FINAL_WARNING",
     "msg_2": "Okay, serious — you are about to destroy everything, are you really really sure?",
     "cancel_2": "Okay nevermind",
-    "confirm_2": "Stop annoying me and destroy"
+    "confirm_2": "Stop annoying me and destroy",
+    "game_over": "Game Over",
+    "game_over_sub": "// THE UNIVERSE NO LONGER EXISTS",
+    "restart": "Start a new universe"
   },
   "projects": {
     "section_label": "MISSION_LOGS",

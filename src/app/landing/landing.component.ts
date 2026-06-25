@@ -37,6 +37,7 @@ export class LandingComponent implements AfterViewInit, OnDestroy {
   // 'destroy the universe' gimmick
   destroyStep: 0 | 1 | 2 = 0;
   destroying = false;
+  gameOver = false;
 
   constructor(
     private ngZone: NgZone,
@@ -182,6 +183,15 @@ export class LandingComponent implements AfterViewInit, OnDestroy {
       this.backgroundSceneService.explode();
       // ...then, as the last step, the planet collapses.
       setTimeout(() => this.spaceSceneService.collapse(), 2200);
+      // ...finally everything goes dark and the game over screen appears.
+      setTimeout(() => {
+        this.gameOver = true;
+        this.cdr.detectChanges();
+      }, 4000);
     });
+  }
+
+  restartUniverse(): void {
+    window.location.reload();
   }
 }

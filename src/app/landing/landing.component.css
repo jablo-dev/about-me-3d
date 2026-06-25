@@ -52,6 +52,7 @@
 }
 
 .destroy-modal {
+  position: relative;
   max-width: 460px;
   width: calc(100% - 3rem);
   padding: 1.6rem 1.8rem;
@@ -64,8 +65,122 @@
 
 .destroy-modal.final {
   border-color: #ff2a2a;
-  box-shadow: 0 0 44px rgba(255, 42, 42, 0.5);
-  animation: pulse 1.2s ease-in-out infinite;
+}
+
+/* ── Arrows pointing at the final modal ─────────────────────────── */
+.destroy-arrows {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.destroy-arrow {
+  position: absolute;
+  font-size: 2.4rem;
+  line-height: 1;
+  color: #ff2a4a;
+  text-shadow: 0 0 10px rgba(255, 0, 60, 0.8);
+  pointer-events: none;
+  z-index: 70;
+}
+
+.destroy-arrow.top {
+  top: -3.4rem;
+  left: 50%;
+  transform: translateX(-50%);
+  animation: arrow-bounce-down 0.7s ease-in-out infinite;
+}
+
+.destroy-arrow.bottom {
+  bottom: -3.4rem;
+  left: 50%;
+  transform: translateX(-50%);
+  animation: arrow-bounce-up 0.7s ease-in-out infinite;
+}
+
+.destroy-arrow.left {
+  left: -3.4rem;
+  top: 50%;
+  transform: translateY(-50%);
+  animation: arrow-bounce-right 0.7s ease-in-out infinite;
+}
+
+.destroy-arrow.right {
+  right: -3.4rem;
+  top: 50%;
+  transform: translateY(-50%);
+  animation: arrow-bounce-left 0.7s ease-in-out infinite;
+}
+
+@keyframes arrow-bounce-down {
+  0%, 100% { transform: translateX(-50%) translateY(0); }
+  50%      { transform: translateX(-50%) translateY(14px); }
+}
+@keyframes arrow-bounce-up {
+  0%, 100% { transform: translateX(-50%) translateY(0); }
+  50%      { transform: translateX(-50%) translateY(-14px); }
+}
+@keyframes arrow-bounce-right {
+  0%, 100% { transform: translateY(-50%) translateX(0); }
+  50%      { transform: translateY(-50%) translateX(14px); }
+}
+@keyframes arrow-bounce-left {
+  0%, 100% { transform: translateY(-50%) translateX(0); }
+  50%      { transform: translateY(-50%) translateX(-14px); }
+}
+
+/* ── Game over screen ───────────────────────────────────────────── */
+.game-over-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background: #000;
+  animation: fadeIn 1.4s ease forwards;
+}
+
+.game-over-title {
+  margin: 0;
+  color: #ff2a4a;
+  font-family: var(--mono);
+  font-size: clamp(2.4rem, 9vw, 6rem);
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  text-shadow: 0 0 24px rgba(255, 0, 60, 0.7);
+}
+
+.game-over-sub {
+  margin: 1rem 0 2.4rem;
+  color: #6c7a86;
+  font-family: var(--mono);
+  font-size: 0.85rem;
+  letter-spacing: 0.18em;
+}
+
+.game-over-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.9rem 1.8rem;
+  background: rgba(0, 212, 255, 0.08);
+  border: 1px solid var(--cyan);
+  border-radius: 3px;
+  color: var(--cyan);
+  font-family: var(--mono);
+  font-size: 0.9rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.2s ease, box-shadow 0.2s ease;
+}
+
+.game-over-btn:hover {
+  background: rgba(0, 212, 255, 0.2);
+  box-shadow: 0 0 22px rgba(0, 212, 255, 0.5);
 }
 
 .destroy-modal-tag {
