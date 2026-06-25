@@ -1,4 +1,6 @@
 import { Component, ChangeDetectorRef, OnInit, OnDestroy, ElementRef } from '@angular/core';
+import { Subscription } from 'rxjs';
+import { TechNavigationService } from '../services/tech-navigation.service';
 import { CommonModule } from '@angular/common';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { PROJECT_CARDS, ProjectCard } from '../config/project-cards.config';
@@ -22,11 +24,13 @@ export class ProjectsComponent implements OnInit, OnDestroy {
   sectionVisible: boolean = false;
 
   private observer!: IntersectionObserver;
+  private techNavSub!: Subscription;
 
   constructor(
     private translate: TranslateService,
     private cdr: ChangeDetectorRef,
-    private el: ElementRef
+    private el: ElementRef,
+    private techNavigation: TechNavigationService
   ) {
     this.projects = PROJECT_CARDS.map(card => ({
       ...card,
@@ -37,6 +41,9 @@ export class ProjectsComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.showProject(0);
+    this.techNavSub = this.techNavigation.techSelected.subscribe(tech => {
+      this.navigateToTech(tech);
+    });
     this.observer = new IntersectionObserver(
       (entries) => {
         this.sectionVisible = entries[0].isIntersecting;
@@ -49,6 +56,23 @@ export class ProjectsComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.observer?.disconnect();
+    this.techNavSub?.unsubscribe();
+  }
+
+  navigateToTech(tech: string): void {
+    const normalized = tech.toLowerCase().replace(/[-_]/g, ' ');
+    const index = this.projects.findIndex(p =>
+      p.techstack.some(t => {
+        const tNorm = t.toLowerCase().replace(/[-_]/g, ' ');
+        return tNorm === normalized ||
+               tNorm.split(' ')[0] === normalized ||
+               normalized.split(' ')[0] === tNorm;
+      })
+    );
+    if (index !== -1) {
+      this.showProject(index);
+      this.cdr.detectChanges();
+    }
   }
 
   showProject(index: number): void {

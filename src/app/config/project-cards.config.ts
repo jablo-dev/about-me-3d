@@ -18,7 +18,7 @@ export const PROJECT_CARDS: ProjectCard[] = [
     title: 'projects.wintools.title',
     state: 'finished',
     expDetailed: 'projects.wintools.description',
-    techstack: ['C#', '.NET', 'Windows Forms', 'Console Application', 'SQLite', 'Uniface'],
+    techstack: ['C#', '.NET', 'Windows Forms', 'Console Application', 'SQLite', 'SQL', 'Uniface'],
     keyLearning: 'projects.wintools.details',
   },
   {
@@ -36,7 +36,7 @@ export const PROJECT_CARDS: ProjectCard[] = [
     title: 'projects.saas.title',
     state: 'ongoing-main-focus',
     expDetailed: 'projects.saas.description',
-    techstack: ['Angular', 'NgRx', 'nginx', 'PrimeNG', 'Tailwind', 'TypeScript', 'HTML', 'CSS'],
+    techstack: ['Angular', 'NgRx', 'nginx', 'PrimeNG', 'Tailwind', 'TypeScript', 'HTML', 'CSS', 'SpringBoot', 'Java', 'Jest', 'Git'],
     keyLearning: 'projects.saas.details',
   },
   {
@@ -55,7 +55,7 @@ export const PROJECT_CARDS: ProjectCard[] = [
     title: 'projects.gamedev.title',
     state: 'ongoing',
     expDetailed: 'projects.gamedev.description',
-    techstack: ['Unreal Engine', 'Blueprints', 'Unity', 'C#', 'Godot 4', 'GDScript', 'Blender', 'Aseprite'],
+    techstack: ['Unreal Engine', 'Unreal 5', 'Blueprints', 'Unity', 'C#', 'Godot 4', 'GDScript', 'Blender', 'Aseprite'],
     keyLearning: 'projects.gamedev.details',
   },
   {
@@ -64,7 +64,7 @@ export const PROJECT_CARDS: ProjectCard[] = [
     title: 'projects.agile.title',
     state: 'ongoing',
     expDetailed: 'projects.agile.description',
-    techstack: ['Scrum', 'Kanban', 'Daily Standup', 'Retrospective', 'Agile'],
+    techstack: ['Scrum', 'Kanban', 'Daily Standup', 'Retrospective', 'Agile', 'Teamwork'],
     keyLearning: 'projects.agile.details',
   },
   {
@@ -75,5 +75,14 @@ export const PROJECT_CARDS: ProjectCard[] = [
     expDetailed: 'projects.aidev.description',
     techstack: ['GitHub Copilot', 'Claude CLI', 'Junie', 'MCP Server'],
     keyLearning: 'projects.aidev.details',
+  },
+  {
+    id: 'aboutme',
+    icon: '🌍',
+    title: 'projects.aboutme.title',
+    state: 'finished',
+    expDetailed: 'projects.aboutme.description',
+    techstack: ['Angular', 'HTML', 'CSS', 'OpenGL', 'WebGL', 'ThreeJS'],
+    keyLearning: 'projects.aboutme.details',
   },
 ];

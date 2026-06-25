@@ -10,6 +10,7 @@ import { CommonModule } from '@angular/common';
 import { TranslateService, TranslatePipe } from '@ngx-translate/core';
 import { BackgroundSceneService } from '../services/background-scene.service';
 import { SpaceSceneService } from '../services/space-scene.service';
+import { TechNavigationService } from '../services/tech-navigation.service';
 import { ProjectsComponent } from '../projects/projects.component';
 import { ContactComponent } from '../contact/contact.component';
 
@@ -26,7 +27,6 @@ export class LandingComponent implements AfterViewInit, OnDestroy {
 
   private animationId!: number;
   private clock = Date.now();
-  private labelVisibility: Map<string, boolean> = new Map();
 
   currentLang = 'en';
 
@@ -34,17 +34,12 @@ export class LandingComponent implements AfterViewInit, OnDestroy {
     private ngZone: NgZone,
     private translate: TranslateService,
     private backgroundSceneService: BackgroundSceneService,
-    private spaceSceneService: SpaceSceneService
+    private spaceSceneService: SpaceSceneService,
+    private techNavigation: TechNavigationService
   ) {
     this.translate.addLangs(['en', 'de']);
     this.translate.setDefaultLang('en');
     this.translate.use('en');
-
-    const labels = ['Angular', '.NET', 'SpringBoot', 'TypeScript', 'JavaScript',
-                    'HTML', 'CSS', 'JAVA', 'C#', 'SQL', 'PHP', 'GIT', 'JEST',
-                    'Teamwork', 'Scrum', 'Unity 6', 'Unreal 5', 'Godot 4',
-                    'WebGL', 'ThreeJS', 'REST-API'];
-    labels.forEach(label => this.labelVisibility.set(label, true));
   }
 
   ngAfterViewInit(): void {
@@ -129,16 +124,9 @@ export class LandingComponent implements AfterViewInit, OnDestroy {
     this.translate.use(this.currentLang);
   }
 
-  toggleLabel(labelText: string): void {
-    const isCurrentlyVisible = this.labelVisibility.get(labelText) ?? true;
-    this.labelVisibility.set(labelText, !isCurrentlyVisible);
-    this.ngZone.run(() => {
-      this.spaceSceneService.togglePlanetLabel(labelText, !isCurrentlyVisible);
-    });
-  }
-
-  isLabelVisible(labelText: string): boolean {
-    return this.labelVisibility.get(labelText) ?? true;
+  navigateToTech(tech: string): void {
+    this.scrollToProjects();
+    this.techNavigation.navigateToTech(tech);
   }
 
   scrollToProjects(): void {
