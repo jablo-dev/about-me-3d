@@ -948,3 +948,25 @@ canvas {
     display: none;
   }
 }
+
+
+.sat-coords {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5ch;
+}
+
+.sat-label {
+  display: inline-block;
+  width: 20ch;
+}
+
+.sat-sep {
+  opacity: 0.5;
+}
+
+.coord {
+  display: inline-block;
+  width: 7ch;
+  text-align: right;
+}

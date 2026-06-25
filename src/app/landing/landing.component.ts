@@ -12,6 +12,7 @@ import { TranslateService, TranslatePipe } from '@ngx-translate/core';
 import { BackgroundSceneService } from '../services/background-scene.service';
 import { SpaceSceneService } from '../services/space-scene.service';
 import { TechNavigationService } from '../services/tech-navigation.service';
+import { MoonService } from '../services/moon.service';
 import { ProjectsComponent } from '../projects/projects.component';
 import { ContactComponent } from '../contact/contact.component';
 
@@ -28,11 +29,13 @@ export class LandingComponent implements AfterViewInit, OnDestroy {
 
   private animationId!: number;
   private clock = Date.now();
+  private lastMoonUpdate = 0;
 
   currentDate = '';
   currentLang = 'en';
-  cursorX = 0;
-  cursorY = 0;
+  moonX = 0;
+  moonY = 0;
+  moonZ = 0;
 
   // 'destroy the universe' gimmick
   destroyStep: 0 | 1 | 2 = 0;
@@ -45,7 +48,8 @@ export class LandingComponent implements AfterViewInit, OnDestroy {
     private translate: TranslateService,
     private backgroundSceneService: BackgroundSceneService,
     private spaceSceneService: SpaceSceneService,
-    private techNavigation: TechNavigationService
+    private techNavigation: TechNavigationService,
+    private moonService: MoonService
   ) {
     this.translate.addLangs(['en', 'de']);
     this.translate.setDefaultLang('en');
@@ -103,6 +107,16 @@ export class LandingComponent implements AfterViewInit, OnDestroy {
 
     this.backgroundSceneService.animate(t);
     this.spaceSceneService.animate();
+
+    const now = Date.now();
+    if (now - this.lastMoonUpdate >= 1000) {
+      this.lastMoonUpdate = now;
+      const moonPos = this.moonService.getPosition();
+      this.moonX = Math.round(moonPos.x * 1000) / 1000;
+      this.moonY = Math.round(moonPos.y * 1000) / 1000;
+      this.moonZ = Math.round(moonPos.z * 1000) / 1000;
+      this.cdr.detectChanges();
+    }
   };
 
   private onSceneClick = (e: MouseEvent): void => {
@@ -127,9 +141,6 @@ export class LandingComponent implements AfterViewInit, OnDestroy {
 
   private onMouseMove = (e: MouseEvent): void => {
     this.backgroundSceneService.handleMouseMove(e);
-    this.cursorX = e.clientX;
-    this.cursorY = e.clientY;
-    this.cdr.detectChanges();
   };
 
   private onResize = (): void => {

@@ -15,9 +15,15 @@
       <span class="mono dim">{{ 'status.stardate' | translate }}&nbsp;{{ currentDate }}</span>
     </div>
     <div class="status-right">
-      <span class="mono dim">{{ 'status.lat' | translate }}:&nbsp;{{ cursorX }}</span>
-      <span class="status-sep">|</span>
-      <span class="mono dim">{{ 'status.sector' | translate }}:&nbsp;{{ cursorY }}</span>
+      <span class="mono dim sat-coords">
+        <span class="sat-label">{{ 'status.satellite' | translate }}</span>
+        <span class="sat-sep">|</span>
+        <span class="coord">{{ moonX }}</span>
+        <span class="sat-sep">|</span>
+        <span class="coord">{{ moonY }}</span>
+        <span class="sat-sep">|</span>
+        <span class="coord">{{ moonZ }}</span>
+      </span>
       <span class="status-sep">|</span>
       <span class="mono signal">▊▊▊▊▊</span>
       <span class="status-sep">|</span>

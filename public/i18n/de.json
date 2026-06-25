@@ -2,8 +2,7 @@
   "status": {
     "online": "SYS_ONLINE",
     "stardate": "STERNDATUM",
-    "lat": "BREITE",
-    "sector": "SEKTOR"
+    "satellite": "SATELLITE_POS"
   },
   "hero": {
     "prompt": "SUBJEKT_IDENTIFIZIEREN",
@@ -26,7 +25,7 @@
     "title_2": "LETZTE_WARNUNG",
     "msg_2": "Okay, im Ernst — du bist dabei, alles zu zerstören. Bist du dir wirklich, wirklich sicher?",
     "cancel_2": "Okay, vergiss es",
-    "confirm_2": "Hör auf zu nerven und zerstöre",
+    "confirm_2": "Hör auf zu nerven und zerstöre es!",
     "game_over": "Game Over",
     "game_over_sub": "// DAS UNIVERSUM EXISTIERT NICHT MEHR",
     "restart": "Ein neues Universum starten"
